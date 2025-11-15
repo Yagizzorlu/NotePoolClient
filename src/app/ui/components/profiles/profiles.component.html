@@ -1,0 +1,62 @@
+<div class="profile-container">
+  <div class="profile-header">
+    <div class="profile-cover">
+      <div class="cover-gradient"></div>
+    </div>
+    <div class="profile-info">
+      <div class="profile-avatar">
+        <div class="avatar-circle">
+          <span class="avatar-icon">👤</span>
+        </div>
+        <button class="edit-avatar-btn" title="Profil fotoğrafı değiştir">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M10 13.3333C11.8417 13.3333 13.3333 11.8417 13.3333 10C13.3333 8.15833 11.8417 6.66667 10 6.66667C8.15833 6.66667 6.66667 8.15833 6.66667 10C6.66667 11.8417 8.15833 13.3333 10 13.3333Z" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M10 1.66667V3.33333M10 16.6667V18.3333M18.3333 10H16.6667M3.33333 10H1.66667M15.775 15.775L14.6083 14.6083M5.39167 5.39167L4.225 4.225M15.775 4.225L14.6083 5.39167M5.39167 14.6083L4.225 15.775" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+      <div class="profile-details">
+        <h1 class="profile-name">Kullanıcı Adı</h1>
+        <p class="profile-email">kullanici&#64;example.com</p>
+        <div class="profile-stats">
+          <div class="stat-card">
+            <div class="stat-number">42</div>
+            <div class="stat-label">Notlar</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">128</div>
+            <div class="stat-label">Beğeni</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">24</div>
+            <div class="stat-label">Yorumlar</div>
+          </div>
+        </div>
+      </div>
+      <button class="edit-profile-btn">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <path d="M15 2.5L17.5 5M16.25 1.25L15.8333 1.66667L14.1667 3.33333L14.5833 3.75L16.25 1.25ZM13.3333 4.16667L15.8333 6.66667L5.83333 16.6667H3.33333V14.1667L13.3333 4.16667Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Profili Düzenle
+      </button>
+    </div>
+  </div>
+
+  <div class="profile-content">
+    <div class="profile-tabs">
+      <button class="tab-btn active">Notlarım</button>
+      <button class="tab-btn">Beğenilerim</button>
+      <button class="tab-btn">Yorumlarım</button>
+      <button class="tab-btn">Ayarlar</button>
+    </div>
+
+    <div class="profile-body">
+      <div class="empty-state">
+        <div class="empty-icon">📝</div>
+        <h3 class="empty-title">Henüz not paylaşılmamış</h3>
+        <p class="empty-text">İlk notunu paylaşmak için yükleme sayfasına gidin</p>
+        <a routerLink="/notes-upload" class="upload-btn">Not Yükle</a>
+      </div>
+    </div>
+  </div>
+</div>

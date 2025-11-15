@@ -1,0 +1,111 @@
+<div class="note-detail-container">
+  <div class="detail-header">
+    <button class="back-btn" routerLink="/notes">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+        <path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span>Geri Dön</span>
+    </button>
+  </div>
+
+  <div class="detail-content">
+    <div class="note-main">
+      <div class="note-header">
+        <div class="author-info">
+          <div class="author-avatar">
+            <span>👤</span>
+          </div>
+          <div class="author-details">
+            <div class="author-name">Kullanıcı Adı</div>
+            <div class="note-date">2 gün önce</div>
+          </div>
+        </div>
+        <div class="note-actions">
+          <button class="action-icon-btn" title="Paylaş">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M15 10.8333V15.8333C15 16.2754 14.8244 16.6993 14.5118 17.0118C14.1993 17.3244 13.7754 17.5 13.3333 17.5H4.16667C3.72464 17.5 3.30072 17.3244 2.98816 17.0118C2.67559 16.6993 2.5 16.2754 2.5 15.8333V6.66667C2.5 6.22464 2.67559 5.80072 2.98816 5.48816C3.30072 5.17559 3.72464 5 4.16667 5H9.16667" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M12.5 2.5H17.5V7.5M17.5 2.5L10 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <button class="action-icon-btn" title="Yer İşareti Ekle">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M4.16667 6.66667L10 2.5L15.8333 6.66667V15.8333C15.8333 16.2754 15.6577 16.6993 15.3452 17.0118C15.0326 17.3244 14.6087 17.5 14.1667 17.5H5.83333C5.39131 17.5 4.96738 17.3244 4.65482 17.0118C4.34226 16.6993 4.16667 16.2754 4.16667 15.8333V6.66667Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="note-body">
+        <h1 class="note-title">Not Başlığı</h1>
+        <div class="note-tags">
+          <span class="tag">matematik</span>
+          <span class="tag">calculus</span>
+          <span class="tag">final</span>
+        </div>
+        <p class="note-description">
+          Bu not detay açıklaması burada yer alacak. Notların içeriği ve açıklamaları bu bölümde görüntülenecek.
+        </p>
+
+        <div class="note-file-section">
+          <div class="file-header">
+            <h3 class="file-title">PDF Dosyaları</h3>
+            <span class="file-count">3 dosya</span>
+          </div>
+          <div class="file-list">
+            <div class="file-item">
+              <div class="file-icon">📄</div>
+              <div class="file-info">
+                <div class="file-name">ders_notu_1.pdf</div>
+                <div class="file-size">2.5 MB</div>
+              </div>
+              <button class="download-file-btn">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                  <path d="M17.5 12.5V15.625C17.5 16.375 16.875 17 16.125 17H3.875C3.125 17 2.5 16.375 2.5 15.625V12.5M5.625 8.75L10 13.125L14.375 8.75M10 13.125V2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="note-footer">
+        <div class="engagement-stats">
+          <button class="stat-btn like-btn active">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M10 17.5L8.5 16.125C3.5 11.5 0 8.625 0 5.25C0 2.75 2 0.75 4.5 0.75C6.25 0.75 8 2 9 3.375C10 2 11.75 0.75 13.5 0.75C16 0.75 18 2.75 18 5.25C18 8.625 14.5 11.5 9.5 16.125L10 17.5Z" fill="currentColor"/>
+            </svg>
+            <span>124</span>
+          </button>
+          <button class="stat-btn comment-btn">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M17.5 9.375C17.5 13.125 13.75 16.25 9.375 16.25C8.25 16.25 7.1875 16.0625 6.25 15.75L2.5 17.5L4.1875 14.0625C2.6875 12.625 1.875 11.0625 1.875 9.375C1.875 5.625 5.625 2.5 10 2.5C14.375 2.5 17.5 5.625 17.5 9.375Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>23</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="comments-section">
+      <h3 class="comments-title">Yorumlar (23)</h3>
+      <div class="comment-form">
+        <div class="comment-input-wrapper">
+          <textarea class="comment-input" placeholder="Yorum yazın..."></textarea>
+          <button class="comment-submit-btn">Gönder</button>
+        </div>
+      </div>
+      <div class="comments-list">
+        <div class="comment-item">
+          <div class="comment-avatar">👤</div>
+          <div class="comment-content">
+            <div class="comment-header">
+              <span class="comment-author">Kullanıcı 1</span>
+              <span class="comment-time">2 saat önce</span>
+            </div>
+            <p class="comment-text">Harika bir not, çok faydalı oldu. Teşekkürler!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,29 @@
+<div class="bookmarks-container">
+  <div class="bookmarks-header">
+    <div class="header-content">
+      <div class="header-icon">⭐</div>
+      <div>
+        <h1 class="bookmarks-title">Yer İşaretlerim</h1>
+        <p class="bookmarks-subtitle">Kaydettiğiniz favori notlarınız</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="bookmarks-content">
+    <div class="bookmarks-grid" *ngIf="false">
+      <!-- Note cards will be displayed here -->
+    </div>
+
+    <div class="empty-state">
+      <div class="empty-icon">📑</div>
+      <h3 class="empty-title">Henüz yer işareti yok</h3>
+      <p class="empty-text">Beğendiğiniz notları yer işaretlerinize ekleyerek daha sonra kolayca erişebilirsiniz</p>
+      <a routerLink="/notes" class="explore-btn">
+        <span>Notları Keşfet</span>
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+</div>

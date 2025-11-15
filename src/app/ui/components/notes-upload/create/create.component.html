@@ -1,0 +1,97 @@
+<mat-card class="np-create" appearance="outlined">
+  <mat-card-header class="np-create__header">
+    <div class="np-create__title">
+      <mat-icon aria-hidden="true">edit_note</mat-icon>
+      <div>
+        <mat-card-title>Yeni Not</mat-card-title>
+        <mat-card-subtitle>Paylaşmadan önce hızlıca detayları gir</mat-card-subtitle>
+      </div>
+    </div>
+  </mat-card-header>
+
+  <mat-card-content>
+    <div class="np-grid">
+      <!-- Title -->
+      <mat-form-field appearance="outline" class="np-field">
+        <mat-label>Title</mat-label>
+        <input matInput #txtTitle placeholder="Örn: Algoritmalar — Final Notları" />
+        <button mat-icon-button matSuffix aria-label="clear title" (click)="txtTitle.value=''" tabindex="-1">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+
+      <!-- Tags -->
+      <mat-form-field appearance="outline" class="np-field">
+        <mat-label>Tags</mat-label>
+        <input matInput #txtTags placeholder="örn: algoritma, final, pdf" />
+        <mat-hint>Virgülle ayırabilirsiniz</mat-hint>
+        <mat-icon matSuffix>sell</mat-icon>
+      </mat-form-field>
+
+      <!-- Description -->
+      <mat-form-field appearance="outline" class="np-field np-desc">
+        <mat-label>Description</mat-label>
+        <textarea matInput rows="4" #txtDescription placeholder="Kısa bir açıklama yazın…"></textarea>
+        <mat-icon matSuffix>description</mat-icon>
+      </mat-form-field>
+
+      <!-- Course Selection -->
+      <mat-form-field appearance="outline" class="np-field">
+        <mat-label>Ders</mat-label>
+        <mat-select [(ngModel)]="selectedCourseId" name="course">
+          <mat-option value="">Ders Seçiniz</mat-option>
+          <mat-option *ngFor="let course of courses" [value]="course.id">
+            {{ course.name }}
+          </mat-option>
+        </mat-select>
+        <mat-icon matSuffix>school</mat-icon>
+      </mat-form-field>
+
+     <div class="np-field np-upload">
+  <div class="np-upload__header">
+    <mat-icon aria-hidden="true">picture_as_pdf</mat-icon>
+    <div>
+      <div class="np-upload__title">PDF Yükle</div>
+      <div class="np-upload__sub">Sadece .pdf dosyalarını yükleyin</div>
+    </div>
+  </div>
+
+  <div class="np-upload__box">
+    <input 
+      type="file" 
+      #fileInput 
+      multiple 
+      accept=".pdf" 
+      (change)="onFilesSelected($event)" 
+      class="np-file-input"> <div *ngIf="selectedFiles.length > 0" class="np-selected-files">
+      <strong>Seçilen Dosyalar:</strong>
+      <ul>
+        <li *ngFor="let file of selectedFiles">{{ file.name }}</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="np-upload__hint">
+    Maksimum 20 MB • Çoklu dosya desteklenir
+  </div>
+</div>
+
+<div class="np-actions">
+  <button
+    mat-stroked-button
+    type="button"
+    class="np-btn np-btn--ghost"
+    (click)="clearForm(txtTitle, txtDescription, txtTags, fileInput)">
+    Temizle
+  </button>
+
+  <button
+    mat-flat-button
+    color="primary"
+    type="button"
+    class="np-btn np-btn--primary"
+    (click)="create(txtTitle, txtDescription, txtTags, fileInput)">
+    <mat-icon aria-hidden="true">note_add</mat-icon>
+    Create Note
+  </button>
+</div>

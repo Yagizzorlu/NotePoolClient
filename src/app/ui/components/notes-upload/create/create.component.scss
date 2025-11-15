@@ -1,0 +1,151 @@
+:host { display: block; }
+
+/* Kart */
+.np-create {
+  --np-radius: 16px;
+  border-radius: var(--np-radius);
+  border: 1px solid #e8edf5;
+  background: #fff;
+  padding: 16px 18px 20px;
+  box-shadow: 0 10px 26px rgba(0,0,0,.04);
+  transition: box-shadow .18s ease, transform .06s ease;
+}
+.np-create:hover { box-shadow: 0 14px 30px rgba(0,0,0,.06); }
+
+/* Header */
+.np-create__header {
+  padding-bottom: 6px;
+  border-bottom: 1px dashed #e7ebf3;
+  margin-bottom: 10px;
+}
+.np-create__title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.np-create__title > mat-icon {
+  font-size: 32px;
+  height: 32px;
+  width: 32px;
+  color: #2563eb;
+  background: rgba(37, 99, 235, .08);
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  padding: 6px;
+}
+
+/* Grid yerleşimi */
+.np-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+.np-field { width: 100%; }
+.np-desc { grid-column: 1 / -1; }
+
+/* Responsive */
+@media (min-width: 720px) {
+  .np-grid { grid-template-columns: 1fr 1fr; gap: 16px; }
+  .np-desc { grid-column: 1 / -1; }
+}
+
+/* Actions */
+.np-actions {
+  grid-column: 1 / -1;
+  margin-top: 6px;
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+/* Buttons */
+.np-btn {
+  border-radius: 10px;
+  padding: 10px 18px;
+  font-weight: 600;
+  letter-spacing: .2px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: transform .12s ease, box-shadow .12s ease, background .12s ease;
+}
+.np-btn mat-icon { font-size: 20px; }
+
+.np-btn--primary {
+  box-shadow: 0 6px 16px rgba(37, 99, 235, .28);
+}
+.np-btn--primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(37, 99, 235, .36);
+}
+
+.np-btn--ghost {
+  border-color: #c9d4e6;
+  color: #0f172a;
+}
+.np-btn--ghost:hover {
+  background: #f1f5ff;
+  border-color: #b6c6e6;
+}
+
+/* ---- PDF Upload paneli ---- */
+.np-upload {
+  grid-column: 1 / -1;
+  border: 1px dashed #cdd6ea;
+  background: linear-gradient(180deg, #f9fbff 0%, #ffffff 100%);
+  border-radius: 12px;
+  padding: 12px;
+}
+
+.np-upload__header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.np-upload__header mat-icon {
+  font-size: 28px;
+  height: 28px;
+  width: 28px;
+  color: #dc2626;               /* PDF hissi */
+  background: rgba(220, 38, 38, .08);
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  padding: 6px;
+}
+
+.np-upload__title {
+  font-weight: 700;
+  color: #0f172a;
+  line-height: 1.1;
+}
+.np-upload__sub {
+  font-size: .88rem;
+  color: #64748b;
+}
+
+.np-upload__box {
+  border: 1px solid #e6ecf6;
+  background: #fff;
+  border-radius: 10px;
+  padding: 10px;
+  transition: box-shadow .18s ease, transform .06s ease;
+}
+.np-upload__box:hover {
+  box-shadow: 0 10px 24px rgba(0,0,0,.06);
+}
+
+.np-upload__hint {
+  margin-top: 8px;
+  font-size: .85rem;
+  color: #64748b;
+}
+
+/* app-file-upload bileşenini kart içinde blok gibi göster */
+app-file-upload {
+  display: block;
+  width: 100%;
+}
