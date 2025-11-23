@@ -13,12 +13,18 @@ import { DeleteDirective } from '../../../directives/delete.directive';
 import {MatDialogModule} from '@angular/material/dialog';
 import { DeleteDialogComponent } from '../../../dialogs/delete-dialog/delete-dialog.component';
 import { DialogModule } from '@angular/cdk/dialog';
+import { CommentThreadComponent } from './comment-thread/comment-thread.component';
+import { FilterPanelComponent } from './filter-panel/filter-panel.component';
+import { NoteCardComponent } from './note-card/note-card.component';
 
 @NgModule({
   declarations: [
     NotesComponent,
     ListComponent,
-    DeleteDirective
+    DeleteDirective,
+    CommentThreadComponent,
+    FilterPanelComponent,
+    NoteCardComponent
   ],
   imports: [
     CommonModule,

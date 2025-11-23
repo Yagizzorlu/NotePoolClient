@@ -8,6 +8,7 @@ import { CustomToastrService, ToastrMessageType, ToastrPosition } from '../../..
 import { InstitutionService } from '../../../services/common/models/institution.service';
 import { DepartmentService } from '../../../services/common/models/department.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { Router } from '@angular/router'; // 1. Router eklendi
 
 type InstitutionVM = {id : string; name : string};
 type DepartmentVM = {id : string; name : string; institutionId : string};
@@ -19,16 +20,25 @@ type DepartmentVM = {id : string; name : string; institutionId : string};
 })
 
 export class RegisterComponent extends BaseComponent implements OnInit {
-  constructor(private formBuilder : FormBuilder, private userService : UserService,
-     private toastrService : CustomToastrService, private institutionService : InstitutionService, private departmentService : DepartmentService, spinner : NgxSpinnerService) {
+  
+  // 2. Constructor'a router eklendi
+  constructor(
+    private formBuilder: FormBuilder, 
+    private userService: UserService,
+    private toastrService: CustomToastrService, 
+    private institutionService: InstitutionService, 
+    private departmentService: DepartmentService, 
+    spinner: NgxSpinnerService,
+    private router: Router 
+  ) {
       super(spinner)
-      }
+  }
 
-  frm : FormGroup;
+  frm: FormGroup;
 
-  institutions : InstitutionVM[] = [];
-  allDepartments : DepartmentVM[] = [];
-  filteredDepartments : DepartmentVM[] = [];
+  institutions: InstitutionVM[] = [];
+  allDepartments: DepartmentVM[] = [];
+  filteredDepartments: DepartmentVM[] = [];
 
   ngOnInit(): void {
 
@@ -113,7 +123,7 @@ export class RegisterComponent extends BaseComponent implements OnInit {
       const result : Create_User = await this.userService.create(user);
       
       if(result.succeeded) {
-        // Kullanıcı bilgilerini localStorage'a kaydet (token olmadığı için şimdilik bu şekilde)
+        // Kullanıcı bilgilerini localStorage'a kaydet
         const userData = {
           userName: user.userName,
           email: user.email,
@@ -126,8 +136,13 @@ export class RegisterComponent extends BaseComponent implements OnInit {
           messageType : ToastrMessageType.Success,
           position : ToastrPosition.TopRight
         });
+        
         this.frm.reset();
         this.submitted = false;
+
+        // 3. Başarılı işlem sonrası Login sayfasına yönlendirme
+        this.router.navigate(["/login"]); 
+
       } else {
         this.toastrService.message(result.message, "Kullanıcı Kaydı Başarısız", {
           messageType : ToastrMessageType.Error,

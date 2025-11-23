@@ -7,17 +7,17 @@ import { authGuard } from './guards/common/auth.guard';
 
 const routes: Routes = [
 {path:"admin",component:LayoutComponent,children:[
-  {path:"",component:DashboardComponent},
+  {path:"",component:DashboardComponent, canActivate : [authGuard]},
   {path:"comments",loadChildren: () => import("./admin/components/comments/comments.module")
-    .then(module=>module.CommentsModule ) },
+    .then(module=>module.CommentsModule), canActivate : [authGuard] },
    {path:"courses",loadChildren: () => import("./admin/components/courses/courses.module")
-    .then(module=>module.CoursesModule ) },
+    .then(module=>module.CoursesModule ), canActivate : [authGuard] },
    {path:"institutions",loadChildren: () => import("./admin/components/institutions/institutions.module")
-    .then(module=>module.InstitutionsModule ) },
+    .then(module=>module.InstitutionsModule ), canActivate : [authGuard] },
     {path:"notes",loadChildren: () => import("./admin/components/notes/notes.module")
-    .then(module=>module.NotesModule ) },
+    .then(module=>module.NotesModule ), canActivate : [authGuard] },
     {path:"users",loadChildren: () => import("./admin/components/users/users.module")
-    .then(module=>module.UsersModule ) },  
+    .then(module=>module.UsersModule ), canActivate : [authGuard] },  
 ], canActivate : [authGuard]
 },
 

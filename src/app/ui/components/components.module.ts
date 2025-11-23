@@ -9,11 +9,14 @@ import { NotesUploadModule } from './notes-upload/notes-upload.module';
 import { RegisterComponent } from './register/register.component';
 import { RegisterModule } from './register/register.module';
 import { LoginModule } from './login/login.module';
+import { SearchBarComponent } from './search-bar/search-bar.component';
 
 
 
 @NgModule({
   declarations: [
+  
+    SearchBarComponent
   ],
   imports: [
     CommonModule,
@@ -24,7 +27,7 @@ import { LoginModule } from './login/login.module';
     NotesDetailModule,
     ProfilesModule,
     RegisterModule,
-    LoginModule
+    //LoginModule
   ]
 })
 export class ComponentsModule { }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter, take } from 'rxjs/operators';
 import { CustomToastrService, ToastrMessageType, ToastrPosition } from './services/ui/custom-toastr.service';
+import { AuthService } from './services/common/auth.service';
 declare var $: any 
 
 @Component({
@@ -13,9 +14,23 @@ export class AppComponent implements OnInit {
   title = 'NotePoolClient';
   navOpen = false;
 
-  constructor() {  //private router: Router, private toastr: CustomToastrService (constructor içine)
+  constructor(public authService : AuthService, public router : Router, public toastrService : CustomToastrService,
 
+  ) {  //private router: Router, private toastr: CustomToastrService (constructor içine)
+    authService.identityCheck();
   }    
+
+  async signOut() {
+    if (typeof localStorage !== 'undefined') {
+      localStorage.removeItem("accessToken");
+    }
+    this.authService.identityCheck();
+    this.router.navigate([""]);
+    this.toastrService.message("Oturum kapatılmıştır.", "Oturum Kapatıldı", {
+      messageType:ToastrMessageType.Warning,
+      position:ToastrPosition.TopRight
+    });
+  }
 
   toggleNav() {
     this.navOpen = !this.navOpen;
