@@ -1,51 +1,84 @@
-// department.service.ts
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { firstValueFrom, Observable } from 'rxjs';
+import { DepartmentDto } from '../../../contracts/department-dto';
 import { HttpClientService } from '../http-client.service';
-import { map } from 'rxjs/operators';
-
-interface DepartmentResponse {
-  Departments?: { Id: string; Name: string; Code?: string; InstitutionId: string }[];
-  departments?: { id: string; name: string; code?: string; institutionId: string }[];
-  TotalCount?: number;
+export interface GetAllDepartmentsResponse {
+  totalCount: number;
+  departments: DepartmentDto[];
 }
 
-@Injectable({ providedIn: 'root' })
+export interface CreateDepartmentRequest {
+  name: string;
+  code?: string;
+  institutionId: string;
+}
+
+export interface UpdateDepartmentRequest {
+  id: string;
+  name: string;
+  code?: string;
+  institutionId: string;
+}
+
+@Injectable({
+  providedIn: 'root'
+})
 export class DepartmentService {
+
   constructor(private httpClientService: HttpClientService) {}
 
-  getDepartments(): Observable<{ id: string; name: string; institutionId: string }[]> {
-    return this.httpClientService.get<any>({
-      controller: 'departments'
-    }).pipe(
-      map(response => {
-        // Backend'den wrapper object olarak gelirse
-        if (response?.Departments && Array.isArray(response.Departments)) {
-          return response.Departments.map((dept: any) => ({
-            id: dept.Id || dept.id || '',
-            name: dept.Name || dept.name || '',
-            institutionId: dept.InstitutionId || dept.institutionId || ''
-          }));
-        }
-        // Backend'den direkt array olarak gelirse
-        if (Array.isArray(response)) {
-          return response.map((dept: any) => ({
-            id: dept.Id || dept.id || '',
-            name: dept.Name || dept.name || '',
-            institutionId: dept.InstitutionId || dept.institutionId || ''
-          }));
-        }
-        // departments (küçük harf) olarak gelirse
-        if (response?.departments && Array.isArray(response.departments)) {
-          return response.departments.map((dept: any) => ({
-            id: dept.id || dept.Id || '',
-            name: dept.name || dept.Name || '',
-            institutionId: dept.institutionId || dept.InstitutionId || ''
-          }));
-        }
-        return [];
-      })
-    );
+  async getAllDepartments(
+    page: number = 0, 
+    size: number = 10, 
+    institutionId?: string, 
+    searchTerm?: string
+  ): Promise<GetAllDepartmentsResponse> {
+    
+    let queryString = `page=${page}&size=${size}`;
+
+    if (institutionId) {
+      queryString += `&institutionId=${institutionId}`;
+    }
+    if (searchTerm) {
+      queryString += `&searchTerm=${searchTerm}`;
+    }
+
+    const observable = this.httpClientService.get<GetAllDepartmentsResponse>({
+      controller: "departments",
+      queryString: queryString
+    });
+
+    return await firstValueFrom(observable);
+  }
+  async getById(id: string): Promise<DepartmentDto> {
+    const observable = this.httpClientService.get<DepartmentDto>({
+      controller: "departments"
+    }, id);
+
+    return await firstValueFrom(observable);
+  }
+  async create(request: CreateDepartmentRequest): Promise<void> {
+    const observable = this.httpClientService.post({
+      controller: "departments"
+    }, request);
+
+    await firstValueFrom(observable);
+  }
+  async update(request: UpdateDepartmentRequest): Promise<void> {
+    const observable = this.httpClientService.put({
+      controller: "departments"
+    }, request);
+
+    await firstValueFrom(observable);
+  }
+  async delete(id: string): Promise<void> {
+    const observable = this.httpClientService.delete({
+      controller: "departments"
+    }, id);
+
+    await firstValueFrom(observable);
   }
 }
+
+
 

@@ -1,0 +1,226 @@
+// --- Variables ---
+$primary-color: #667eea;
+$secondary-color: #764ba2;
+$text-dark: #1a202c; // Jet Black
+$text-body: #4a5568;
+$text-gray: #718096;
+$bg-page: #f8fafc;
+$border-color: #edf2f7;
+$accent-yellow: #f6ad55; // Bookmark active
+$accent-green: #48bb78; // Download active
+
+:host {
+  display: block;
+  min-height: 100%;
+  background-color: $bg-page;
+}
+
+// --- LOADING & ERROR ---
+.loading-container, .error-wrapper {
+  max-width: 800px;
+  margin: 60px auto;
+  padding: 0 24px;
+}
+
+.btn-home {
+  display: inline-block; margin-top: 16px;
+  padding: 10px 24px; background: $primary-color; color: white;
+  border-radius: 8px; text-decoration: none; font-weight: 600;
+  &:hover { background: darken($primary-color, 5%); }
+}
+
+// --- MAIN LAYOUT ---
+.detail-wrapper {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 40px 24px 80px;
+  animation: fadeIn 0.5s ease-out;
+}
+
+// Breadcrumb
+.breadcrumb-nav {
+  margin-bottom: 24px;
+  .btn-back {
+    display: inline-flex; align-items: center; gap: 8px;
+    color: $text-gray; text-decoration: none; font-weight: 600; font-size: 0.9rem;
+    transition: color 0.2s;
+    &:hover { color: $primary-color; gap: 12px; } // Hoverda ok uzasın
+  }
+}
+
+.content-container {
+  // Beyaz kart görünümü yerine, sayfa akışı kullanıyoruz ama parçaları ayırıyoruz.
+}
+
+// --- HEADER SECTION ---
+.note-header {
+  background: white;
+  border: 1px solid $border-color;
+  border-radius: 20px;
+  padding: 40px;
+  margin-bottom: 40px;
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);
+
+  // Tags
+  .tags-wrapper {
+    display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px;
+    
+    .tag {
+      background: rgba($primary-color, 0.08);
+      color: $primary-color;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: background 0.2s;
+      
+      &:hover { background: rgba($primary-color, 0.15); }
+    }
+  }
+
+  // Title
+  .note-title {
+    font-size: clamp(2rem, 4vw, 2.5rem);
+    font-weight: 800;
+    color: $text-dark;
+    margin: 0 0 20px;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+  }
+
+  // Description
+  .note-description {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: $text-body;
+    margin-bottom: 32px;
+    white-space: pre-wrap; // Satır boşluklarını koru
+  }
+}
+
+// --- ACTION BAR (Modern Buttons) ---
+.action-bar {
+  display: flex;
+  gap: 16px;
+  padding-top: 24px;
+  border-top: 1px solid $border-color;
+  flex-wrap: wrap;
+
+  .btn-action {
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 20px;
+    border-radius: 12px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    background: transparent;
+    transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+    text-align: left;
+
+    .icon-box {
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem;
+      transition: transform 0.2s;
+    }
+
+    .text-box {
+      display: flex; flex-direction: column;
+      .label { font-weight: 700; font-size: 0.95rem; }
+      .count { font-size: 0.75rem; opacity: 0.8; }
+    }
+
+    // Hover Effect (Card Lift)
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      .icon-box { transform: scale(1.1); }
+    }
+
+    // 1. Primary (Download)
+    &.primary {
+      background: linear-gradient(135deg, $primary-color, $secondary-color);
+      color: white;
+      box-shadow: 0 8px 20px rgba($primary-color, 0.3);
+      flex: 2; // Mobilde genişle
+      min-width: 200px;
+
+      .icon-box { background: rgba(255,255,255,0.2); }
+      
+      &:hover { box-shadow: 0 12px 25px rgba($primary-color, 0.4); }
+      
+      &.downloaded {
+        background: $accent-green; // Yeşil
+        box-shadow: 0 8px 20px rgba($accent-green, 0.3);
+        &:hover { box-shadow: 0 12px 25px rgba($accent-green, 0.4); }
+      }
+
+      &:disabled { opacity: 0.7; cursor: wait; }
+    }
+
+    // 2. Secondary (Bookmark)
+    &.secondary {
+      background: white;
+      border: 1px solid $border-color;
+      color: $text-dark;
+      flex: 1;
+      min-width: 160px;
+
+      .icon-box { background: $bg-page; color: $text-gray; }
+
+      &.active {
+        border-color: $accent-yellow;
+        background: #fffbeb; // Sarımsı
+        
+        .icon-box { color: $accent-yellow; background: white; }
+        .label { color: darken($accent-yellow, 20%); }
+      }
+    }
+  }
+
+  // Share Icon
+  .btn-icon-only {
+    width: 64px;
+    border-radius: 12px;
+    border: 1px solid $border-color;
+    background: white;
+    color: $text-gray;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    
+    &:hover { color: $primary-color; border-color: $primary-color; background: #f0f4ff; }
+  }
+}
+
+// --- SECTIONS ---
+.section-title {
+  font-size: 1.2rem; font-weight: 700; color: $text-dark;
+  margin-bottom: 20px; display: flex; align-items: center; gap: 10px;
+  
+  i { color: $primary-color; }
+}
+
+.pdf-section { margin-bottom: 48px; }
+
+.divider {
+  height: 1px; background: $border-color; margin: 40px 0;
+}
+
+// --- RESPONSIVE ---
+@media (max-width: 768px) {
+  .detail-wrapper { padding: 24px 16px; }
+  
+  .note-header { padding: 24px; }
+  
+  .action-bar {
+    flex-direction: column;
+    .btn-action { width: 100%; }
+    .btn-icon-only { display: none; } // Mobilde paylaş butonu gereksiz yer kaplamasın
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}

@@ -1,0 +1,189 @@
+// --- Variables ---
+$primary-color: #667eea;
+$text-dark: #2d3748;
+$text-body: #4a5568;
+$text-light: #a0aec0;
+$border-color: #edf2f7;
+$line-color: #e2e8f0;
+$line-hover: #cbd5e0;
+
+:host {
+  display: block;
+}
+
+.comment-wrapper {
+  position: relative;
+  margin-bottom: 16px;
+  
+  // Animasyonlu giriş
+  animation: fadeIn 0.3s ease-out;
+}
+
+.comment-row {
+  display: flex;
+  gap: 12px;
+}
+
+// --- AVATAR & THREAD LINE ---
+.avatar-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 32px; // Avatar genişliği
+}
+
+.thread-line {
+  flex: 1; // Aşağı kadar uzasın
+  width: 2px;
+  background-color: $line-color;
+  margin-top: 4px;
+  margin-bottom: 8px;
+  border-radius: 2px;
+  transition: background-color 0.2s;
+  cursor: pointer;
+
+  // Hover yapınca çizgi belirginleşsin (Hiyerarşiyi görmek için)
+  &:hover {
+    background-color: $primary-color;
+  }
+}
+
+// --- CONTENT ---
+.content-column {
+  flex: 1;
+  padding-bottom: 8px;
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+  font-size: 0.85rem;
+
+  .author {
+    font-weight: 700;
+    color: $text-dark;
+  }
+
+  .dot {
+    font-weight: 900;
+    color: $border-color;
+    font-size: 1.2rem;
+    line-height: 0;
+  }
+
+  .date {
+    color: $text-light;
+  }
+}
+
+.text {
+  font-size: 0.95rem;
+  color: $text-body;
+  line-height: 1.5;
+  margin-bottom: 8px;
+  white-space: pre-wrap; // Satır sonlarını koru
+}
+
+// --- ACTIONS ---
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  
+  .btn-action {
+    background: none;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: $text-light;
+    display: flex; align-items: center; gap: 6px;
+    transition: all 0.2s;
+
+    &:hover {
+      background-color: rgba($primary-color, 0.05);
+      color: $primary-color;
+    }
+
+    &.delete:hover {
+      background-color: #fff5f5;
+      color: #e53e3e;
+    }
+  }
+}
+
+// --- REPLY FORM ---
+.reply-input-box {
+  margin-top: 12px;
+  animation: slideDown 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+
+  textarea {
+    width: 100%;
+    border: 1px solid $border-color;
+    border-radius: 12px;
+    padding: 12px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    resize: vertical;
+    min-height: 80px;
+    outline: none;
+    transition: border-color 0.2s;
+    
+    &:focus { border-color: $primary-color; }
+  }
+
+  .form-footer {
+    display: flex; justify-content: flex-end; gap: 8px; margin-top: 8px;
+
+    button {
+      padding: 6px 16px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; cursor: pointer;
+    }
+
+    .btn-cancel {
+      background: transparent; border: 1px solid transparent; color: $text-light;
+      &:hover { background: #f7fafc; }
+    }
+
+    .btn-send {
+      background: $primary-color; color: white; border: none;
+      &:disabled { opacity: 0.6; cursor: not-allowed; }
+    }
+  }
+}
+
+// --- RECURSIVE CONTAINER ---
+.children-container {
+  margin-left: 20px; // Girinti (Indentation)
+  // border-left: 2px solid $line-color; // Alternatif çizgi stili (opsiyonel)
+  padding-left: 12px;
+}
+
+// Animasyonlar
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideDown { from { transform: translateY(-10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+
+// --- PROFILE LINK STYLES (HTML'de eklediğimiz routerLink'ler için) ---
+.author-link {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  display: inline-flex; // Avatar hizasını korur
+
+  &:hover {
+    // İsim üzerine gelince renk değişsin
+    &.author {
+      color: $primary-color;
+      text-decoration: underline;
+    }
+
+    // Avatar üzerine gelince hafif opaklık
+    &.avatar-link app-user-avatar {
+      opacity: 0.9;
+    }
+  }
+}

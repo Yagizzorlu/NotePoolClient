@@ -3,31 +3,25 @@ import { CommonModule } from '@angular/common';
 import { BookmarksModule } from './bookmarks/bookmarks.module';
 import { HomeModule } from './home/home.module';
 import { NotesModule } from './notes/notes.module';
-import { NotesDetailModule } from './notes-detail/notes-detail.module';
-import { ProfilesModule } from './profiles/profiles.module';
-import { NotesUploadModule } from './notes-upload/notes-upload.module';
-import { RegisterComponent } from './register/register.component';
+import { ProfileModule } from './profile/profile.module';
+import { NoteUploadModule } from './note-upload/note-upload.module';
 import { RegisterModule } from './register/register.module';
 import { LoginModule } from './login/login.module';
-import { SearchBarComponent } from './search-bar/search-bar.component';
 
 
 
 @NgModule({
   declarations: [
-  
-    SearchBarComponent
   ],
   imports: [
     CommonModule,
     BookmarksModule,
     HomeModule,
     NotesModule,
-    NotesUploadModule,
-    NotesDetailModule,
-    ProfilesModule,
+    NoteUploadModule,
+    ProfileModule,
     RegisterModule,
-    //LoginModule
+    LoginModule
   ]
 })
 export class ComponentsModule { }

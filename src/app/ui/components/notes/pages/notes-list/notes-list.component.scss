@@ -1,0 +1,132 @@
+// --- Variables (Senin eski kodundan alındı) ---
+$primary-color: #667eea;
+$text-dark: #1a202c;
+$text-gray: #64748b;
+$bg-page: #f8f9fa;
+
+:host {
+  display: block;
+  min-height: 100%;
+}
+
+.notes-container {
+  max-width: 1400px; // Biraz daha genişlettik (1200 -> 1400)
+  margin: 0 auto;
+  padding: 40px 24px;
+  animation: fadeIn 0.5s ease-out;
+}
+
+// --- HEADER ---
+.notes-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 40px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  padding-bottom: 24px;
+
+  .header-content {
+    .notes-title {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800;
+      color: $text-dark;
+      margin: 0 0 8px;
+      letter-spacing: -0.02em;
+    }
+
+    .notes-subtitle {
+      font-size: 1.1rem;
+      color: $text-gray;
+      margin: 0;
+    }
+  }
+
+  .header-actions {
+    // Buraya "Sort Bar" geliyor, kendi içinde stili var
+  }
+}
+
+// --- LAYOUT GRID (Sidebar + Content) ---
+.notes-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr; // Sol panel sabit, sağ esnek
+  gap: 32px;
+  align-items: start;
+}
+
+// Sidebar (Filter Panel)
+.notes-sidebar {
+  position: sticky;
+  top: 100px; // Navbar payı
+  z-index: 10;
+  transition: top 0.3s;
+}
+
+// --- NOTES GRID (Kartların Dizilimi) ---
+.notes-grid {
+  display: grid;
+  // Responsive Grid: En az 300px, sığabildiği kadar
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+.grid-item {
+  // Stagger Animation: Kartlar sırayla gelir
+  opacity: 0;
+  animation: slideUp 0.5s ease-out forwards;
+  animation-delay: calc(var(--i) * 0.05s); // Index'e göre gecikme
+}
+
+// --- UTILS ---
+.pagination-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(0,0,0,0.03);
+}
+
+.empty-wrapper {
+  margin-top: 60px;
+  // EmptyState kendi stilini getirir, biz sadece hizalama yapıyoruz
+}
+
+// --- RESPONSIVE ---
+@media (max-width: 1024px) {
+  .notes-layout {
+    grid-template-columns: 1fr; // Mobilde tek kolon
+  }
+  
+  .notes-sidebar {
+    position: static; // Mobilde sticky olmasın
+    margin-bottom: 32px;
+  }
+}
+
+@media (max-width: 768px) {
+  .notes-container { padding: 24px 16px; }
+
+  .notes-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+  }
+
+  .notes-grid {
+    gap: 16px;
+    // Mobilde tek kolon yerine 2 kolon da denenebilir, ama 1 daha güvenli
+    grid-template-columns: 1fr; 
+  }
+}
+
+// --- ANIMATIONS ---
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}

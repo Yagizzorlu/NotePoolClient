@@ -1,0 +1,27 @@
+<div class="reaction-wrapper">
+  
+  <button class="btn-reaction like" 
+          [class.active]="currentUserReaction === RT.Like"
+          (click)="onReact(RT.Like)"
+          [attr.aria-label]="'Like (' + likeCount + ')'">
+    
+    <span class="icon-wrapper" [class.bounce]="currentUserReaction === RT.Like">
+      <i [ngClass]="currentUserReaction === RT.Like ? 'fa-solid fa-thumbs-up' : 'fa-regular fa-thumbs-up'"></i>
+    </span>
+    
+    <span class="count">{{ likeCount || 0 }}</span>
+  </button>
+
+  <button class="btn-reaction dislike" 
+          [class.active]="currentUserReaction === RT.Dislike"
+          (click)="onReact(RT.Dislike)"
+          [attr.aria-label]="'Dislike (' + dislikeCount + ')'">
+    
+    <span class="icon-wrapper" [class.bounce]="currentUserReaction === RT.Dislike">
+      <i [ngClass]="currentUserReaction === RT.Dislike ? 'fa-solid fa-thumbs-down' : 'fa-regular fa-thumbs-down'"></i>
+    </span>
+
+    <span class="count">{{ dislikeCount || 0 }}</span>
+  </button>
+
+</div>

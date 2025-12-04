@@ -1,165 +1,109 @@
 <div class="auth-wrap">
   <div class="auth-card shadow-sm">
+    
     <div class="auth-header">
       <div class="auth-icon">🚀</div>
       <h1 class="auth-title">Hesap Oluştur</h1>
       <p class="auth-sub">Bir dakikada aramıza katıl, notlarını yönet!</p>
     </div>
 
-    <form [formGroup]="frm" (ngSubmit)="onSubmit()" novalidate autocomplete="on" class="auth-form">
+    <form [formGroup]="frm" (ngSubmit)="onSubmit()" class="auth-form">
+      
       <div class="form-row">
+        
         <div class="form-group">
           <label for="firstName" class="form-label">
-            <span class="label-icon">👤</span>
-            Ad
+            <span class="label-icon">👤</span> Ad
           </label>
-          <input type="text"
-                 id="firstName"
-                 formControlName="firstName"
-                 class="form-control"
-                 placeholder="Adınız"
-                 autocomplete="given-name"
-                 [ngClass]="{'is-invalid': submitted && component.firstName.errors}">
-          <div class="invalid-feedback" *ngIf="submitted && component.firstName.errors?.required">
-            Lütfen adı boş geçmeyiniz.
-          </div>
-          <div class="invalid-feedback"
-               *ngIf="submitted && (component.firstName.errors?.maxlength || component.firstName.errors?.minlength)">
-            Lütfen adı 3 ile 50 karakter arasında yazınız.
-          </div>
+          <input type="text" id="firstName" class="form-control" 
+                 formControlName="firstName" placeholder="Adınız" autocomplete="given-name">
+          
+          <app-form-error-messages [control]="f['firstName']" fieldName="Ad"></app-form-error-messages>
         </div>
 
         <div class="form-group">
           <label for="lastName" class="form-label">
-            <span class="label-icon">👤</span>
-            Soyad
+            <span class="label-icon">👤</span> Soyad
           </label>
-          <input type="text"
-                 id="lastName"
-                 formControlName="lastName"
-                 class="form-control"
-                 placeholder="Soyadınız"
-                 autocomplete="family-name"
-                 [ngClass]="{'is-invalid': submitted && component.lastName.errors}">
-          <div class="invalid-feedback" *ngIf="submitted && component.lastName.errors?.required">
-            Lütfen soyadı boş geçmeyiniz.
-          </div>
-          <div class="invalid-feedback"
-               *ngIf="submitted && (component.lastName.errors?.maxlength || component.lastName.errors?.minlength)">
-            Lütfen soyadı 3 ile 50 karakter arasında yazınız.
-          </div>
+          <input type="text" id="lastName" class="form-control" 
+                 formControlName="lastName" placeholder="Soyadınız" autocomplete="family-name">
+          
+          <app-form-error-messages [control]="f['lastName']" fieldName="Soyad"></app-form-error-messages>
         </div>
+
       </div>
 
       <div class="form-group">
         <label for="userName" class="form-label">
-          <span class="label-icon">🎯</span>
-          Kullanıcı Adı
+          <span class="label-icon">🎯</span> Kullanıcı Adı
         </label>
-        <input type="text"
-               id="userName"
-               formControlName="userName"
-               class="form-control"
-               placeholder="Kullanıcı adınız"
-               autocomplete="username"
-               [ngClass]="{'is-invalid': submitted && component.userName.errors}">
-        <div class="invalid-feedback" *ngIf="submitted && component.userName.errors?.required">
-          Lütfen kullanıcı adını boş geçmeyiniz.
-        </div>
+        <input type="text" id="userName" class="form-control" 
+               formControlName="userName" placeholder="Kullanıcı adınız" autocomplete="username">
+        
+        <app-form-error-messages [control]="f['userName']" fieldName="Kullanıcı adı"></app-form-error-messages>
       </div>
 
       <div class="form-group">
         <label for="email" class="form-label">
-          <span class="label-icon">📧</span>
-          Email
+          <span class="label-icon">📧</span> Email
         </label>
-        <input type="email"
-               id="email"
-               formControlName="email"
-               class="form-control"
-               placeholder="email@ornek.com"
-               autocomplete="email"
-               [ngClass]="{'is-invalid': submitted && component.email.errors}">
-        <div class="invalid-feedback" *ngIf="submitted && component.email.errors?.required">
-          Lütfen emaili boş geçmeyiniz.
-        </div>
-        <div class="invalid-feedback" *ngIf="submitted && component.email.errors?.email">
-          Lütfen geçerli bir email adresi giriniz.
-        </div>
+        <input type="email" id="email" class="form-control" 
+               formControlName="email" placeholder="email@ornek.com" autocomplete="email">
+        
+        <app-form-error-messages [control]="f['email']" fieldName="E-posta"></app-form-error-messages>
       </div>
 
       <div class="form-row">
+        
         <div class="form-group">
           <label for="password" class="form-label">
-            <span class="label-icon">🔒</span>
-            Şifre
+            <span class="label-icon">🔒</span> Şifre
           </label>
-          <input type="password"
-                 id="password"
-                 formControlName="password"
-                 class="form-control"
-                 placeholder="••••••••"
-                 autocomplete="new-password"
-                 [ngClass]="{'is-invalid': submitted && component.password.errors}">
-          <div class="invalid-feedback" *ngIf="submitted && component.password.errors?.required">
-            Lütfen şifreyi giriniz.
-          </div>
+          <input type="password" id="password" class="form-control" 
+                 formControlName="password" placeholder="••••••••" autocomplete="new-password">
+          
+          <app-form-error-messages [control]="f['password']" fieldName="Şifre"></app-form-error-messages>
         </div>
 
         <div class="form-group">
           <label for="passwordConfirm" class="form-label">
-            <span class="label-icon">🔒</span>
-            Şifre Tekrar
+            <span class="label-icon">🔒</span> Şifre Tekrar
           </label>
-          <input type="password"
-                 id="passwordConfirm"
-                 formControlName="passwordConfirm"
-                 class="form-control"
-                 placeholder="••••••••"
-                 autocomplete="new-password"
-                 [ngClass]="{'is-invalid': submitted && (component.passwordConfirm.errors || frm.hasError('notSame'))}">
-          <div class="invalid-feedback" *ngIf="submitted && frm.hasError('notSame')">
-            Lütfen şifreyi doğrulayınız.
-          </div>
+          <input type="password" id="passwordConfirm" class="form-control" 
+                 formControlName="passwordConfirm" placeholder="••••••••" autocomplete="new-password">
+          
+          <app-form-error-messages [control]="f['passwordConfirm']" fieldName="Şifre tekrarı"></app-form-error-messages>
+          <app-form-error-messages [control]="frm" fieldName="Şifreler"></app-form-error-messages>
         </div>
+
       </div>
 
       <div class="form-group">
         <label for="institutionId" class="form-label">
-          <span class="label-icon">🏫</span>
-          Üniversite / Kurum
+          <span class="label-icon">🏫</span> Üniversite / Kurum
         </label>
-        <select id="institutionId"
-                formControlName="institutionId"
-                class="form-select"
-                [ngClass]="{'is-invalid': submitted && component.institutionId.errors}">
-          <option value="">Seçiniz...</option>
+        <select id="institutionId" class="form-select" formControlName="institutionId">
+          <option value="" disabled selected>Seçiniz...</option>
           <option *ngFor="let inst of institutions" [value]="inst.id">
             {{ inst.name }}
           </option>
         </select>
-        <div class="invalid-feedback" *ngIf="submitted && component.institutionId.errors?.required">
-          Lütfen bir kurum seçiniz.
-        </div>
+        
+        <app-form-error-messages [control]="f['institutionId']" fieldName="Kurum"></app-form-error-messages>
       </div>
 
       <div class="form-group">
         <label for="departmentId" class="form-label">
-          <span class="label-icon">📚</span>
-          Bölüm
+          <span class="label-icon">📚</span> Bölüm
         </label>
-        <select id="departmentId"
-                formControlName="departmentId"
-                class="form-select"
-                [ngClass]="{'is-invalid': submitted && component.departmentId.errors}">
-          <option value="">Seçiniz...</option>
+        <select id="departmentId" class="form-select" formControlName="departmentId">
+          <option value="" disabled selected>Seçiniz...</option>
           <option *ngFor="let dept of filteredDepartments" [value]="dept.id">
             {{ dept.name }}
           </option>
         </select>
-        <div class="invalid-feedback" *ngIf="submitted && component.departmentId.errors?.required">
-          Lütfen bir bölüm seçiniz.
-        </div>
+        
+        <app-form-error-messages [control]="f['departmentId']" fieldName="Bölüm"></app-form-error-messages>
       </div>
 
       <div class="form-checkbox">
@@ -170,13 +114,14 @@
       </div>
 
       <div class="d-grid mt-4">
-        <button type="submit" class="btn btn-primary btn-lg auth-submit">
+        <button type="submit" class="btn btn-primary btn-lg auth-submit" [disabled]="frm.invalid">
           <span>Kayıt Ol</span>
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
             <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </button>
       </div>
+
     </form>
 
     <div class="auth-footer">

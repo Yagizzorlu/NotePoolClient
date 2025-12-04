@@ -1,0 +1,90 @@
+// --- Variables ---
+$bg-page: #f8fafc;
+$text-dark: #2d3748;
+$gap: 32px;
+
+:host {
+  display: block;
+  min-height: 100%;
+  background-color: $bg-page;
+}
+
+.profile-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-bottom: 60px;
+}
+
+// --- LAYOUT GRID ---
+.profile-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr; // Sol: 280px (Stats), Sağ: Esnek (İçerik)
+  gap: $gap;
+  padding: 0 24px;
+  margin-top: 24px;
+  align-items: start;
+
+  @media (max-width: 1024px) {
+    grid-template-columns: 1fr; // Mobilde tek kolon
+  }
+}
+
+// --- LEFT SIDEBAR (Stats) ---
+.sidebar-stats {
+  .sticky-wrapper {
+    position: sticky;
+    top: 100px; // Navbar'ın altı
+  }
+
+  .section-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: $text-dark;
+    margin-bottom: 16px;
+    padding-left: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    opacity: 0.6;
+  }
+
+  @media (max-width: 1024px) {
+    // Mobilde istatistikleri üstte yatay göster veya grid yap
+    margin-bottom: 32px;
+    .sticky-wrapper { position: static; }
+  }
+}
+
+// --- MAIN CONTENT ---
+.content-area {
+  min-width: 0; // Grid taşmasını önler
+  background: transparent; // İçerik kartlarının kendi arka planı var
+}
+
+.activity-wrapper {
+  margin-top: 24px;
+  animation: fadeIn 0.4s ease-out;
+}
+
+// --- LOADING & ERROR ---
+.loading-container, .error-state {
+  padding: 40px 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.btn-home {
+  display: inline-block; margin-top: 16px;
+  padding: 10px 24px; background: #667eea; color: white;
+  border-radius: 8px; text-decoration: none; font-weight: 600;
+}
+
+// Animation
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+// Responsive Padding
+@media (max-width: 768px) {
+  .profile-layout { padding: 0 16px; }
+}

@@ -1,0 +1,95 @@
+<article class="note-card" (click)="goToDetail()">
+  
+  <header class="card-header">
+    <div class="user-group" (click)="goToProfile($event)">
+      <app-user-avatar 
+        [imageUrl]="note.authorAvatar" 
+        [altText]="note.authorName" 
+        size="md">
+      </app-user-avatar>
+      
+      <div class="meta">
+        <h4 class="username">{{ note.authorName }}</h4>
+        <span class="date">
+          {{ note.createdDate | timeAgo }} 
+          <span class="dot">•</span> 
+          {{ note.courseName }}
+        </span>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <button class="btn-icon bookmark" 
+              [class.active]="note.isBookmarked" 
+              (click)="toggleBookmark($event)"
+              title="Kaydet">
+        <i [ngClass]="note.isBookmarked ? 'fa-solid fa-bookmark' : 'fa-regular fa-bookmark'"></i>
+      </button>
+
+      <!-- Üç Nokta Menü (Sadece kendi notlarında) -->
+      <div class="menu-container" *ngIf="isOwner" (click)="toggleMenu($event)">
+        <button class="btn-icon menu-trigger" title="Daha fazla">
+          <i class="fa-solid fa-ellipsis-vertical"></i>
+        </button>
+        
+        <div class="dropdown-menu" [class.open]="isMenuOpen">
+          <button class="menu-item" (click)="updateNote($event)">
+            <i class="fa-solid fa-pen-to-square"></i>
+            <span>Notu Güncelle</span>
+          </button>
+          <button class="menu-item delete" (click)="deleteNote($event)">
+            <i class="fa-regular fa-trash-can"></i>
+            <span>Notu Sil</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="card-body">
+    <h3 class="note-title">{{ note.title }}</h3>
+    <p class="note-desc">
+      {{ note.description | truncate:120 }}
+    </p>
+  </div>
+
+  <footer class="card-footer">
+    
+    <!-- Sol Taraf: Like/Dislike Butonları -->
+    <div class="actions-left" (click)="$event.stopPropagation()">
+      <app-reaction-button 
+        [targetId]="note.id"
+        [targetType]="targetTypeNote"
+        [likeCount]="note.likeCount"
+        [dislikeCount]="note.dislikeCount || 0"
+        [currentUserReaction]="getCurrentUserReaction()">
+      </app-reaction-button>
+    </div>
+
+    <!-- Sağ Taraf: İstatistikler ve İşlemler -->
+    <div class="actions-right">
+      
+      <button class="btn-action comment" 
+              title="Yorumlar" 
+              (click)="goToComments($event)">
+        <i class="fa-regular fa-comment-dots"></i>
+        <span>{{ note.commentCount }}</span>
+      </button>
+
+      <div class="stat-view" title="Görüntülenme">
+        <i class="fa-regular fa-eye"></i>
+        <span>{{ note.viewCount }}</span>
+      </div>
+
+      <button class="btn-action download" 
+              [class.downloaded]="note.isDownloaded"
+              (click)="download($event)" 
+              title="İndir">
+        <i *ngIf="!isDownloading" class="fa-solid fa-download"></i>
+        <i *ngIf="isDownloading" class="fa-solid fa-circle-notch fa-spin"></i>
+        <span>{{ note.downloadCount }}</span>
+      </button>
+
+    </div>
+  </footer>
+</article>

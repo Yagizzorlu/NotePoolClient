@@ -1,0 +1,145 @@
+// --- Variables ---
+$primary-color: #667eea; // Navbar moru
+$text-dark: #2d3748;
+$text-light: #a0aec0;
+$bg-circle: rgba(102, 126, 234, 0.08);
+
+:host {
+  display: block;
+  width: 100%;
+  padding: 60px 20px;
+}
+
+.empty-state-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  max-width: 480px;
+  margin: 0 auto;
+  
+  // Sayfaya giriş animasyonu
+  animation: fadeInUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+// --- 1. VISUAL ---
+.visual-box {
+  margin-bottom: 32px;
+  position: relative;
+}
+
+// Özel Resim Stili
+.custom-img {
+  max-width: 200px;
+  height: auto;
+  opacity: 0.9;
+}
+
+// İkon Dairesi Stili
+.icon-circle {
+  width: 100px;
+  height: 100px;
+  background-color: $bg-circle;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  color: $primary-color;
+  font-size: 3rem;
+  
+  i {
+    z-index: 2;
+    filter: drop-shadow(0 4px 6px rgba(102, 126, 234, 0.2));
+  }
+
+  // Dekoratif Halkalar (Pulse efekti)
+  .ring {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    border: 1px solid $primary-color;
+    opacity: 0;
+    z-index: 1;
+  }
+
+  .ring-1 {
+    width: 100%; height: 100%;
+    animation: ripple 3s infinite linear;
+  }
+
+  .ring-2 {
+    width: 100%; height: 100%;
+    animation: ripple 3s infinite linear 1.5s; // Gecikmeli
+  }
+}
+
+// Yüzen Efekt (Floating)
+.floating {
+  animation: float 6s ease-in-out infinite;
+}
+
+// --- 2. TEXT ---
+.content-box {
+  .title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: $text-dark;
+    margin: 0 0 12px;
+    letter-spacing: -0.5px;
+  }
+
+  .message {
+    font-size: 1rem;
+    color: $text-light;
+    line-height: 1.6;
+    margin: 0;
+  }
+}
+
+// --- 3. ACTIONS ---
+.actions {
+  margin-top: 32px;
+  display: flex;
+  gap: 16px;
+  
+  // İçine gelecek butonlara otomatik stil vermiyoruz,
+  // çünkü butonlar 'shared/components' veya global css'den stil almalı.
+  // Sadece hizalama yapıyoruz.
+}
+
+// --- ANIMATIONS ---
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); } // Hafif yukarı çık
+  100% { transform: translateY(0px); }
+}
+
+@keyframes ripple {
+  0% {
+    width: 100%;
+    height: 100%;
+    opacity: 0.5;
+    border-width: 2px;
+  }
+  100% {
+    width: 180%; // Daireden dışarı taş
+    height: 180%;
+    opacity: 0;
+    border-width: 0px;
+  }
+}

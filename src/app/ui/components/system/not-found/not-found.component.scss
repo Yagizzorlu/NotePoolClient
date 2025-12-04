@@ -1,0 +1,166 @@
+// --- Variables ---
+$primary-color: #667eea;
+$secondary-color: #764ba2;
+$text-dark: #1a202c;
+$text-gray: #718096;
+$bg-light: #f8fafc;
+
+:host {
+  display: block;
+  min-height: 100vh; // Navbar ve Footer'ı ezmek için full height
+}
+
+.system-page {
+  min-height: calc(100vh - 160px); // Layout içinde çalışırsa pay bırak
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: $bg-light;
+  padding: 24px;
+  overflow: hidden; // Animasyon taşmalarını gizle
+}
+
+.content-wrapper {
+  text-align: center;
+  max-width: 600px;
+  position: relative;
+  z-index: 1;
+}
+
+// --- 1. ILLUSTRATION (404) ---
+.illustration-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(8rem, 20vw, 12rem);
+  font-weight: 900;
+  color: rgba($primary-color, 0.1); // Silik devasa yazı
+  line-height: 1;
+  position: relative;
+  margin-bottom: 24px;
+  user-select: none;
+  
+  .number {
+    position: relative;
+    z-index: 1;
+    text-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  }
+}
+
+// The Zero Portal
+.zero-container {
+  position: relative;
+  width: 0.8em;
+  height: 0.8em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  // Ana Daire
+  .circle {
+    width: 100%; height: 100%;
+    border-radius: 50%;
+    background: linear-gradient(135deg, $primary-color, $secondary-color);
+    box-shadow: 0 20px 50px rgba($primary-color, 0.4);
+    animation: pulse 3s infinite ease-in-out;
+  }
+
+  // Uçuşan İkonlar
+  .item {
+    position: absolute;
+    font-size: 0.2em; // Ana fonta göre oranlı
+    color: white;
+    opacity: 0.8;
+  }
+
+  .item-1 {
+    top: 30%; left: 20%;
+    animation: floatAround 6s infinite linear;
+  }
+  .item-2 {
+    bottom: 20%; right: 30%;
+    font-size: 0.15em;
+    animation: floatAround 8s infinite linear reverse;
+  }
+  .item-3 {
+    top: 60%; left: 60%;
+    font-size: 0.18em;
+    animation: floatAround 5s infinite linear;
+    animation-delay: -2s;
+  }
+}
+
+// --- 2. TEXT ---
+.text-box {
+  margin-bottom: 40px;
+  animation: slideUp 0.5s ease-out 0.2s backwards;
+
+  .title {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 800;
+    color: $text-dark;
+    margin: 0 0 16px;
+    letter-spacing: -1px;
+  }
+
+  .subtitle {
+    font-size: 1.1rem;
+    color: $text-gray;
+    line-height: 1.6;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+}
+
+// --- 3. ACTIONS ---
+.actions {
+  display: flex; gap: 16px; justify-content: center;
+  animation: slideUp 0.5s ease-out 0.4s backwards;
+
+  button {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 12px 28px; border-radius: 12px; font-weight: 600; font-size: 1rem;
+    cursor: pointer; transition: all 0.2s; border: none;
+
+    i { font-size: 1.1rem; }
+  }
+
+  .btn-ghost {
+    background: white; color: $text-gray; border: 1px solid #e2e8f0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    &:hover { background: #fff; border-color: #cbd5e0; color: $text-dark; transform: translateY(-2px); }
+  }
+
+  .btn-primary {
+    background: $primary-color; color: white;
+    box-shadow: 0 8px 20px rgba($primary-color, 0.3);
+    &:hover { background: darken($primary-color, 5%); transform: translateY(-2px); box-shadow: 0 12px 25px rgba($primary-color, 0.4); }
+  }
+}
+
+// --- ANIMATIONS ---
+
+@keyframes pulse {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba($primary-color, 0.7); }
+  70% { transform: scale(1); box-shadow: 0 0 0 20px rgba($primary-color, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba($primary-color, 0); }
+}
+
+@keyframes floatAround {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  25% { transform: translate(20px, -20px) rotate(90deg); }
+  50% { transform: translate(0, -40px) rotate(180deg); }
+  75% { transform: translate(-20px, -20px) rotate(270deg); }
+  100% { transform: translate(0, 0) rotate(360deg); }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+// Responsive
+@media (max-width: 480px) {
+  .actions { flex-direction: column; width: 100%; }
+  .actions button { width: 100%; justify-content: center; }
+}

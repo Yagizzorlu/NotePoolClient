@@ -1,0 +1,59 @@
+<div *ngIf="isLoading" class="loading-container">
+  <app-skeleton-loader [count]="1" appearance="profile-header"></app-skeleton-loader>
+  <div style="margin-top: 24px; display: flex; gap: 24px;">
+     <div style="width: 280px;">
+        <app-skeleton-loader [count]="3" appearance="text"></app-skeleton-loader>
+     </div>
+     <div style="flex: 1;">
+        <app-skeleton-loader [count]="1" appearance="text"></app-skeleton-loader>
+        <app-skeleton-loader [count]="3" appearance="note-card"></app-skeleton-loader>
+     </div>
+  </div>
+</div>
+
+<div class="profile-container" *ngIf="!isLoading && userProfile">
+  
+  <app-profile-header 
+      [user]="userProfile" 
+      [isOwner]="isOwner"
+      (avatarChanged)="onAvatarChanged($event)">
+  </app-profile-header>
+
+  <div class="profile-layout">
+    
+    <aside class="sidebar-stats">
+      <div class="sticky-wrapper">
+        <h3 class="section-title">İstatistikler</h3>
+        <app-profile-stats [user]="userProfile"></app-profile-stats>
+      </div>
+    </aside>
+
+    <main class="content-area">
+      
+      <app-profile-tabs 
+          [activeTab]="activeTab" 
+          [isOwner]="isOwner"
+          (tabChange)="onTabChange($event)">
+      </app-profile-tabs>
+
+      <div class="activity-wrapper">
+        <app-activity-list 
+            [userId]="userProfile.id"
+            [type]="activeTab"
+            [isOwner]="isOwner">
+        </app-activity-list>
+      </div>
+
+    </main>
+
+  </div>
+</div>
+
+<div *ngIf="!isLoading && (hasError || !userProfile)" class="error-state">
+  <app-empty-state 
+    [title]="hasError ? 'Profil Yüklenemedi' : 'Kullanıcı Bulunamadı'" 
+    [message]="hasError && errorMessage ? errorMessage : 'Görüntülemek istediğiniz profil mevcut değil veya erişime kapalı.'"
+    icon="fa-solid fa-user-slash">
+    <button routerLink="/" class="btn-home">Ana Sayfaya Dön</button>
+  </app-empty-state>
+</div>

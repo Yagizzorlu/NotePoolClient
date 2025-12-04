@@ -1,0 +1,136 @@
+// --- Variables ---
+$primary-color: #667eea;
+$text-dark: #2d3748;
+$text-light: #a0aec0;
+$border-color: #e2e8f0;
+$bg-hover: #f7fafc;
+
+.upload-container {
+  width: 100%;
+}
+
+// --- NGX FILE DROP STYLES (Override) ---
+// Bu classlar ngx-file-drop tarafından veriliyor, biz içini dolduruyoruz.
+::ng-deep .drop-zone {
+  border: 2px dashed $border-color !important;
+  border-radius: 12px !important;
+  background-color: #fff !important;
+  height: auto !important;
+  min-height: 200px;
+  transition: all 0.2s ease;
+  margin: 0 auto !important; // Ortala
+
+  &.ngx-file-drop__drop-zone--over {
+    border-color: $primary-color !important;
+    background-color: rgba($primary-color, 0.05) !important;
+    transform: scale(1.01);
+  }
+}
+
+::ng-deep .drop-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  color: $text-dark;
+}
+
+.zone-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 32px;
+
+  .icon {
+    font-size: 3rem;
+    color: $text-light;
+    margin-bottom: 8px;
+  }
+
+  p {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .btn-select {
+    background: $primary-color;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+
+    &:hover { background: darken($primary-color, 5%); }
+  }
+
+  .support-text {
+    font-size: 0.8rem;
+    color: $text-light;
+  }
+}
+
+// --- FILE LIST ---
+.file-list {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.file-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px;
+  background-color: #fff;
+  border: 1px solid $border-color;
+  border-radius: 8px;
+  transition: all 0.2s;
+
+  &:hover {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    border-color: $primary-color;
+  }
+
+  .file-info {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    overflow: hidden; // Taşmayı engelle
+
+    i { font-size: 1.5rem; color: $primary-color; }
+
+    .details {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+
+      .name {
+        font-weight: 600;
+        font-size: 0.9rem;
+        color: $text-dark;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .size {
+        font-size: 0.75rem;
+        color: $text-light;
+      }
+    }
+  }
+
+  .btn-remove {
+    background: none; border: none; cursor: pointer;
+    color: $text-light; padding: 4px;
+    transition: color 0.2s;
+    
+    &:hover { color: #e53e3e; }
+  }
+}

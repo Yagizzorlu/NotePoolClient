@@ -1,0 +1,94 @@
+<div *ngIf="isLoading" class="loading-container">
+  <app-skeleton-loader [count]="1" appearance="profile-header"></app-skeleton-loader>
+  <div style="margin-top: 20px">
+    <app-skeleton-loader [count]="1" appearance="text"></app-skeleton-loader>
+    <app-skeleton-loader [count]="1" appearance="text"></app-skeleton-loader>
+  </div>
+</div>
+
+<div class="detail-wrapper" *ngIf="!isLoading && note">
+  
+  <nav class="breadcrumb-nav">
+    <a routerLink="/notes" class="btn-back">
+      <i class="fa-solid fa-arrow-left-long"></i> Notlara Dön
+    </a>
+  </nav>
+
+  <main class="content-container">
+
+    <app-note-meta [note]="note"></app-note-meta>
+
+    <header class="note-header">
+      
+      <div class="tags-wrapper" *ngIf="note.tags">
+        <span class="tag" *ngFor="let tag of note.tags.split(',')">#{{ tag.trim() }}</span>
+      </div>
+
+      <h1 class="note-title">{{ note.title }}</h1>
+
+      <div class="note-description">
+        <p>{{ note.description }}</p>
+      </div>
+
+      <div class="action-bar">
+        
+        <button class="btn-action primary" 
+                [class.downloaded]="note.isDownloaded"
+                (click)="downloadNote()" 
+                [disabled]="isDownloading">
+          
+          <div class="icon-box">
+            <i *ngIf="!isDownloading" class="fa-solid fa-cloud-arrow-down"></i>
+            <i *ngIf="isDownloading" class="fa-solid fa-circle-notch fa-spin"></i>
+          </div>
+          
+          <div class="text-box">
+            <span class="label">{{ note.isDownloaded ? 'Tekrar İndir' : 'PDF İndir' }}</span>
+            <span class="count">{{ note.downloadCount }} indirme</span>
+          </div>
+        </button>
+
+        <button class="btn-action secondary" 
+                [class.active]="note.isBookmarked" 
+                (click)="toggleBookmark()">
+          
+          <div class="icon-box">
+            <i class="fa-bookmark" [ngClass]="note.isBookmarked ? 'fa-solid' : 'fa-regular'"></i>
+          </div>
+          
+          <div class="text-box">
+            <span class="label">{{ note.isBookmarked ? 'Kaydedildi' : 'Kaydet' }}</span>
+            <span class="sub">Kütüphanene ekle</span>
+          </div>
+        </button>
+
+        <button class="btn-icon-only" title="Paylaş">
+          <i class="fa-solid fa-share-nodes"></i>
+        </button>
+      </div>
+
+    </header>
+
+    <div class="divider"></div>
+
+    <section class="pdf-section">
+      <h3 class="section-title"><i class="fa-regular fa-file-pdf"></i> Dosyalar</h3>
+      <app-note-pdf-viewer [files]="note.files"></app-note-pdf-viewer>
+    </section>
+
+    <section class="comments-section" id="comments">
+      <app-comment-section [noteId]="note.id"></app-comment-section>
+    </section>
+
+  </main>
+
+</div>
+
+<div *ngIf="!isLoading && !note" class="error-wrapper">
+  <app-empty-state 
+    title="Not Bulunamadı" 
+    message="Aradığınız not silinmiş, yayından kaldırılmış veya erişim izniniz yok." 
+    icon="fa-regular fa-file-circle-xmark">
+    <a routerLink="/notes" class="btn-home">Notlara Dön</a>
+  </app-empty-state>
+</div>

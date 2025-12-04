@@ -1,97 +1,10 @@
-<nav class="modern-navbar">
-  <div class="nav-container">
-    <!-- Logo -->
-    <a class="nav-logo" routerLink="">
-      <span class="logo-icon">📚</span>
-      <span class="logo-text">NOTEPOOL</span>
-    </a>
+<app-navbar></app-navbar>
 
-    <!-- Mobile Toggle -->
-    <button class="nav-toggle" type="button" (click)="toggleNav()" [attr.aria-expanded]="navOpen">
-      <span class="toggle-line"></span>
-      <span class="toggle-line"></span>
-      <span class="toggle-line"></span>
-    </button>
+<main class="main-content">
+  <router-outlet></router-outlet>
+</main>
 
-    <!-- Navigation Links -->
-    <div class="nav-menu" [class.active]="navOpen">
-      <ul class="nav-list">
-        <li class="nav-item">
-          <a class="nav-link" routerLink="" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" (click)="closeNav()">
-            <span class="nav-icon">🏠</span>
-            <span>Home</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="notes" routerLinkActive="active" (click)="closeNav()">
-            <span class="nav-icon">📝</span>
-            <span>Notes</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="bookmarks" routerLinkActive="active" (click)="closeNav()">
-            <span class="nav-icon">⭐</span>
-            <span>Bookmarks</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="notes-upload" routerLinkActive="active" (click)="closeNav()">
-            <span class="nav-icon">📤</span>
-            <span>Upload Note</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="profiles" routerLinkActive="active" (click)="closeNav()">
-            <span class="nav-icon">👤</span>
-            <span>Profile</span>
-          </a>
-        </li>
-        <li class="nav-item dropdown-nav">
-          <a class="nav-link dropdown-trigger" (click)="toggleDropdown($event)">
-            <span class="nav-icon">⚙️</span>
-            <span>More</span>
-            <span class="dropdown-arrow">▼</span>
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
-          </ul>
-        </li>       
-      </ul>
-    </div>
-
-    <!-- Right Side Actions -->
-    <div class="nav-actions">
-      <!-- Search Bar -->
-      <div class="search-wrapper">
-        <form class="search-form" role="search">
-          <input class="search-input" type="search" placeholder="Search notes..." aria-label="Search">
-          <button class="search-btn" type="submit">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <path d="M9 17A8 8 0 1 0 9 1a8 8 0 0 0 0 16zM19 19l-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </button>
-        </form>
-      </div>
-
-      <!-- Auth Buttons -->
-      <div class="auth-buttons">
-        <a routerLink="register" class="btn-register" *ngIf = "!authService.isAuthenticated">Register</a>
-        <a routerLink="login" class="btn-login" *ngIf = "!authService.isAuthenticated" >Login</a>
-        <a class="btn-logout" style= "color:red;cursor: pointer;" (click) = "signOut()" *ngIf = "authService.isAuthenticated" >Log Out</a>
-      </div>
-
-      <!-- Admin Button -->
-      <a routerLink="admin" class="btn-admin" *ngIf = "authService.isAuthenticated" >
-        <span>Admin</span>
-      </a>
-    </div>
-  </div>
-</nav>
-
-<router-outlet></router-outlet>
+<app-footer></app-footer>
 
 <ngx-spinner size="default" name="s1" type="ball-atom"></ngx-spinner>
 <ngx-spinner size="default" name="s2" type="ball-scale-multiple"></ngx-spinner>

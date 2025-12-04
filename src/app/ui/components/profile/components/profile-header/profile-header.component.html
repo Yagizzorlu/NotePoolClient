@@ -1,0 +1,53 @@
+<div class="header-card">
+  
+  <div class="profile-cover">
+    <div class="cover-gradient"></div>
+  </div>
+
+  <div class="header-content">
+    
+    <div class="avatar-wrapper">
+      <div class="avatar-box">
+        <app-user-avatar 
+            [imageUrl]="user.profileImage" 
+            [altText]="user.userName" 
+            size="xl"
+            class="main-avatar">
+        </app-user-avatar>
+        
+        <label *ngIf="isOwner" class="edit-avatar-btn" title="Fotoğrafı Değiştir">
+          <input type="file" (change)="onFileSelected($event)" accept="image/png, image/jpeg, image/webp" hidden>
+          <i class="fa-solid fa-camera"></i>
+        </label>
+      </div>
+    </div>
+
+    <div class="user-info">
+      <div class="names">
+        <h1 class="fullname">{{ user.firstName }} {{ user.lastName }}</h1>
+        <span class="username"><span>&#64;</span>{{ user.userName }}</span>
+      </div>
+
+      <div class="badges" *ngIf="user.institutionName || user.departmentName">
+        
+        <div class="badge inst" *ngIf="user.institutionName">
+          <i class="fa-solid fa-building-columns"></i>
+          <span>{{ user.institutionName }}</span>
+        </div>
+
+        <div class="badge dept" *ngIf="user.departmentName">
+          <i class="fa-solid fa-book-open"></i>
+          <span>{{ user.departmentName }}</span>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="actions">
+      <a routerLink="/profile/edit" class="btn-edit" *ngIf="isOwner">
+        <i class="fa-solid fa-pen-to-square"></i> Profili Düzenle
+      </a>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,50 @@
+// --- Variables ---
+$danger-color: #e53e3e; // NotePool Kırmızısı
+$bg-danger-light: #fff5f5; // Çok açık kırmızı fon
+
+:host {
+  display: block;
+  margin-top: 6px; // Input ile arası
+}
+
+.error-container {
+  // Giriş Animasyonu (Yukarıdan aşağı kayar ve belirir)
+  animation: slideDown 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transform-origin: top center;
+}
+
+.error-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: $danger-color;
+  font-size: 0.85rem;
+  font-weight: 500;
+  
+  // Opsiyonel: Kutu görünümü (Daha belirgin olması için)
+  // background-color: $bg-danger-light;
+  // padding: 8px 12px;
+  // border-radius: 8px;
+  // border: 1px solid rgba($danger-color, 0.1);
+
+  i {
+    font-size: 0.9rem;
+    margin-top: 1px; // Optik hizalama
+  }
+
+  span {
+    line-height: 1.4;
+  }
+}
+
+// Titreme Efekti (Kullanıcı hatalı gönderirse dikkat çekmek için eklenebilir)
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

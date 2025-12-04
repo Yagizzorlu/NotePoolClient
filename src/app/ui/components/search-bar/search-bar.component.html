@@ -1,1 +1,66 @@
-<p>search-bar works!</p>
+<div class="search-container">
+  
+  <div class="input-wrapper" [class.active]="showDropdown">
+    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+    
+    <input type="text" 
+           #searchInput
+           (input)="onSearch($event)"
+           (focus)="onSearch($event)"
+           (keyup.enter)="searchAll()"
+           placeholder="Not, ders veya kullanıcı ara..." 
+           autocomplete="off">
+           
+    <div *ngIf="isLoading" class="spinner"></div>
+  </div>
+
+  <div class="search-dropdown" *ngIf="showDropdown">
+    
+    <div class="status-msg" *ngIf="isLoading">
+      <i class="fa-solid fa-circle-notch fa-spin"></i> Aranıyor...
+    </div>
+
+    <div class="status-msg" *ngIf="!isLoading && results.length === 0 && hasSearched">
+      <i class="fa-regular fa-face-frown"></i> Sonuç bulunamadı.
+    </div>
+
+    <div class="result-list" *ngIf="!isLoading && results.length > 0">
+      
+      <div class="group-label" *ngIf="hasUsersInResults">Kişiler & Notlar</div>
+
+      <div class="result-item" *ngFor="let result of results" (click)="selectResult(result)">
+        
+        <div class="icon-box" [ngClass]="result.type">
+          <!-- DÜZELTME: createImageUrl fonksiyonu kullanıldı -->
+          <img *ngIf="result.type === 'user' && result.image" 
+               [src]="createImageUrl(result.image)" 
+               class="avatar-img">
+               
+          <span *ngIf="result.type === 'user' && !result.image" class="avatar-placeholder">{{ result.title.charAt(0) }}</span>
+          
+          <i *ngIf="result.type === 'note'" class="fa-solid fa-file-lines"></i>
+        </div>
+
+        <div class="info">
+          <span class="title" [innerHTML]="result.title"></span>
+          <span class="subtitle">
+            <i *ngIf="result.type === 'user'" class="fa-solid fa-at"></i>
+            {{ result.subtitle }}
+          </span>
+        </div>
+
+        <div class="action-icon">
+          <i class="fa-solid fa-arrow-turn-down fa-rotate-270"></i>
+        </div>
+
+      </div>
+      
+      <div class="dropdown-footer" (click)="searchAll()">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <span>Tüm sonuçları gör: <strong>"{{ searchInput.value }}"</strong></span>
+      </div>
+
+    </div>
+  </div>
+
+</div>

@@ -1,140 +1,126 @@
-import { HttpErrorResponse } from '@angular/common/http';
-import { Create_Note} from '../../../contracts/create_note';
-import { HttpClientService } from './../http-client.service';
 import { Injectable } from '@angular/core';
-import { List_Note } from '../../../contracts/list_note';
 import { firstValueFrom, Observable } from 'rxjs';
-import { List_Note_File } from '../../../contracts/list_note_file';
+import { UpdateNoteRequest } from '../../../contracts/update-note-request';
+import { NoteListResponse } from '../../../contracts/note-list-response';
+import { NoteDetail } from '../../../contracts/note-detail';
+import { NoteFileDto } from '../../../contracts/note-file-dto';
+import { CreateNoteRequest } from '../../../contracts/create_note-request';
+import { IncrementViewCountRequest } from '../../../contracts/increment-view-count-request';
+import { HttpClientService } from '../http-client.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NoteService {
 
-  constructor(private httpClientService : HttpClientService) { }
+  constructor(private httpClientService: HttpClientService) { }
 
-  createNote(note : Create_Note, successCallBack? : () => void, errorCallBack? : (errorMessage:string) => void) {
-    this.httpClientService.post({
-      controller : "notes"
-    }, note)
-    .subscribe(result => {
-      successCallBack();
-    }, (errorResponse: HttpErrorResponse) => {
-      const _error : Array<{key : string, value : Array<string>}> = errorResponse.error;
-      let message = "";
-      _error.forEach((v, index) => {
-        v.value.forEach((_v,_index) => {
-          message += `${_v}<br>`;
-        });
-      });
-      errorCallBack(message);
+  // 1. NOT OLUŞTURMA (POST api/notes - FromForm)
+  /**
+   * Not oluşturur ve dosyaları yükler.
+   * @param note Not bilgileri (Başlık, İçerik vb.)
+   * @param files PDF Dosyaları (Zorunlu)
+   * @returns Oluşturulan Notun ID'si
+   */
+  async create(note: CreateNoteRequest, files: File[]): Promise<string> {
+    
+    if (!files || files.length === 0) {
+      throw new Error("Not yükleyebilmek için en az bir PDF dosyası seçmelisiniz.");
+    }
+
+    const formData = new FormData();
+    
+    formData.append('Title', note.title);
+    if (note.description) formData.append('Description', note.description);
+    if (note.tags) formData.append('Tags', note.tags);
+    formData.append('CourseId', note.courseId);
+    for (const file of files) {
+      formData.append('Files', file, file.name);
+    }
+    const observable = this.httpClientService.post<{ noteId: string }>({
+      controller: "notes"
+    }, formData);
+
+    const response = await firstValueFrom(observable);
+    return response.noteId;
+  }
+
+  // 2. GÜNCELLEME (PUT api/notes - FromBody)
+  async update(note: UpdateNoteRequest): Promise<void> {
+    const observable = this.httpClientService.put({
+      controller: "notes"
+    }, note); // JSON olarak gider
+
+    await firstValueFrom(observable);
+  }
+
+  async getAll(page: number = 0, size: number = 10, filters?: any): Promise<NoteListResponse> {
+    
+    let queryString = `page=${page}&size=${size}`;
+    
+    if (filters) {
+      if (filters.searchTerm) queryString += `&searchTerm=${encodeURIComponent(filters.searchTerm)}`;
+      if (filters.courseId) queryString += `&courseId=${filters.courseId}`;
+      if (filters.institutionId) queryString += `&institutionId=${filters.institutionId}`;
+      if (filters.departmentId) queryString += `&departmentId=${filters.departmentId}`;
+      if (filters.userId) queryString += `&userId=${filters.userId}`;
+      if (filters.isBookmarked) queryString += `&isBookmarkedByCurrentUser=true`;
+      if (filters.sortBy) queryString += `&sortBy=${filters.sortBy}`;
+      if (filters.sortOrder) queryString += `&sortOrder=${filters.sortOrder}`;
+    }
+
+    const observable = this.httpClientService.get<NoteListResponse>({
+      controller: "notes",
+      queryString: queryString
     });
+
+    return await firstValueFrom(observable);
   }
+  async getById(id: string): Promise<NoteDetail> {
+    const observable = this.httpClientService.get<NoteDetail>({
+      controller: "notes",
+      action: "details",
+      queryString: `Id=${id}` 
+    });
 
-  
-
-  async read(page: number = 0, size: number = 5, successCallBack? : () => void, errorCallBack? : 
-  (errorMessage : string) => void) : Promise<{totalCount : number;
-      notes: List_Note[]}> {
-        
-    const promiseData : Promise<{totalCount : number;
-      notes: List_Note[]}> = this.httpClientService.get<{ totalCount : number; notes: List_Note[]}>( {
-      controller : "notes",
-      queryString: `page=${page}&size=${size}`
-    }).toPromise();
-
-    promiseData.then(d => successCallBack())
-    .catch((errorResponse: HttpErrorResponse) => errorCallBack(errorResponse.message))
-
-    return await promiseData;
+    return await firstValueFrom(observable);
   }
-
-
-  async delete(id : string) {
-    const deleteObservable : Observable<any> = this.httpClientService.delete<any>({
-      controller : "notes"
+  async remove(id: string): Promise<void> {
+    const observable = this.httpClientService.delete({
+      controller: "notes"
     }, id);
 
-    await firstValueFrom(deleteObservable);
+    await firstValueFrom(observable);
+  }
+  async deleteFile(noteId: string, fileId: string): Promise<void> {
+    
+    const complexIdRoute = `${noteId}/file/${fileId}`;
+
+    const observable = this.httpClientService.delete({
+      controller: "notepdffiles" 
+    }, complexIdRoute);
+
+    await firstValueFrom(observable);
   }
 
-  async readFiles(id : string, successCallBack? : () => void): Promise<List_Note_File[]> {
-    const getObservable : Observable<List_Note_File[]> = this.httpClientService.get<List_Note_File[]>({
-      action:"getNoteFiles",
-      controller : "notes"
-    },id);
+  async getNoteFiles(noteId: string): Promise<NoteFileDto[]> {
+    const observable = this.httpClientService.get<{ files: NoteFileDto[] }>({
+      controller: "notepdffiles",
+      queryString: `noteId=${noteId}`
+    });
 
-    const files : List_Note_File[] = await firstValueFrom(getObservable);
-    successCallBack();
-    return files;
+    const response = await firstValueFrom(observable);
+    return response.files || [];
   }
 
-  async deleteFile(id : string, fileId : string, successCallBack? : () => void) {
-    const deleteObservable = this.httpClientService.delete({
-      action:"deleteNoteFile",
-      controller : "notes",
-      queryString : `fileId = ${fileId}`
-    },id)
-    await firstValueFrom(deleteObservable);
-    successCallBack();
-  }
-createWithPdf(
-  note: Create_Note,
-  files: File[],
-  successCallBack?: (createdId: string) => void,
-  errorCallBack?: (errorMessage: string) => void
-) {
-  // Basit doğrulama
-  if (!note?.title?.trim()) {
-    errorCallBack?.('Başlık zorunludur.');
-    return;
-  }
-  if (!files?.length) {
-    errorCallBack?.('En az bir PDF seçmelisiniz.');
-    return;
-  }
+  async incrementViewCount(noteId: string): Promise<void> {
+    const requestBody: IncrementViewCountRequest = { noteId: noteId };
 
-  const fd = new FormData();
-  // Backend CreateNoteCommandRequest model alan adlarıyla birebir (PascalCase)
-  fd.append('Title', note.title ?? '');
-  fd.append('Description', note.description ?? '');
-  fd.append('Tags', note.tags ?? '');
-  fd.append('CourseId', note.courseId);
-  fd.append('InstitutionId', note.institutionId);
-  fd.append('DepartmentId', note.departmentId);
-  fd.append('UserId', note.userId);
+    const observable = this.httpClientService.post({
+      controller: "notes",
+      action: "increment-view-count"
+    }, requestBody);
 
-  for (const f of files) {
-    // IFormFileCollection -> "Files" anahtarı
-    fd.append('Files', f, f.name);
+    await firstValueFrom(observable);
   }
-
-  // Backend'de [HttpPost] direkt POST /api/notes endpoint'i var
-  this.httpClientService.post<{ NoteId?: string; noteId?: string; Success?: boolean; success?: boolean; Message?: string; message?: string }>(
-    { controller: 'notes' },
-    fd as any // <-- mevcut post<T> imzası Partial<T> beklediği için sadece burada cast ediyoruz
-  ).subscribe({
-    next: res => {
-      const noteId = res?.NoteId || res?.noteId;
-      successCallBack?.(noteId || '');
-    },
-    error: (err: HttpErrorResponse) => {
-      let message = '';
-      if (err?.error) {
-        if (Array.isArray(err.error)) {
-          const _error: Array<{ key: string; value: Array<string> }> = err.error;
-          _error?.forEach(v => v.value.forEach(_v => message += `${_v}<br>`));
-        } else if (err.error.message) {
-          message = err.error.message;
-        } else if (typeof err.error === 'string') {
-          message = err.error;
-        }
-      }
-      if (!message) {
-        message = err?.message || 'Yükleme başarısız.';
-      }
-      errorCallBack?.(message);
-    }
-  });
-}
 }

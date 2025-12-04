@@ -1,6 +1,16 @@
-.note-create {
-  width: 99%;
-  height: 300pt;
-  margin: 10px;
-  border: 1px solid #555;
+:host {
+  display: block;
+  width: 100%;
+  min-height: 100%;
+  position: relative;
+}
+
+.notes-shell {
+  width: 100%;
+  height: 100%;
+  
+  // Route geçişlerinde sayfaların üst üste binmemesi ve düzgün akması için
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }

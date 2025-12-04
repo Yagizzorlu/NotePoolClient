@@ -1,47 +1,80 @@
-// institution.service.ts
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { HttpClientService } from '../http-client.service';
-import { map } from 'rxjs/operators';
+import { firstValueFrom, Observable } from 'rxjs';
 
-interface InstitutionResponse {
-  Institutions?: { Id: string; Name: string; City?: string }[];
-  institutions?: { id: string; name: string; city?: string }[];
-  TotalCount?: number;
+// CONTRACTS (DTOs)
+import { InstitutionDto } from '../../../contracts/institution-dto';
+import { HttpClientService } from '../http-client.service';
+
+// Backend'den dönen Listeleme Cevabı (Wrapper)
+export interface GetAllInstitutionsResponse {
+  totalCount: number;
+  institutions: InstitutionDto[];
 }
 
-@Injectable({ providedIn: 'root' })
-export class InstitutionService {
-  constructor(private httpClientService: HttpClientService) {}
+// Request Modelleri
+export interface CreateInstitutionRequest {
+  name: string;
+  city?: string;
+}
 
-  getInstitutions(): Observable<{ id: string; name: string }[]> {
-    return this.httpClientService.get<any>({
-      controller: 'institutions'
-    }).pipe(
-      map(response => {
-        // Backend'den wrapper object olarak gelirse
-        if (response?.Institutions && Array.isArray(response.Institutions)) {
-          return response.Institutions.map((inst: any) => ({
-            id: inst.Id || inst.id || '',
-            name: inst.Name || inst.name || ''
-          }));
-        }
-        // Backend'den direkt array olarak gelirse
-        if (Array.isArray(response)) {
-          return response.map((inst: any) => ({
-            id: inst.Id || inst.id || '',
-            name: inst.Name || inst.name || ''
-          }));
-        }
-        // institutions (küçük harf) olarak gelirse
-        if (response?.institutions && Array.isArray(response.institutions)) {
-          return response.institutions.map((inst: any) => ({
-            id: inst.id || inst.Id || '',
-            name: inst.name || inst.Name || ''
-          }));
-        }
-        return [];
-      })
-    );
+export interface UpdateInstitutionRequest {
+  id: string;
+  name: string;
+  city?: string;
+}
+
+@Injectable({
+  providedIn: 'root'
+})
+export class InstitutionService {
+
+  constructor(private httpClientService: HttpClientService) {}
+  async getAllInstitutions(
+    page: number = 0, 
+    size: number = 10, 
+    searchTerm?: string
+  ): Promise<GetAllInstitutionsResponse> {
+    
+    let queryString = `page=${page}&size=${size}`;
+
+    if (searchTerm) {
+      queryString += `&searchTerm=${searchTerm}`;
+    }
+
+    const observable = this.httpClientService.get<GetAllInstitutionsResponse>({
+      controller: "institutions",
+      queryString: queryString
+    });
+
+    return await firstValueFrom(observable);
+  }
+  async getById(id: string): Promise<InstitutionDto> {
+    const observable = this.httpClientService.get<InstitutionDto>({
+      controller: "institutions"
+    }, id);
+
+    return await firstValueFrom(observable);
+  }
+  async create(request: CreateInstitutionRequest): Promise<void> {
+    const observable = this.httpClientService.post({
+      controller: "institutions"
+    }, request);
+
+    await firstValueFrom(observable);
+  }
+  async update(request: UpdateInstitutionRequest): Promise<void> {
+    const observable = this.httpClientService.put({
+      controller: "institutions"
+    }, request);
+
+    await firstValueFrom(observable);
+  }
+
+  async delete(id: string): Promise<void> {
+    const observable = this.httpClientService.delete({
+      controller: "institutions"
+    }, id);
+
+    await firstValueFrom(observable);
   }
 }

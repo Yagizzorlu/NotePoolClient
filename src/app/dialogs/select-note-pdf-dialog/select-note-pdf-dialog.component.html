@@ -1,23 +1,63 @@
-<h2 mat-dialog-title>Note Files</h2>
-<mat-dialog-content class="mat-typography">
-    <app-file-upload [options]="options"></app-file-upload>
+<div class="dialog-header">
+  <h2 mat-dialog-title>Dosya Yönetimi</h2>
+  <button class="btn-close" mat-dialog-close><i class="fa-solid fa-xmark"></i></button>
+</div>
 
-    <mat-card class="note-pdf-card" *ngFor = "let file of files">
-  <mat-card-header>
-    <div mat-card-avatar class="note-header-image"></div>
-  </mat-card-header>
-  <img mat-card-image [src] = "file.path">
-  <mat-card-content>
-  </mat-card-content>
-  <mat-card-actions>
-    <button matButton style = "background-color: chocolate;" (click)="deleteFile(file.id, $event)">DELETE</button>
-  </mat-card-actions>
-</mat-card>
+<mat-dialog-content class="dialog-body">
+  
+  <!-- Yükleme Alanı -->
+  <div class="upload-section">
+    <app-file-upload 
+        [accept]="'.pdf'"
+        [explanation]="'PDF dosyalarını buraya sürükleyin veya seçin'"
+        [multiple]="true"
+        (filesSelected)="onFilesSelected($event)">
+    </app-file-upload>
+  </div>
 
+  <div class="divider">
+    <span>Yüklü Dosyalar ({{ files.length }})</span>
+  </div>
 
+  <!-- Yükleniyor -->
+  <div *ngIf="isLoading" class="loading-state">
+    <app-loading-spinner></app-loading-spinner> <!-- Shared'dan -->
+  </div>
+
+  <!-- Liste -->
+  <div class="file-list" *ngIf="!isLoading && files.length > 0">
+    <div class="file-item" *ngFor="let file of files" @fadeSlideInOut>
+      
+      <!-- PDF İkonu -->
+      <div class="file-icon">
+        <i class="fa-solid fa-file-pdf"></i>
+      </div>
+
+      <!-- Dosya Bilgisi -->
+      <div class="file-info">
+        <span class="name" [title]="file.fileName">{{ file.fileName }}</span>
+        <a [href]="file.path" target="_blank" class="link">Görüntüle</a>
+      </div>
+
+      <!-- Sil Butonu -->
+      <button class="btn-delete" (click)="deleteFile(file.id)" title="Sil">
+        <i class="fa-regular fa-trash-can"></i>
+      </button>
+
+    </div>
+  </div>
+
+  <!-- Boş Durum (Reusable Component) -->
+  <div *ngIf="!isLoading && files.length === 0" class="empty-wrapper">
+    <app-empty-state 
+        title="Dosya Yok" 
+        message="Bu nota henüz bir dosya yüklenmemiş." 
+        icon="fa-regular fa-folder-open">
+    </app-empty-state>
+  </div>
 
 </mat-dialog-content>
-<mat-dialog-actions align="end">
-  <button matButton mat-dialog-close>Cancel</button>
-</mat-dialog-actions>
 
+<mat-dialog-actions align="end">
+  <button mat-flat-button color="primary" mat-dialog-close>Tamam</button>
+</mat-dialog-actions>

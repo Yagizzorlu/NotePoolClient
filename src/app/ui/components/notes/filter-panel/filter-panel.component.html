@@ -1,1 +1,49 @@
-<p>filter-panel works!</p>
+<div class="filter-card">
+  
+  <div class="filter-header">
+    <h3><i class="fa-solid fa-filter"></i> Filtrele</h3>
+    <button class="btn-reset" (click)="resetFilters()" *ngIf="selectedInstitution">
+      Temizle
+    </button>
+  </div>
+
+  <div class="filter-body">
+    
+    <div class="filter-group">
+      <label>Üniversite / Kurum</label>
+      <div class="select-wrapper">
+        <select [(ngModel)]="selectedInstitution" (change)="onInstitutionChange()" [disabled]="isLoadingInst">
+          <option value="">Tümü</option>
+          <option *ngFor="let inst of institutions" [value]="inst.id">{{ inst.name }}</option>
+        </select>
+        <i class="fa-solid fa-chevron-down arrow"></i>
+        <i *ngIf="isLoadingInst" class="fa-solid fa-circle-notch fa-spin loader"></i>
+      </div>
+    </div>
+
+    <div class="filter-group" [class.disabled]="!selectedInstitution">
+      <label>Bölüm / Fakülte</label>
+      <div class="select-wrapper">
+        <select [(ngModel)]="selectedDepartment" (change)="onDepartmentChange()" [disabled]="!selectedInstitution || isLoadingDept">
+          <option value="">Tümü</option>
+          <option *ngFor="let dept of departments" [value]="dept.id">{{ dept.name }}</option>
+        </select>
+        <i class="fa-solid fa-chevron-down arrow"></i>
+        <i *ngIf="isLoadingDept" class="fa-solid fa-circle-notch fa-spin loader"></i>
+      </div>
+    </div>
+
+    <div class="filter-group" [class.disabled]="!selectedDepartment">
+      <label>Ders</label>
+      <div class="select-wrapper">
+        <select [(ngModel)]="selectedCourse" (change)="onCourseChange()" [disabled]="!selectedDepartment || isLoadingCourse">
+          <option value="">Tümü</option>
+          <option *ngFor="let course of courses" [value]="course.id">{{ course.name }} ({{ course.code }})</option>
+        </select>
+        <i class="fa-solid fa-chevron-down arrow"></i>
+        <i *ngIf="isLoadingCourse" class="fa-solid fa-circle-notch fa-spin loader"></i>
+      </div>
+    </div>
+
+  </div>
+</div>

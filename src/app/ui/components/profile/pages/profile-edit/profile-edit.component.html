@@ -1,0 +1,102 @@
+<div class="settings-container">
+  
+  <div class="settings-header">
+    <a routerLink="/profile" class="btn-back">
+      <i class="fa-solid fa-arrow-left"></i> Profile Dön
+    </a>
+    <h1>Hesap Ayarları</h1>
+  </div>
+
+  <div class="settings-layout">
+    
+    <aside class="settings-sidebar">
+      <nav class="nav-menu">
+        <a class="nav-item active">
+          <i class="fa-regular fa-id-card"></i> Profil Bilgileri
+        </a>
+        <a class="nav-item disabled" title="Yakında">
+          <i class="fa-solid fa-lock"></i> Şifre ve Güvenlik
+        </a>
+        <a class="nav-item disabled" title="Yakında">
+          <i class="fa-solid fa-bell"></i> Bildirimler
+        </a>
+      </nav>
+    </aside>
+
+    <main class="settings-content">
+      
+      <div class="card-box">
+        
+        <div class="section-header">
+          <h2>Genel Bilgiler</h2>
+          <p>Kişisel bilgilerinizi ve görünümünüzü güncelleyin.</p>
+        </div>
+
+        <div *ngIf="isLoading" class="loading-wrapper">
+          <app-loading-spinner></app-loading-spinner>
+        </div>
+
+        <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" *ngIf="!isLoading">
+          
+          <div class="avatar-section">
+            <div class="avatar-preview">
+              <app-user-avatar [imageUrl]="currentAvatarUrl" size="xl"></app-user-avatar>
+              <label class="btn-upload-avatar">
+                <i class="fa-solid fa-camera"></i> Değiştir
+                <input type="file" (change)="onAvatarSelected($event)" accept="image/*" hidden>
+              </label>
+            </div>
+            <div class="avatar-info">
+              <span class="hint">Önerilen boyut: 400x400px. JPG, PNG veya WebP.</span>
+            </div>
+          </div>
+
+          <hr class="divider">
+
+          <div class="form-grid">
+            
+            <div class="form-group">
+              <label>Ad</label>
+              <input type="text" class="form-control" formControlName="firstName">
+              <app-form-error-messages [control]="profileForm.get('firstName')" fieldName="Ad"></app-form-error-messages>
+            </div>
+
+            <div class="form-group">
+              <label>Soyad</label>
+              <input type="text" class="form-control" formControlName="lastName">
+              <app-form-error-messages [control]="profileForm.get('lastName')" fieldName="Soyad"></app-form-error-messages>
+            </div>
+
+            <div class="form-group full-width">
+              <label>Kullanıcı Adı</label>
+              <div class="input-wrapper">
+                <span class="prefix">notepool.com/&#64;</span>
+                <input type="text" class="form-control with-prefix" formControlName="userName">
+              </div>
+              <app-form-error-messages [control]="profileForm.get('userName')" fieldName="Kullanıcı adı"></app-form-error-messages>
+            </div>
+
+            <div class="form-group full-width">
+              <label>E-Posta</label>
+              <input type="email" class="form-control" formControlName="email">
+              <small class="hint">E-posta adresini değiştirmek için destek ile iletişime geçin.</small>
+            </div>
+
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn-ghost" routerLink="/profile">İptal</button>
+            <button type="submit" class="btn-primary" [disabled]="profileForm.invalid || profileForm.pristine || isSubmitting">
+              <i *ngIf="isSubmitting" class="fa-solid fa-circle-notch fa-spin"></i>
+              {{ isSubmitting ? 'Kaydediliyor...' : 'Değişiklikleri Kaydet' }}
+            </button>
+          </div>
+
+        </form>
+
+      </div>
+
+    </main>
+
+  </div>
+</div>

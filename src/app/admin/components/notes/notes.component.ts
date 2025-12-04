@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { BaseComponent, SpinnerType } from '../../../base/base.component';
 import { HttpClientService } from '../../../services/common/http-client.service';
-import { Create_Note } from '../../../contracts/create_note';
+import { CreateNoteRequest } from '../../../contracts/create_note-request';
 
 @Component({
   selector: 'app-notes',
@@ -19,7 +19,7 @@ export class NotesComponent extends BaseComponent implements OnInit {
   this.showSpinner(SpinnerType.BallAtom);
 
   // GET - notları listele
-  this.httpClientService.get<Create_Note[]>({
+  this.httpClientService.get<CreateNoteRequest[]>({
     controller: "notes"
   }).subscribe(data => console.log(data));
 

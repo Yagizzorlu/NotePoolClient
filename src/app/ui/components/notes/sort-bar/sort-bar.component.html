@@ -1,0 +1,22 @@
+<div class="sort-bar-container">
+  
+  <div class="result-info">
+    <span class="count">{{ totalCount }}</span>
+    <span class="label">sonuç bulundu</span>
+  </div>
+
+  <div class="sort-actions">
+    <span class="sort-label">Sırala:</span>
+    
+    <div class="chips-wrapper">
+      <button *ngFor="let opt of sortOptions" 
+              class="sort-chip" 
+              [class.active]="currentSort === opt.value"
+              (click)="selectSort(opt.value)">
+        <i [class]="opt.icon"></i>
+        <span>{{ opt.label }}</span>
+      </button>
+    </div>
+  </div>
+
+</div>

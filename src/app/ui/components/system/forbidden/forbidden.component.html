@@ -1,0 +1,36 @@
+<div class="system-container">
+  
+  <div class="error-card">
+    
+    <div class="icon-wrapper">
+      <div class="lock-circle">
+        <i class="fa-solid fa-lock"></i>
+      </div>
+      <div class="status-code">403</div>
+    </div>
+
+    <div class="content">
+      <h1 class="title">Erişim Engellendi</h1>
+      <p class="description">
+        Üzgünüz, bu sayfaya erişim yetkiniz bulunmuyor.<br>
+        Bunun bir hata olduğunu düşünüyorsanız yönetici ile iletişime geçin.
+      </p>
+    </div>
+
+    <div class="actions">
+      <button class="btn-secondary" (click)="goBack()">
+        <i class="fa-solid fa-arrow-left"></i> Geri Dön
+      </button>
+      
+      <button class="btn-primary" (click)="goHome()">
+        <i class="fa-solid fa-house"></i> Ana Sayfa
+      </button>
+    </div>
+
+    <div class="footer-link">
+      <a (click)="switchAccount()">Farklı bir hesapla giriş yap</a>
+    </div>
+
+  </div>
+
+</div>

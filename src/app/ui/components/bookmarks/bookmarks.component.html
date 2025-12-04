@@ -1,29 +1,48 @@
-<div class="bookmarks-container">
-  <div class="bookmarks-header">
+<div class="page-container">
+  
+  <header class="page-header">
     <div class="header-content">
-      <div class="header-icon">⭐</div>
-      <div>
-        <h1 class="bookmarks-title">Yer İşaretlerim</h1>
-        <p class="bookmarks-subtitle">Kaydettiğiniz favori notlarınız</p>
+      <div class="icon-box">
+        <i class="fa-solid fa-bookmark"></i>
+      </div>
+      <div class="text-box">
+        <h1>Kaydettiklerim</h1>
+        <p>Favori ders notların ve çalışma listen burada.</p>
       </div>
     </div>
+    
+    <div class="stats-badge" *ngIf="!isLoading">
+      <strong>{{ totalCount }}</strong> <span>Not</span>
+    </div>
+  </header>
+
+  <div class="grid-layout" *ngIf="isLoading">
+    <app-skeleton-loader [count]="8" appearance="note-card"></app-skeleton-loader>
   </div>
 
-  <div class="bookmarks-content">
-    <div class="bookmarks-grid" *ngIf="false">
-      <!-- Note cards will be displayed here -->
-    </div>
-
-    <div class="empty-state">
-      <div class="empty-icon">📑</div>
-      <h3 class="empty-title">Henüz yer işareti yok</h3>
-      <p class="empty-text">Beğendiğiniz notları yer işaretlerinize ekleyerek daha sonra kolayca erişebilirsiniz</p>
-      <a routerLink="/notes" class="explore-btn">
-        <span>Notları Keşfet</span>
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-          <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </a>
+  <div class="grid-layout" *ngIf="!isLoading && notes.length > 0">
+    <div class="grid-item" *ngFor="let note of notes; let i = index" [style.--i]="i">
+      <app-note-card [note]="note"></app-note-card>
     </div>
   </div>
+
+  <div class="empty-wrapper" *ngIf="!isLoading && notes.length === 0">
+    <app-empty-state 
+      title="Henüz Kayıt Yok" 
+      message="Beğendiğiniz notları kaydetmek için not kartlarının sağ üstündeki yıldıza tıklayın."
+      icon="fa-regular fa-bookmark">
+      
+      <a routerLink="/notes" class="btn-explore">Notları Keşfet</a>
+    </app-empty-state>
+  </div>
+
+  <div class="pagination-wrapper" *ngIf="!isLoading && totalCount > pageSize">
+    <app-pagination 
+      [totalItems]="totalCount" 
+      [itemsPerPage]="pageSize" 
+      [currentPage]="currentPage"
+      (pageChange)="onPageChanged($event)">
+    </app-pagination>
+  </div>
+
 </div>

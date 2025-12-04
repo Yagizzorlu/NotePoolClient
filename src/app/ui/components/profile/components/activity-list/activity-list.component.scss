@@ -1,0 +1,147 @@
+// --- Variables ---
+$primary-color: #667eea;
+$text-dark: #2d3748;
+$text-gray: #718096;
+$bg-hover: #f8fafc;
+$border-color: #e2e8f0;
+$shadow-card: 0 4px 6px -1px rgba(0,0,0,0.02);
+
+:host {
+  display: block;
+}
+
+// --- GRID LAYOUT (Notes) ---
+.grid-layout {
+  display: grid;
+  // Responsive: 2 kolonlu, mobilde tek
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+.grid-item {
+  opacity: 0;
+  animation: fadeInUp 0.4s ease-out forwards;
+  animation-delay: calc(var(--i) * 0.05s);
+}
+
+// --- DOWNLOAD CARD STYLE ---
+.download-card {
+  background: white;
+  border: 1px solid $border-color;
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: $shadow-card;
+
+  &:hover {
+    transform: translateY(-3px);
+    border-color: rgba($primary-color, 0.3);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    
+    .icon-box { background: $primary-color; color: white; }
+    .action { transform: translateX(4px); color: $primary-color; }
+  }
+
+  .icon-box {
+    width: 48px; height: 48px;
+    background: rgba($primary-color, 0.1);
+    color: $primary-color;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem;
+    transition: all 0.2s;
+  }
+
+  .meta {
+    flex: 1;
+    display: flex; flex-direction: column;
+    h4 { margin: 0 0 4px; font-size: 1rem; font-weight: 700; color: $text-dark; }
+    .category { font-size: 0.8rem; color: $text-gray; background: #edf2f7; padding: 2px 8px; border-radius: 4px; width: fit-content; margin-bottom: 4px; }
+    .date { font-size: 0.75rem; color: #a0aec0; }
+  }
+
+  .action { color: #cbd5e0; transition: all 0.2s; }
+}
+
+// --- COMMENTS LAYOUT ---
+.comments-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.comment-card {
+  background: white;
+  border: 1px solid $border-color;
+  border-radius: 12px;
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+  opacity: 0;
+  animation: slideLeft 0.4s ease-out forwards;
+  animation-delay: calc(var(--i) * 0.05s);
+
+  &:hover {
+    border-color: $primary-color;
+    background-color: $bg-hover;
+    .note-ref { color: $primary-color; }
+  }
+
+  .comment-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 12px;
+    font-size: 0.85rem;
+
+    .note-ref {
+      font-weight: 600; color: $text-gray; display: flex; align-items: center; gap: 6px;
+      transition: color 0.2s;
+    }
+    .date { color: #a0aec0; }
+  }
+
+  .comment-text {
+    margin: 0;
+    color: $text-dark;
+    font-size: 1rem;
+    line-height: 1.5;
+    font-style: italic;
+  }
+}
+
+// --- UTILS ---
+.empty-wrapper {
+  padding: 40px;
+  background: white;
+  border-radius: 16px;
+  border: 1px dashed $border-color;
+  
+  .btn-action {
+    display: inline-block; margin-top: 16px;
+    padding: 10px 24px; background: $primary-color; color: white;
+    border-radius: 8px; text-decoration: none; font-weight: 600;
+    transition: transform 0.2s;
+    &:hover { transform: translateY(-2px); }
+  }
+}
+
+.pagination-wrapper {
+  display: flex; justify-content: center; margin-top: 40px;
+}
+
+.comment-skeleton-item {
+  display: flex; gap: 16px; margin-bottom: 20px; align-items: flex-start;
+}
+
+// Animations
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideLeft {
+  from { opacity: 0; transform: translateX(-20px); }
+  to { opacity: 1; transform: translateX(0); }
+}

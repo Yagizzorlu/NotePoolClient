@@ -1,0 +1,50 @@
+// --- Variables ---
+$bg-app: #f8fafc; // Çok hafif gri (Göz yormayan arka plan)
+$max-width: 1400px;
+
+// Layout Wrapper: Flexbox Column yapısı
+// Bu yapı "Sticky Footer" problemini çözer.
+.layout-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; // Ekranın tamamını kapla
+  background-color: $bg-app;
+}
+
+// Main Content Alanı
+.main-content {
+  flex: 1; // Boş alanın tamamını kapla (Footer'ı aşağı iter)
+  width: 100%;
+  position: relative;
+  
+  // Navbar fixed/sticky olduğu için bazen üstten pay gerekir
+  // Senin navbar sticky olduğu için margin gerekmez ama 
+  // içerik ile navbar arasına nefes payı koyalım.
+  padding-top: 24px; 
+  padding-bottom: 48px;
+}
+
+// İçerik Sınırlayıcı (Navbar container ile aynı hizada olması için)
+.content-container {
+  max-width: $max-width;
+  margin: 0 auto;
+  padding: 0 24px; // Mobilde kenarlara yapışmasın
+  height: 100%;
+
+  @media (max-width: 768px) {
+    padding: 0 16px;
+  }
+}
+
+/* SENIOR TOUCH: Global Router Animasyonu için Hazırlık
+   Router outlet geçişlerinde fade-in efekti istenirse buraya eklenebilir.
+*/
+router-outlet + * {
+  display: block;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}

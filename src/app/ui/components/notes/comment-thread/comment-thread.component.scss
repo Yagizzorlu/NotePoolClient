@@ -1,0 +1,198 @@
+// --- Variables ---
+$primary-color: #667eea;
+$text-dark: #2d3748;
+$text-gray: #718096;
+$border-color: #edf2f7;
+$bg-hover: #f7fafc;
+
+:host {
+  display: block;
+}
+
+.comments-container {
+  background: white;
+  border-radius: 16px;
+  border: 1px solid $border-color;
+  padding: 24px;
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);
+}
+
+.comments-header {
+  margin-bottom: 24px;
+  h3 {
+    font-size: 1.1rem; font-weight: 700; color: $text-dark; margin: 0;
+    .count { color: $text-gray; font-weight: 500; }
+  }
+}
+
+// --- FORMS ---
+.comment-form {
+  margin-bottom: 32px;
+  
+  .input-wrapper {
+    display: flex; gap: 12px;
+    border: 2px solid $border-color;
+    border-radius: 12px;
+    padding: 8px;
+    transition: border-color 0.2s;
+
+    &:focus-within { border-color: $primary-color; }
+
+    textarea {
+      flex: 1; border: none; resize: none; outline: none;
+      font-family: inherit; font-size: 0.95rem; padding: 8px;
+      min-height: 40px;
+    }
+
+    .btn-send {
+      width: 40px; height: 40px; border-radius: 8px;
+      background: $primary-color; color: white;
+      border: none; cursor: pointer;
+      transition: transform 0.2s;
+
+      &:hover { transform: scale(1.05); }
+      &:disabled { background: #cbd5e0; cursor: not-allowed; }
+    }
+  }
+}
+
+.auth-warning {
+  background: $bg-hover; padding: 16px; border-radius: 8px; text-align: center;
+  color: $text-gray; font-size: 0.9rem; margin-bottom: 24px;
+  
+  a { color: $primary-color; font-weight: 600; text-decoration: none; &:hover { text-decoration: underline; } }
+}
+
+// --- COMMENT LIST ---
+.thread-list {
+  display: flex; flex-direction: column; gap: 24px;
+}
+
+.comment-item {
+  display: flex; gap: 16px;
+  
+  .avatar-col {
+    display: flex; flex-direction: column; align-items: center;
+    
+    .thread-line {
+      flex: 1; width: 2px; background: $border-color;
+      margin-top: 8px; margin-bottom: -24px; // Alttaki yoruma uzanması için
+    }
+  }
+
+  .content-col {
+    flex: 1;
+    
+    .meta {
+      display: flex; align-items: baseline; gap: 8px; margin-bottom: 4px;
+      .username { font-weight: 700; font-size: 0.9rem; color: $text-dark; }
+      .date { font-size: 0.75rem; color: $text-gray; }
+    }
+
+    .text {
+      font-size: 0.95rem; color: #4a5568; line-height: 1.5; margin-bottom: 8px;
+      white-space: pre-wrap; // Satır sonlarını koru
+    }
+
+    .actions {
+      display: flex; align-items: center; gap: 16px;
+      
+      .btn-action {
+        background: none; border: none; cursor: pointer;
+        font-size: 0.8rem; font-weight: 600; color: $text-gray;
+        padding: 0;
+        &:hover { color: $primary-color; text-decoration: underline; }
+        
+        &.delete:hover { color: #e53e3e; }
+      }
+    }
+  }
+}
+
+// --- NESTED REPLIES ---
+.reply-form {
+  margin-top: 12px;
+  animation: slideDown 0.2s ease-out;
+
+  textarea {
+    width: 100%; border: 1px solid $border-color; border-radius: 8px;
+    padding: 12px; font-size: 0.9rem; outline: none; margin-bottom: 8px;
+    &:focus { border-color: $primary-color; }
+  }
+
+  .form-actions {
+    display: flex; justify-content: flex-end; gap: 8px;
+    
+    button {
+      padding: 6px 16px; border-radius: 6px; font-size: 0.85rem; font-weight: 600; cursor: pointer; border: none;
+    }
+    .btn-cancel { background: transparent; color: $text-gray; &:hover { background: $bg-hover; } }
+    .btn-submit { background: $primary-color; color: white; &:hover { background: darken($primary-color, 5%); } }
+  }
+}
+
+.replies-trigger {
+  margin-top: 8px;
+  .btn-load-replies {
+    background: none; border: none; cursor: pointer;
+    color: $primary-color; font-size: 0.85rem; font-weight: 600;
+    display: flex; align-items: center; gap: 6px;
+    &:hover { text-decoration: underline; }
+  }
+}
+
+.nested-replies {
+  margin-top: 16px;
+  display: flex; flex-direction: column; gap: 16px;
+  animation: fadeIn 0.3s ease-out;
+}
+
+// Avatar ve İsim için ortak link stili
+.author-link {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  display: inline-flex; // Avatar'ın kaymasını önler
+  
+  &:hover {
+    // Üzerine gelince ismin rengi değişsin (Primary renk)
+    &.username {
+      color: #6366f1; // Senin primary rengin (indigo)
+      text-decoration: underline;
+    }
+
+    // Avatarın üzerine gelince hafif opaklık
+    app-user-avatar {
+      opacity: 0.9;
+    }
+  }
+}
+
+// Meta alanı içindeki username için özel ayar
+.meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+
+  .username {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #1e293b;
+    // author-link sınıfı zaten hover efektini yönetiyor
+  }
+  
+  .date {
+    font-size: 0.75rem;
+    color: #94a3b8;
+  }
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

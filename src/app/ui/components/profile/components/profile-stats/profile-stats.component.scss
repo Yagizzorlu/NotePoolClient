@@ -1,0 +1,114 @@
+// --- Variables ---
+$text-dark: #1a202c;
+$text-gray: #718096;
+$bg-white: #ffffff;
+$shadow-sm: 0 2px 4px rgba(0,0,0,0.02);
+$shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+
+// Theme Colors
+$color-notes: #3182ce;    // Mavi
+$color-downloads: #38a169; // Yeşil
+$color-likes: #e53e3e;    // Kırmızı
+$color-comments: #805ad5; // Mor
+
+:host {
+  display: block;
+  margin-bottom: 32px;
+}
+
+.stats-grid {
+  display: grid;
+  // Responsive Grid: Mobilde 2'li, Tablette 2'li, Desktopta 4'lü (veya sığdığı kadar)
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 20px;
+}
+
+.stat-card {
+  background: $bg-white;
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border: 1px solid #edf2f7;
+  box-shadow: $shadow-sm;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  position: relative;
+  overflow: hidden;
+
+  // Hover Effect: Kart yukarı kalkar, gölge artar
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: $shadow-hover;
+    border-color: transparent; // Kenarlık yerine renkli border gelsin diye
+    
+    .icon-wrapper { transform: scale(1.1) rotate(5deg); }
+  }
+
+  // --- Color Variants (Üst Çizgi ve İkon Renkleri) ---
+  
+  &.notes {
+    border-top: 4px solid $color-notes;
+    .icon-wrapper { background: rgba($color-notes, 0.1); color: $color-notes; }
+  }
+
+  &.downloads {
+    border-top: 4px solid $color-downloads;
+    .icon-wrapper { background: rgba($color-downloads, 0.1); color: $color-downloads; }
+  }
+
+  &.likes {
+    border-top: 4px solid $color-likes;
+    .icon-wrapper { background: rgba($color-likes, 0.1); color: $color-likes; }
+  }
+
+  &.comments {
+    border-top: 4px solid $color-comments;
+    .icon-wrapper { background: rgba($color-comments, 0.1); color: $color-comments; }
+  }
+}
+
+.icon-wrapper {
+  width: 50px; height: 50px;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.5rem;
+  margin-bottom: 12px;
+  transition: transform 0.3s ease;
+}
+
+.stat-content {
+  .count {
+    display: block;
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: $text-dark;
+    line-height: 1;
+    margin-bottom: 4px;
+    font-feature-settings: "tnum"; // Rakamlar hizalı olsun
+  }
+  
+  .label {
+    font-size: 0.8rem;
+    color: $text-gray;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+}
+
+// Responsive
+@media (max-width: 480px) {
+  .stats-grid {
+    grid-template-columns: 1fr 1fr; // Mobilde 2x2 ızgara
+    gap: 12px;
+  }
+  
+  .stat-card {
+    padding: 16px;
+    .icon-wrapper { width: 40px; height: 40px; font-size: 1.2rem; }
+    .count { font-size: 1.5rem; }
+    .label { font-size: 0.7rem; }
+  }
+}

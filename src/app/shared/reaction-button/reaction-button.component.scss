@@ -1,0 +1,129 @@
+// --- Variables (App Theme Uyumlu) ---
+$primary-color: #667eea; // Navbar moru
+$danger-color: #e53e3e; // Kırmızı
+$bg-hover: rgba(0, 0, 0, 0.06);
+$text-color: #718096;
+$border-color: #e2e8f0;
+
+.reaction-wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #fff;
+  border: 1px solid $border-color;
+  border-radius: 24px;
+  padding: 2px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.btn-reaction {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: none;
+  background: transparent;
+  padding: 8px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  color: $text-color;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  user-select: none;
+  min-width: 44px; // Touch target için minimum boyut
+
+  i {
+    font-size: 1rem;
+    transition: all 0.2s;
+  }
+
+  .count {
+    font-feature-settings: "tnum";
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+    min-width: 16px;
+    text-align: center;
+  }
+
+  &:hover {
+    background-color: $bg-hover;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+  }
+
+  &:active {
+    transform: scale(0.96);
+  }
+
+  // --- LIKE BUTTON ---
+  &.like {
+    &:hover {
+      color: $primary-color;
+      background-color: rgba($primary-color, 0.1);
+
+      i {
+        color: $primary-color;
+      }
+    }
+
+    &.active {
+      color: $primary-color;
+      background-color: rgba($primary-color, 0.15);
+      
+      i {
+        color: $primary-color;
+        filter: drop-shadow(0 0 6px rgba($primary-color, 0.3));
+      }
+
+      .count {
+        color: $primary-color;
+      }
+    }
+  }
+
+  // --- DISLIKE BUTTON ---
+  &.dislike {
+    &:hover {
+      color: $danger-color;
+      background-color: rgba($danger-color, 0.1);
+
+      i {
+        color: $danger-color;
+      }
+    }
+
+    &.active {
+      color: $danger-color;
+      background-color: rgba($danger-color, 0.15);
+
+      i {
+        color: $danger-color;
+      }
+
+      .count {
+        color: $danger-color;
+      }
+    }
+  }
+}
+
+// --- BOUNCE ANIMATION (Tıklandığında zıplama) ---
+.icon-wrapper {
+  display: inline-block;
+  transition: transform 0.2s;
+  
+  &.bounce {
+    animation: pop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+}
+
+@keyframes pop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.4); }
+  100% { transform: scale(1); }
+}
+
+.count {
+  font-feature-settings: "tnum"; // Rakamlar hizalı dursun
+  font-variant-numeric: tabular-nums;
+}

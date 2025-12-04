@@ -1,125 +1,171 @@
-.bookmarks-container {
-  min-height: calc(100vh - 72px);
-  background: linear-gradient(to bottom, #f8f9fa, #ffffff);
-  padding: 40px 20px;
+// --- Variables (Senin eski kodundan alındı) ---
+$primary-color: #667eea;
+$secondary-color: #764ba2;
+$text-dark: #1a202c;
+$text-gray: #64748b;
+$bg-gradient-start: #f8f9fa;
+$bg-gradient-end: #ffffff;
+$shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.08);
+
+:host {
+  display: block;
+  min-height: 100%;
 }
 
-.bookmarks-header {
-  max-width: 1200px;
-  margin: 0 auto 40px;
-}
-
-.header-content {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  padding: 32px;
-  background: white;
-  border-radius: 20px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-}
-
-.header-icon {
-  font-size: 4rem;
-  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
-}
-
-.bookmarks-title {
-  font-size: clamp(1.75rem, 3vw, 2.5rem);
-  font-weight: 800;
-  color: #1a202c;
-  margin: 0 0 8px;
-  letter-spacing: -0.02em;
-}
-
-.bookmarks-subtitle {
-  font-size: 1.1rem;
-  color: #64748b;
-  margin: 0;
-}
-
-.bookmarks-content {
-  max-width: 1200px;
+.page-container {
+  min-height: calc(100vh - 72px); // Navbar payı
+  background: linear-gradient(to bottom, $bg-gradient-start, $bg-gradient-end);
+  padding: 40px 24px;
+  
+  // İçerik ortalama
+  max-width: 1400px;
   margin: 0 auto;
 }
 
-.bookmarks-grid {
+// --- HEADER SECTION ---
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 48px;
+  padding: 32px;
+  background: white;
+  border-radius: 20px;
+  box-shadow: $shadow-soft;
+  animation: slideDown 0.5s ease-out;
+
+  .header-content {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+
+    .icon-box {
+      width: 72px; height: 72px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, $primary-color 0%, $secondary-color 100%);
+      color: white;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem;
+      box-shadow: 0 8px 24px rgba($primary-color, 0.3);
+      transform: rotate(-5deg);
+      transition: transform 0.3s ease;
+      
+      &:hover { transform: rotate(0deg) scale(1.05); }
+    }
+
+    .text-box {
+      h1 {
+        font-size: clamp(1.5rem, 3vw, 2.2rem);
+        font-weight: 800;
+        color: $text-dark;
+        margin: 0 0 6px;
+        letter-spacing: -0.02em;
+      }
+      p {
+        color: $text-gray;
+        font-size: 1.1rem;
+        margin: 0;
+      }
+    }
+  }
+
+  // İstatistik Rozeti
+  .stats-badge {
+    background: #f8fafc;
+    padding: 10px 24px;
+    border-radius: 30px;
+    border: 1px solid #e2e8f0;
+    color: $text-dark;
+    font-size: 1rem;
+    font-weight: 600;
+    display: flex; align-items: center; gap: 6px;
+    
+    strong { 
+      color: $primary-color; 
+      font-size: 1.4rem; 
+    }
+  }
+}
+
+// --- GRID LAYOUT ---
+.grid-layout {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 24px;
+  margin-bottom: 40px;
 }
 
-.empty-state {
-  text-align: center;
-  padding: 80px 20px;
+.grid-item {
+  opacity: 0;
+  animation: fadeInUp 0.5s ease-out forwards;
+  // Stagger Effect: Kartlar sırayla gelir
+  animation-delay: calc(var(--i) * 0.05s);
+}
+
+// --- EMPTY STATE ---
+.empty-wrapper {
   background: white;
   border-radius: 20px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  padding: 40px;
+  box-shadow: $shadow-soft;
+  margin-top: 40px;
 }
 
-.empty-icon {
-  font-size: 6rem;
-  margin-bottom: 32px;
-  opacity: 0.6;
-  animation: float 3s ease-in-out infinite;
-}
-
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-15px);
-  }
-}
-
-.empty-title {
-  font-size: 1.75rem;
-  font-weight: 700;
-  color: #1a202c;
-  margin-bottom: 12px;
-}
-
-.empty-text {
-  font-size: 1.05rem;
-  color: #64748b;
-  max-width: 500px;
-  margin: 0 auto 40px;
-  line-height: 1.6;
-}
-
-.explore-btn {
+// Explore Button (Empty state içindeki buton)
+.btn-explore {
   display: inline-flex;
   align-items: center;
   gap: 10px;
   padding: 14px 32px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, $primary-color 0%, $secondary-color 100%);
   color: white;
   border-radius: 12px;
   font-weight: 600;
   font-size: 1.05rem;
   text-decoration: none;
   transition: all 0.3s ease;
-  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
-}
+  box-shadow: 0 8px 24px rgba($primary-color, 0.4);
+  margin-top: 24px;
 
-.explore-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 32px rgba(102, 126, 234, 0.5);
-}
-
-@media (max-width: 768px) {
-  .bookmarks-container {
-    padding: 24px 16px;
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba($primary-color, 0.5);
   }
+}
 
-  .header-content {
+// --- PAGINATION ---
+.pagination-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+// --- RESPONSIVE ---
+@media (max-width: 768px) {
+  .page-container { padding: 24px 16px; }
+
+  .page-header {
     flex-direction: column;
     text-align: center;
+    gap: 24px;
     padding: 24px;
-  }
 
-  .header-icon {
-    font-size: 3rem;
+    .header-content {
+      flex-direction: column;
+      gap: 16px;
+    }
+    
+    .stats-badge { width: 100%; justify-content: center; }
   }
+}
+
+// --- ANIMATIONS ---
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
 }

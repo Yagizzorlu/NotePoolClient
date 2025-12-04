@@ -1,0 +1,293 @@
+<div class="info-container">
+  <!-- Sidebar Navigation -->
+  <aside class="info-sidebar">
+    <nav class="sidebar-nav">
+      <div class="nav-header">
+        <h2>Bilgiler</h2>
+      </div>
+      <ul class="nav-list">
+        <li *ngFor="let section of sections" 
+            [class.active]="activeSection === section.id">
+          <a (click)="scrollToSection(section.id)" 
+             [class.active]="activeSection === section.id">
+            <i [class]="'fa-solid ' + section.icon"></i>
+            <span>{{ section.title }}</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="info-content">
+    <!-- Hakkımızda -->
+    <section id="about" class="content-section">
+      <div class="section-header">
+        <div class="section-icon">
+          <i class="fa-solid fa-info-circle"></i>
+        </div>
+        <h1>Hakkımızda</h1>
+        <p class="section-subtitle">NotePool hakkında bilmeniz gerekenler</p>
+      </div>
+
+      <div class="section-body">
+        <div class="content-card">
+          <h2>Misyonumuz</h2>
+          <p>
+            NotePool, öğrencilerin akademik başarılarını artırmak ve bilgi paylaşımını 
+            kolaylaştırmak için kurulmuş bir platformdur. Amacımız, üniversite öğrencilerinin 
+            ders notlarını etkili bir şekilde paylaşmalarını, keşfetmelerini ve birlikte 
+            öğrenmelerini sağlamaktır.
+          </p>
+        </div>
+
+        <div class="content-card">
+          <h2>Vizyonumuz</h2>
+          <p>
+            Türkiye'nin en büyük ve en güvenilir akademik not paylaşım platformu olmak. 
+            Öğrencilerin eğitim hayatlarını kolaylaştırmak ve akademik topluluğu güçlendirmek 
+            için sürekli gelişen bir ekosistem oluşturmak.
+          </p>
+        </div>
+
+        <div class="content-card">
+          <h2>Değerlerimiz</h2>
+          <ul class="values-list">
+            <li>
+              <i class="fa-solid fa-check-circle"></i>
+              <div>
+                <strong>Kalite:</strong> En iyi içerikleri sunmak için sürekli çalışıyoruz.
+              </div>
+            </li>
+            <li>
+              <i class="fa-solid fa-check-circle"></i>
+              <div>
+                <strong>Güvenlik:</strong> Kullanıcı verilerinin güvenliği bizim önceliğimizdir.
+              </div>
+            </li>
+            <li>
+              <i class="fa-solid fa-check-circle"></i>
+              <div>
+                <strong>Topluluk:</strong> Öğrenciler arasında dayanışmayı destekliyoruz.
+              </div>
+            </li>
+            <li>
+              <i class="fa-solid fa-check-circle"></i>
+              <div>
+                <strong>Erişilebilirlik:</strong> Herkesin eşit şekilde faydalanmasını sağlıyoruz.
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Kurallar -->
+    <section id="rules" class="content-section">
+      <div class="section-header">
+        <div class="section-icon">
+          <i class="fa-solid fa-gavel"></i>
+        </div>
+        <h1>Kurallar ve Yönergeler</h1>
+        <p class="section-subtitle">Platform kullanım kuralları</p>
+      </div>
+
+      <div class="section-body">
+        <div class="content-card">
+          <h2>Genel Kurallar</h2>
+          <ol class="rules-list">
+            <li>
+              <strong>Telif Hakları:</strong> Yüklediğiniz notların size ait olduğundan veya 
+              paylaşım izniniz olduğundan emin olun. Telif hakkı ihlali yapan içerikler 
+              derhal kaldırılacaktır.
+            </li>
+            <li>
+              <strong>İçerik Kalitesi:</strong> Yüklediğiniz notların okunabilir, düzenli ve 
+              anlaşılır olması gerekmektedir. Düşük kaliteli içerikler moderasyon tarafından 
+              incelenebilir.
+            </li>
+            <li>
+              <strong>Saygılı Davranış:</strong> Diğer kullanıcılara karşı saygılı olun. 
+              Hakaret, spam veya uygunsuz içerik paylaşmak yasaktır.
+            </li>
+            <li>
+              <strong>Doğru Bilgi:</strong> Yanıltıcı veya yanlış bilgi içeren notlar 
+              paylaşmayın. Akademik dürüstlük esastır.
+            </li>
+          </ol>
+        </div>
+
+        <div class="content-card">
+          <h2>Not Yükleme Kuralları</h2>
+          <ul class="rules-list">
+            <li>Notlar PDF formatında olmalıdır.</li>
+            <li>Dosya boyutu maksimum 50MB olabilir.</li>
+            <li>Not başlığı açıklayıcı ve doğru olmalıdır.</li>
+            <li>Doğru ders, kurum ve bölüm bilgilerini seçin.</li>
+            <li>Etiketler uygun ve ilgili olmalıdır.</li>
+          </ul>
+        </div>
+
+        <div class="content-card warning-card">
+          <div class="warning-icon">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+          </div>
+          <h3>Uyarı</h3>
+          <p>
+            Kurallara uymayan kullanıcılar uyarı alabilir veya hesap erişimi geçici veya 
+            kalıcı olarak kısıtlanabilir. Tüm içerikler moderasyon ekibi tarafından 
+            incelenmektedir.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Gizlilik Politikası -->
+    <section id="privacy" class="content-section">
+      <div class="section-header">
+        <div class="section-icon">
+          <i class="fa-solid fa-shield-halved"></i>
+        </div>
+        <h1>Gizlilik Politikası</h1>
+        <p class="section-subtitle">Kişisel verilerinizin korunması</p>
+      </div>
+
+      <div class="section-body">
+        <div class="content-card">
+          <h2>Veri Toplama</h2>
+          <p>
+            NotePool, hizmetlerimizi sunabilmek için aşağıdaki bilgileri toplamaktadır:
+          </p>
+          <ul class="privacy-list">
+            <li>Kayıt sırasında sağladığınız kişisel bilgiler (ad, e-posta, vb.)</li>
+            <li>Platform kullanım verileri (yüklenen notlar, beğeniler, yorumlar)</li>
+            <li>Teknik veriler (IP adresi, tarayıcı bilgisi, cihaz bilgisi)</li>
+          </ul>
+        </div>
+
+        <div class="content-card">
+          <h2>Veri Kullanımı</h2>
+          <p>Toplanan veriler aşağıdaki amaçlar için kullanılmaktadır:</p>
+          <ul class="privacy-list">
+            <li>Platform hizmetlerinin sunulması ve iyileştirilmesi</li>
+            <li>Kullanıcı deneyiminin kişiselleştirilmesi</li>
+            <li>Güvenlik ve dolandırıcılık önleme</li>
+            <li>Yasal yükümlülüklerin yerine getirilmesi</li>
+          </ul>
+        </div>
+
+        <div class="content-card">
+          <h2>Veri Güvenliği</h2>
+          <p>
+            Verilerinizin güvenliği bizim için çok önemlidir. Modern şifreleme teknolojileri 
+            ve güvenlik protokolleri kullanarak verilerinizi koruyoruz. Ancak, internet 
+            üzerinden hiçbir veri aktarımı %100 güvenli değildir.
+          </p>
+        </div>
+
+        <div class="content-card">
+          <h2>Çerezler</h2>
+          <p>
+            Platform, kullanıcı deneyimini iyileştirmek için çerezler kullanmaktadır. 
+            Tarayıcı ayarlarınızdan çerezleri yönetebilirsiniz.
+          </p>
+        </div>
+
+        <div class="content-card">
+          <h2>Haklarınız</h2>
+          <p>KVKK kapsamında aşağıdaki haklara sahipsiniz:</p>
+          <ul class="privacy-list">
+            <li>Kişisel verilerinize erişim hakkı</li>
+            <li>Verilerinizin düzeltilmesini talep etme hakkı</li>
+            <li>Verilerinizin silinmesini talep etme hakkı</li>
+            <li>Veri işlemeye itiraz etme hakkı</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- İletişim -->
+    <section id="contact" class="content-section">
+      <div class="section-header">
+        <div class="section-icon">
+          <i class="fa-solid fa-envelope"></i>
+        </div>
+        <h1>İletişim</h1>
+        <p class="section-subtitle">Bizimle iletişime geçin</p>
+      </div>
+
+      <div class="section-body">
+        <div class="contact-grid">
+          <div class="contact-card">
+            <div class="contact-icon">
+              <i class="fa-solid fa-envelope"></i>
+            </div>
+            <h3>E-posta</h3>
+            <p>Genel sorularınız için</p>
+            <a href="mailto:info&#64;notepool.com">info&#64;notepool.com</a>
+          </div>
+
+          <div class="contact-card">
+            <div class="contact-icon">
+              <i class="fa-solid fa-headset"></i>
+            </div>
+            <h3>Destek</h3>
+            <p>Teknik destek için</p>
+            <a href="mailto:support&#64;notepool.com">support&#64;notepool.com</a>
+          </div>
+
+          <div class="contact-card">
+            <div class="contact-icon">
+              <i class="fa-solid fa-shield-halved"></i>
+            </div>
+            <h3>Gizlilik</h3>
+            <p>Gizlilik ile ilgili sorular</p>
+            <a href="mailto:privacy&#64;notepool.com">privacy&#64;notepool.com</a>
+          </div>
+
+          <div class="contact-card">
+            <div class="contact-icon">
+              <i class="fa-solid fa-flag"></i>
+            </div>
+            <h3>Şikayet</h3>
+            <p>İçerik şikayetleri için</p>
+            <a href="mailto:report&#64;notepool.com">report&#64;notepool.com</a>
+          </div>
+        </div>
+
+        <div class="content-card">
+          <h2>Sosyal Medya</h2>
+          <p>Bizi sosyal medyada takip edin:</p>
+          <div class="social-links">
+            <a href="#" class="social-link" aria-label="Twitter">
+              <i class="fa-brands fa-twitter"></i>
+              <span>Twitter</span>
+            </a>
+            <a href="#" class="social-link" aria-label="Instagram">
+              <i class="fa-brands fa-instagram"></i>
+              <span>Instagram</span>
+            </a>
+            <a href="#" class="social-link" aria-label="GitHub">
+              <i class="fa-brands fa-github"></i>
+              <span>GitHub</span>
+            </a>
+            <a href="#" class="social-link" aria-label="LinkedIn">
+              <i class="fa-brands fa-linkedin-in"></i>
+              <span>LinkedIn</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="content-card">
+          <h2>Yanıt Süresi</h2>
+          <p>
+            E-posta yoluyla gönderdiğiniz mesajlara genellikle 24-48 saat içinde yanıt 
+            vermeye çalışıyoruz. Acil durumlar için lütfen "Destek" e-posta adresini 
+            kullanın ve konu satırına "ACİL" yazın.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+

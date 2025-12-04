@@ -1,0 +1,151 @@
+<div class="upload-page-container" data-page-animation>
+  <div class="upload-background">
+    <div class="bg-orb orb-1"></div>
+    <div class="bg-orb orb-2"></div>
+    <div class="bg-orb orb-3"></div>
+  </div>
+  
+  <div class="upload-card" data-card-animation>
+    <div class="card-glow"></div>
+    
+    <header class="card-header" data-header-animation>
+      <div class="icon-box">
+        <div class="icon-bg"></div>
+        <i class="fa-solid fa-cloud-arrow-up"></i>
+        <div class="icon-pulse"></div>
+      </div>
+      <div class="title-box">
+        <span class="header-badge">{{ isEditMode ? 'Güncelleme' : 'Yeni Not' }}</span>
+        <h1>{{ isEditMode ? 'Notu Güncelle' : 'Not Paylaş' }}</h1>
+        <p>{{ isEditMode ? 'Not bilgilerini güncelleyebilirsiniz.' : 'Bilgini paylaşarak topluluğa katkıda bulun.' }}</p>
+      </div>
+    </header>
+
+    <form [formGroup]="uploadForm" (ngSubmit)="onSubmit()" class="upload-form" data-form-animation>
+      
+      <div class="form-grid">
+        
+        <div class="form-column">
+          
+          <div class="form-group" data-field-animation>
+            <label for="title" class="form-label">
+              <i class="fa-solid fa-heading label-icon"></i>
+              Not Başlığı <span class="required">*</span>
+            </label>
+            <div class="input-wrapper">
+              <i class="fa-solid fa-heading input-icon"></i>
+              <input type="text" 
+                     id="title" 
+                     class="form-control" 
+                     formControlName="title" 
+                     placeholder="Örn: Algoritmalar Final Notları">
+              <div class="input-focus-line"></div>
+            </div>
+            <app-form-error-messages [control]="f['title']" fieldName="Başlık"></app-form-error-messages>
+          </div>
+
+          <div class="form-group" data-field-animation>
+            <label for="courseId" class="form-label">
+              <i class="fa-solid fa-book label-icon"></i>
+              Ders <span class="required">*</span>
+            </label>
+            <div class="input-wrapper">
+              <i class="fa-solid fa-book input-icon"></i>
+              <select id="courseId" class="form-control form-select" formControlName="courseId">
+                <option value="" disabled selected>Ders Seçiniz...</option>
+                <option *ngFor="let course of courses" [value]="course.id">
+                  {{ course.name }}
+                </option>
+              </select>
+              <i class="fa-solid fa-chevron-down select-arrow"></i>
+              <div class="input-focus-line"></div>
+            </div>
+            <app-form-error-messages [control]="f['courseId']" fieldName="Ders"></app-form-error-messages>
+          </div>
+
+          <div class="form-group" data-field-animation>
+            <label for="tags" class="form-label">
+              <i class="fa-solid fa-tags label-icon"></i>
+              Etiketler
+            </label>
+            <div class="input-wrapper">
+              <i class="fa-solid fa-tags input-icon"></i>
+              <input type="text" 
+                     id="tags" 
+                     class="form-control" 
+                     formControlName="tags" 
+                     placeholder="vize, özet, matematik...">
+              <div class="input-focus-line"></div>
+            </div>
+            <small class="hint">Virgülle ayırarak birden fazla etiket ekleyebilirsiniz.</small>
+          </div>
+
+        </div>
+
+        <div class="form-column">
+          
+          <div class="form-group" data-field-animation>
+            <label for="description" class="form-label">
+              <i class="fa-solid fa-align-left label-icon"></i>
+              Açıklama
+            </label>
+            <div class="textarea-wrapper">
+              <textarea id="description" 
+                        class="form-control textarea" 
+                        formControlName="description" 
+                        rows="4" 
+                        placeholder="Not içeriği hakkında kısa bilgi verin..."></textarea>
+              <div class="input-focus-line"></div>
+            </div>
+          </div>
+
+          <div class="form-group upload-group" *ngIf="!isEditMode">
+            <label class="form-label">Dosyalar (PDF) <span class="required">*</span></label>
+            
+            <app-file-upload 
+                accept=".pdf" 
+                [multiple]="true" 
+                explanation="PDF dosyalarını buraya sürükleyin veya seçin"
+                (filesSelected)="onFilesChanged($event)">
+            </app-file-upload>
+            
+            <div class="error-container" *ngIf="isSubmitting && selectedFiles.length === 0">
+               <div class="error-box">
+                 <i class="fa-solid fa-circle-exclamation"></i>
+                 <span>En az bir dosya yüklemeniz gerekmektedir.</span>
+               </div>
+            </div>
+          </div>
+          
+          <div class="form-group info-box" *ngIf="isEditMode">
+            <div class="info-content">
+              <i class="fa-solid fa-info-circle"></i>
+              <span>Güncelleme modunda dosya yükleyemezsiniz. Sadece not bilgilerini güncelleyebilirsiniz.</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="form-divider"></div>
+
+      <div class="form-actions">
+        <button type="button" class="btn-ghost" routerLink="/notes">Vazgeç</button>
+        
+        <button type="submit" class="btn-primary" [disabled]="(isEditMode ? (uploadForm.invalid || !uploadForm.dirty || isSubmitting) : (uploadForm.invalid || isSubmitting))">
+          <span *ngIf="!isSubmitting">
+            <i [ngClass]="isEditMode ? 'fa-solid fa-check' : 'fa-solid fa-paper-plane'"></i> 
+            {{ isEditMode ? 'Güncelle' : 'Yayınla' }}
+          </span>
+          <span *ngIf="isSubmitting" class="loading-state">
+            <i class="fa-solid fa-circle-notch fa-spin"></i> 
+            {{ isEditMode ? 'Güncelleniyor..." : 'Yükleniyor..." }}
+          </span>
+        </button>
+      </div>
+
+    </form>
+  </div>
+
+</div>

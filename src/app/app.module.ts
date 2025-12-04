@@ -5,38 +5,35 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AdminModule } from './admin/admin.module';
 import { UiModule } from './ui/ui.module';
+import { LayoutModule } from './layout/layout.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { ToastrModule } from 'ngx-toastr';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { MatDialogContent, MatDialogActions, MatDialogClose } from "@angular/material/dialog";
-import { ReactiveFormsModule } from '@angular/forms';
 import { JwtModule } from '@auth0/angular-jwt';
-import { LoginComponent } from './ui/components/login/login.component';
 import { GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from '@abacritt/angularx-social-login';
 import { HttpErrorHandlerInterceptorService } from './services/common/http-error-handler-interceptor.service';
+import { JwtInterceptorService } from './services/common/jwt-interceptor.service';
+import { LoadingInterceptorService } from './services/common/loading-interceptor.service';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    //LoginComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    AdminModule, UiModule,
+    AdminModule,
+    UiModule,
+    LayoutModule,
     ToastrModule.forRoot({
         timeOut: 3000,
         tapToDismiss: true
     }),
     NgxSpinnerModule,
     HttpClientModule,
-    MatDialogContent,
-    MatDialogActions,
-    MatDialogClose,
-    ReactiveFormsModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: () => {
@@ -49,7 +46,7 @@ import { HttpErrorHandlerInterceptorService } from './services/common/http-error
       }
     }),
     SocialLoginModule
-],
+  ],
   providers: [
     provideClientHydration(),
     provideAnimationsAsync(),
@@ -67,7 +64,9 @@ import { HttpErrorHandlerInterceptorService } from './services/common/http-error
         onError : err => console.log(err)
       } as SocialAuthServiceConfig
     },
-    {provide: HTTP_INTERCEPTORS, useClass:HttpErrorHandlerInterceptorService, multi : true}
+    {provide: HTTP_INTERCEPTORS, useClass:HttpErrorHandlerInterceptorService, multi : true},
+     {provide: HTTP_INTERCEPTORS, useClass:JwtInterceptorService, multi : true},
+      {provide: HTTP_INTERCEPTORS, useClass:LoadingInterceptorService, multi : true}
   ],
   bootstrap: [AppComponent]
 })

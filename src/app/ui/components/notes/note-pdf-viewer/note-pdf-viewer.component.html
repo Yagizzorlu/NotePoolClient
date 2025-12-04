@@ -1,0 +1,45 @@
+<div class="viewer-container">
+  
+  <div class="file-tabs" *ngIf="files.length > 1">
+    <button *ngFor="let file of files" 
+            class="tab-btn" 
+            [class.active]="file === activeFile"
+            (click)="selectFile(file)">
+      <i class="fa-solid fa-file-pdf"></i>
+      <span class="filename">{{ file.fileName }}</span>
+    </button>
+  </div>
+
+  <div class="pdf-wrapper" *ngIf="activeFile; else emptyState">
+    
+    <div class="viewer-toolbar">
+      <span class="current-file">{{ activeFile.fileName }}</span>
+      <a [href]="activeFile.path" target="_blank" class="btn-external">
+        <i class="fa-solid fa-up-right-from-square"></i> Yeni Sekmede Aç
+      </a>
+    </div>
+
+    <object [data]="activeFile.path | safeResourceUrl" type="application/pdf" class="pdf-object">
+      
+      <div class="pdf-fallback">
+        <div class="icon-box">
+          <i class="fa-regular fa-file-pdf"></i>
+        </div>
+        <p>Tarayıcınız PDF önizlemeyi desteklemiyor.</p>
+        <a [href]="activeFile.path" target="_blank" class="btn-download">
+          Dosyayı İndir
+        </a>
+      </div>
+
+    </object>
+  </div>
+
+  <ng-template #emptyState>
+    <app-empty-state 
+        title="Dosya Yok" 
+        message="Bu nota ait görüntülenecek bir PDF dosyası bulunamadı."
+        icon="fa-regular fa-file-excel">
+    </app-empty-state>
+  </ng-template>
+
+</div>

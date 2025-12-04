@@ -1,0 +1,62 @@
+<footer class="footer">
+  <div class="footer-container">
+    
+    <div class="footer-brand">
+      <div class="logo">
+        <span class="icon">📚</span>
+        <span class="text">NOTEPOOL</span>
+      </div>
+      <p class="tagline">
+        Öğrencilerin bilgi paylaşım ağı. <br>
+        Notlarını paylaş, keşfet ve birlikte öğren.
+      </p>
+      <div class="social-links">
+        <a href="#" class="social-btn" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+        <a href="#" class="social-btn" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#" class="social-btn" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+        <a href="#" class="social-btn" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+      </div>
+    </div>
+
+    <div class="footer-links">
+      <h4>Keşfet</h4>
+      <ul>
+        <li><a routerLink="/">Ana Sayfa</a></li>
+        <li><a routerLink="/notes">Notlar</a></li>
+        <li><a routerLink="/bookmarks">Kaydettiklerim</a></li>
+        <li><a routerLink="/note-upload">Not Yükle</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-links">
+      <h4>Topluluk</h4>
+      <ul>
+        <li><a routerLink="/info" [fragment]="'about'">Hakkımızda</a></li>
+        <li><a routerLink="/info" [fragment]="'rules'">Kurallar</a></li>
+        <li><a routerLink="/info" [fragment]="'privacy'">Gizlilik Politikası</a></li>
+        <li><a routerLink="/info" [fragment]="'contact'">İletişim</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-cta">
+      <h4>Bize Katıl</h4>
+      <p>En yeni ders notlarından haberdar ol.</p>
+      <div class="cta-box">
+        <input type="email" placeholder="E-posta adresin">
+        <button class="btn-subscribe">
+          <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="copyright">
+    <div class="copy-container">
+      <p>&copy; {{ currentYear }} NotePool Inc. Tüm hakları saklıdır.</p>
+      <div class="made-with">
+        Made with <i class="fa-solid fa-heart"></i> by <strong>NotePool Team</strong>
+      </div>
+    </div>
+  </div>
+</footer>

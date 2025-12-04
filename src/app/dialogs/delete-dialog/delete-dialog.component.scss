@@ -1,0 +1,69 @@
+// --- Variables ---
+$danger-color: #e53e3e; // Kırmızı
+$text-dark: #2d3748;
+$text-gray: #718096;
+
+.dialog-container {
+  padding: 24px; // İç boşluk
+  text-align: center; // Ortala
+  max-width: 400px;
+}
+
+.icon-wrapper {
+  width: 60px;
+  height: 60px;
+  background-color: rgba($danger-color, 0.1); // Soluk kırmızı daire
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px auto;
+
+  i {
+    font-size: 28px;
+    color: $danger-color;
+  }
+}
+
+.dialog-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: $text-dark;
+  margin: 0 0 8px 0;
+}
+
+.dialog-content {
+  p {
+    color: $text-gray;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin: 0;
+  }
+}
+
+.dialog-actions {
+  margin-top: 24px;
+  gap: 12px;
+  padding: 0; // Material'in default paddingini sıfırla
+  display: flex;
+  justify-content: center;
+
+  button {
+    min-width: 100px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: 600;
+  }
+
+  .btn-cancel {
+    color: $text-gray;
+    border: 1px solid #e2e8f0;
+    &:hover { background-color: #f7fafc; }
+  }
+
+  .btn-confirm {
+    background-color: $danger-color;
+    color: white;
+    &:hover { background-color: darken($danger-color, 10%); }
+  }
+}

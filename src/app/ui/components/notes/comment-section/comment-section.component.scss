@@ -1,0 +1,94 @@
+// --- Variables ---
+$primary-color: #667eea;
+$text-dark: #2d3748;
+$text-gray: #718096;
+$border-color: #e2e8f0;
+$bg-hover: #f7fafc;
+
+:host {
+  display: block;
+  margin-top: 40px; // Not detayından ayrılma payı
+}
+
+.section-container {
+  background: #fff;
+  border-radius: 16px;
+  padding: 32px;
+  // Border opsiyonel, zaten gölge olabilir
+  // border: 1px solid $border-color; 
+}
+
+.section-header {
+  margin-bottom: 24px;
+  
+  h3 {
+    font-size: 1.25rem; font-weight: 700; color: $text-dark; margin: 0;
+    display: flex; align-items: center; gap: 8px;
+  }
+
+  .badge {
+    font-size: 0.85rem; background: $bg-hover; color: $primary-color;
+    padding: 2px 8px; border-radius: 12px; font-weight: 600;
+  }
+}
+
+// --- MAIN FORM ---
+.main-form {
+  display: flex; gap: 16px; margin-bottom: 40px;
+
+  .avatar-box {
+    .placeholder-avatar { font-size: 40px; color: #cbd5e0; }
+  }
+
+  .input-box {
+    flex: 1;
+    
+    textarea {
+      width: 100%; border: 1px solid $border-color; border-radius: 12px;
+      padding: 12px; font-size: 0.95rem; outline: none; resize: vertical;
+      min-height: 60px; transition: border-color 0.2s, box-shadow 0.2s;
+      font-family: inherit;
+
+      &:focus {
+        border-color: $primary-color;
+        box-shadow: 0 0 0 3px rgba($primary-color, 0.1);
+      }
+    }
+
+    .form-footer {
+      display: flex; justify-content: flex-end; margin-top: 8px;
+      
+      .btn-submit {
+        background: $primary-color; color: white;
+        border: none; border-radius: 8px; padding: 8px 20px;
+        font-weight: 600; cursor: pointer; transition: background 0.2s;
+        
+        &:hover { background: darken($primary-color, 5%); }
+        &:disabled { opacity: 0.6; cursor: not-allowed; }
+      }
+    }
+  }
+}
+
+.auth-banner {
+  background: #f0f4ff; border: 1px dashed $primary-color;
+  padding: 16px; border-radius: 12px; text-align: center;
+  margin-bottom: 32px; color: $text-gray;
+  
+  a { color: $primary-color; font-weight: 700; text-decoration: none; &:hover { text-decoration: underline; } }
+}
+
+// --- LIST ---
+.comments-list {
+  display: flex; flex-direction: column; gap: 24px;
+}
+
+.loading-wrapper {
+  display: flex; justify-content: center; padding: 40px 0;
+}
+
+// Responsive
+@media (max-width: 600px) {
+  .section-container { padding: 20px; }
+  .main-form { flex-direction: column; gap: 12px; .avatar-box { display: none; } }
+}

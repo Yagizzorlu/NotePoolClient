@@ -1,0 +1,19 @@
+<div class="tabs-container">
+  <div class="tabs-scroll-wrapper">
+    <div class="tabs-list">
+      
+      <button 
+        *ngFor="let tab of tabs" 
+        class="tab-item" 
+        [class.active]="activeTab === tab.id"
+        (click)="selectTab(tab.id)">
+        
+        <i [class]="tab.icon"></i>
+        <span>{{ tab.label }}</span>
+        
+        <div class="active-indicator" *ngIf="activeTab === tab.id"></div>
+      </button>
+
+    </div>
+  </div>
+</div>

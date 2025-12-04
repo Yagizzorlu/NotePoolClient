@@ -1,94 +1,152 @@
-<div class="hero-section">
-  <div class="hero-background">
-    <div class="gradient-orb orb-1"></div>
-    <div class="gradient-orb orb-2"></div>
-    <div class="gradient-orb orb-3"></div>
-  </div>
+<div class="home-container">
   
-  <div class="hero-content">
-    <div class="hero-text">
-      <h1 class="hero-title">
-        <span class="title-line">Hoş Geldiniz</span>
-        <span class="title-accent">NotePool</span>
-        <span class="title-line">'a</span>
-      </h1>
-      <p class="hero-subtitle">
-        Akademik notlarınızı paylaşın, keşfedin ve öğrenin
-      </p>
-      <p class="hero-description">
-        Binlerce üniversite öğrencisi ile notlarınızı paylaşın. 
-        En kaliteli ders notlarına tek tıkla ulaşın ve öğrenme yolculuğunuzu hızlandırın.
-      </p>
-      
-      <div class="hero-actions">
-        <a routerLink="/notes" class="btn-primary">
-          <span>Notları Keşfet</span>
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-            <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </a>
-        <a routerLink="/notes-upload" class="btn-secondary">
-          <span>Not Yükle</span>
-        </a>
-      </div>
-      
-      <div class="hero-stats">
-        <div class="stat-item">
-          <div class="stat-number">10K+</div>
-          <div class="stat-label">Aktif Kullanıcı</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-number">50K+</div>
-          <div class="stat-label">Paylaşılan Not</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-number">500+</div>
-          <div class="stat-label">Kurum</div>
-        </div>
-      </div>
+  <div class="hero-section">
+    
+    <div class="hero-background">
+      <div class="gradient-orb orb-1"></div>
+      <div class="gradient-orb orb-2"></div>
+      <div class="gradient-orb orb-3"></div>
+      <div class="particle particle-1"></div>
+      <div class="particle particle-2"></div>
+      <div class="particle particle-3"></div>
+      <div class="particle particle-4"></div>
+      <div class="particle particle-5"></div>
     </div>
     
-    <div class="hero-visual">
-      <div class="floating-card card-1">
-        <div class="card-icon">📚</div>
-        <div class="card-text">Notlar</div>
+    <div class="hero-content">
+      <div class="hero-text">
+        <h1 class="hero-title">
+          <span class="title-line" data-text="Hoş Geldiniz">Hoş Geldiniz</span>
+          <span class="title-accent" data-text="NotePool">
+            <span class="gradient-text">NotePool</span>
+            <span class="title-underline"></span>
+          </span>
+          <span class="title-line" data-text="'a">'a</span>
+        </h1>
+        <p class="hero-subtitle">
+          Akademik notlarınızı paylaşın, keşfedin ve öğrenin.
+        </p>
+        <p class="hero-description">
+          Binlerce üniversite öğrencisi ile notlarınızı paylaşın. 
+          En kaliteli ders notlarına tek tıkla ulaşın.
+        </p>
+        
+        <div class="hero-search-area">
+          <app-search-bar></app-search-bar>
+        </div>
+        
+        <div class="hero-links">
+            <span class="text-muted">veya</span>
+            <a routerLink="/notes" class="link-explore">Tüm notları keşfet &rarr;</a>
+        </div>
       </div>
-      <div class="floating-card card-2">
-        <div class="card-icon">⭐</div>
-        <div class="card-text">Favoriler</div>
-      </div>
-      <div class="floating-card card-3">
-        <div class="card-icon">💬</div>
-        <div class="card-text">Yorumlar</div>
+      
+      <div class="hero-visual">
+        <div class="floating-card card-1" data-tilt>
+          <div class="card-glow"></div>
+          <div class="card-icon">📚</div>
+          <div class="card-text">Notlar</div>
+          <div class="card-shine"></div>
+        </div>
+        <div class="floating-card card-2" data-tilt>
+          <div class="card-glow"></div>
+          <div class="card-icon">⭐</div>
+          <div class="card-text">Favoriler</div>
+          <div class="card-shine"></div>
+        </div>
+        <div class="floating-card card-3" data-tilt>
+          <div class="card-glow"></div>
+          <div class="card-icon">💬</div>
+          <div class="card-text">Yorumlar</div>
+          <div class="card-shine"></div>
+        </div>
+        <div class="floating-particles">
+          <div class="mini-particle"></div>
+          <div class="mini-particle"></div>
+          <div class="mini-particle"></div>
+          <div class="mini-particle"></div>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-<div class="features-section">
-  <div class="container-custom">
-    <h2 class="features-title">Neden NotePool?</h2>
-    <div class="features-grid">
-      <div class="feature-card">
-        <div class="feature-icon">🚀</div>
-        <h3 class="feature-heading">Hızlı Erişim</h3>
-        <p class="feature-text">Notlarınıza anında erişin, istediğiniz zaman indirin</p>
+  <section class="featured-section">
+    <div class="section-decoration"></div>
+    <div class="container-custom">
+      <div class="section-header">
+        <div class="header-content">
+          <span class="section-badge">Yeni İçerikler</span>
+          <h2>Son Eklenenler</h2>
+        </div>
+        <a routerLink="/notes" class="view-all">
+          <span>Tümünü Gör</span>
+          <i class="fa-solid fa-arrow-right"></i>
+        </a>
       </div>
-      <div class="feature-card">
-        <div class="feature-icon">👥</div>
-        <h3 class="feature-heading">Topluluk</h3>
-        <p class="feature-text">Binlerce öğrenci ile bilgi paylaşımı yapın</p>
+
+      <div class="notes-grid" *ngIf="isLoading">
+        <app-skeleton-loader [count]="4" appearance="note-card"></app-skeleton-loader>
       </div>
-      <div class="feature-card">
-        <div class="feature-icon">🔍</div>
-        <h3 class="feature-heading">Kolay Arama</h3>
-        <p class="feature-text">Etiketler ve filtreler ile istediğiniz notu bulun</p>
+
+      <div class="notes-grid" *ngIf="!isLoading && latestNotes.length > 0">
+        <app-note-card *ngFor="let note of latestNotes" [note]="note"></app-note-card>
       </div>
-      <div class="feature-card">
-        <div class="feature-icon">⭐</div>
-        <h3 class="feature-heading">Kalite</h3>
-        <p class="feature-text">En kaliteli notlar, en çok beğenilen içerikler</p>
+
+      <div class="empty-area" *ngIf="!isLoading && latestNotes.length === 0">
+        <app-empty-state 
+          title="Henüz Not Yok" 
+          message="Sistemde henüz paylaşılan not bulunmuyor. İlk paylaşan sen ol!"
+          icon="fa-regular fa-folder-open">
+        </app-empty-state>
+      </div>
+    </div>
+  </section>
+
+  <div class="features-section">
+    <div class="features-background">
+      <div class="feature-orb"></div>
+      <div class="feature-orb"></div>
+    </div>
+    <div class="container-custom">
+      <div class="features-header">
+        <span class="features-badge">Özellikler</span>
+        <h2 class="features-title">Neden NotePool?</h2>
+        <p class="features-subtitle">Akademik başarınızı artıracak özellikler</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🚀</div>
+          <h3 class="feature-heading">Hızlı Erişim</h3>
+          <p class="feature-text">Notlarınıza anında erişin, istediğiniz zaman indirin</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">👥</div>
+          <h3 class="feature-heading">Topluluk</h3>
+          <p class="feature-text">Binlerce öğrenci ile bilgi paylaşımı yapın</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔍</div>
+          <h3 class="feature-heading">Kolay Arama</h3>
+          <p class="feature-text">Etiketler ve filtreler ile istediğiniz notu bulun</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">⭐</div>
+          <h3 class="feature-heading">Kalite</h3>
+          <p class="feature-text">En kaliteli notlar, en çok beğenilen içerikler</p>
+        </div>
       </div>
     </div>
   </div>
+
+  <section class="cta-section" *ngIf="!(authService.isAuthenticated$ | async)">
+    <div class="cta-box">
+        <h2>Sen de Aramıza Katıl!</h2>
+        <p>Akademik başarını artırmak için hemen ücretsiz üye ol.</p>
+        <div class="cta-buttons">
+            <a routerLink="/register" class="btn-primary">Hemen Başla</a>
+            <a routerLink="/login" class="btn-secondary">Giriş Yap</a>
+        </div>
+    </div>
+  </section>
+
 </div>

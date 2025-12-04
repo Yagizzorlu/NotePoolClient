@@ -1,1 +1,129 @@
-<p>comment-thread works!</p>
+<div class="comments-container">
+  
+  <div class="comments-header">
+    <h3>Yorumlar <span class="count">({{ totalComments }})</span></h3>
+  </div>
+
+  <!-- Yorum Yapma Formu -->
+  <div class="comment-form main" *ngIf="(authService.isAuthenticated$ | async)">
+    <div class="input-wrapper">
+      <textarea 
+        [(ngModel)]="newCommentText" 
+        placeholder="Düşüncelerini paylaş..." 
+        rows="1"></textarea>
+      <button 
+        class="btn-send" 
+        [disabled]="!newCommentText.trim()"
+        (click)="submitComment()">
+        <i class="fa-solid fa-paper-plane"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="auth-warning" *ngIf="!(authService.isAuthenticated$ | async)">
+    <p>Yorum yapmak için <a routerLink="/login">giriş yapmalısın</a>.</p>
+  </div>
+
+  <div *ngIf="isLoading" class="loading-wrapper">
+    <app-loading-spinner></app-loading-spinner>
+  </div>
+
+  <!-- Yorum Listesi -->
+  <div class="thread-list" *ngIf="!isLoading">
+    
+    <ng-container *ngFor="let comment of comments">
+      <ng-container *ngTemplateOutlet="commentItem; context:{ $implicit: comment }"></ng-container>
+    </ng-container>
+
+    <app-empty-state *ngIf="comments.length === 0" 
+      title="Henüz Yorum Yok" 
+      message="Bu not hakkında ilk yorumu sen yaz!" 
+      icon="fa-regular fa-comments">
+    </app-empty-state>
+
+  </div>
+
+</div>
+
+<!-- Tekil Yorum Şablonu (Recursive) -->
+<ng-template #commentItem let-comment>
+  <div class="comment-item" [class.is-reply]="comment.parentId">
+    
+    <div class="avatar-col">
+      <!-- DÜZELTME 1: Avatar'a tıklayınca profile git -->
+      <!-- 'userId' Backend DTO'sundan gelmeli -->
+      <a [routerLink]="['/profile', comment.userId]" class="author-link" style="text-decoration: none; cursor: pointer;">
+        <app-user-avatar [imageUrl]="comment.userAvatar" size="sm"></app-user-avatar>
+      </a>
+      
+      <div class="thread-line" *ngIf="comment.replyCount > 0 || comment.replies?.length"></div>
+    </div>
+
+    <div class="content-col">
+      
+      <div class="meta">
+        <!-- DÜZELTME 2: Kullanıcı ismine tıklayınca profile git -->
+        <a [routerLink]="['/profile', comment.userId]" class="username author-link" style="text-decoration: none; color: inherit; cursor: pointer;">
+          {{ comment.username }}
+        </a>
+        <span class="date">{{ comment.createdDate | timeAgo }}</span>
+      </div>
+
+      <div class="text">{{ comment.content }}</div>
+
+      <div class="actions">
+        <app-reaction-button 
+            [targetId]="comment.id"
+            [targetType]="targetTypeComment"
+            [likeCount]="comment.likeCount || 0" 
+            [dislikeCount]="comment.dislikeCount || 0"
+            [currentUserReaction]="getCurrentUserReaction(comment)"> 
+            </app-reaction-button>
+
+        <button class="btn-action" (click)="toggleReplyBox(comment.id)" *ngIf="(authService.isAuthenticated$ | async)">
+          Cevapla
+        </button>
+
+        <!-- Sadece kendi yorumuysa sil ve güncelle butonları -->
+        <button class="btn-action update" 
+                (click)="updateComment(comment); $event.stopPropagation()"
+                *ngIf="comment.userId === authService.currentUserId"
+                title="Güncelle">
+          <i class="fa-solid fa-pen-to-square"></i>
+        </button>
+        
+        <button class="btn-action delete" 
+                (click)="deleteComment(comment.id); $event.stopPropagation()"
+                *ngIf="comment.userId === authService.currentUserId"
+                title="Sil">
+          Sil
+        </button>
+      </div>
+
+      <!-- Cevap Yazma Kutusu -->
+      <div class="reply-form" *ngIf="activeReplyId === comment.id">
+        <textarea [(ngModel)]="replyText" placeholder="Cevabını yaz..." rows="1" autoFocus></textarea>
+        <div class="form-actions">
+          <button class="btn-cancel" (click)="activeReplyId = null">İptal</button>
+          <button class="btn-submit" [disabled]="!replyText.trim()" (click)="submitComment(comment.id)">Gönder</button>
+        </div>
+      </div>
+
+      <!-- Cevapları Gör Butonu -->
+      <div class="replies-trigger" *ngIf="comment.replyCount > 0">
+        <button class="btn-load-replies" (click)="loadReplies(comment)" *ngIf="!comment.isViewingReplies">
+          <i class="fa-solid fa-turn-up fa-rotate-90"></i> 
+          {{ comment.replyCount }} yanıtı gör
+        </button>
+      </div>
+
+      <!-- İç İçe Yorumlar (Recursive Çağrı) -->
+      <div class="nested-replies" *ngIf="comment.isViewingReplies && comment.replies?.length">
+        <ng-container *ngFor="let reply of comment.replies">
+          <ng-container *ngTemplateOutlet="commentItem; context:{ $implicit: reply }"></ng-container>
+        </ng-container>
+      </div>
+
+    </div>
+  </div>
+</ng-template>

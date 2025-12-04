@@ -1,0 +1,104 @@
+<div class="comment-wrapper" [class.has-parent]="depth > 0">
+  
+  <div class="comment-row">
+    
+    <div class="avatar-column">
+      <!-- DÜZELTME 1: Avatarı Link ile sarmaladık -->
+      <a [routerLink]="['/profile', comment.userId]" class="author-link avatar-link">
+        <app-user-avatar 
+          [imageUrl]="comment.userAvatar" 
+          [altText]="comment.username"
+          size="sm"
+          class="avatar">
+        </app-user-avatar>
+      </a>
+      
+      <div class="thread-line" 
+           *ngIf="comment.replies && comment.replies.length > 0"
+           (click)="toggleChildrenVisibility()"> </div>
+    </div>
+
+    <div class="content-column">
+      
+      <div class="meta">
+        <!-- DÜZELTME 2: İsim alanını 'a' etiketine çevirip link verdik -->
+        <a [routerLink]="['/profile', comment.userId]" class="author author-link">
+          {{ comment.username }}
+        </a>
+        
+        <span class="dot">•</span>
+        <span class="date">{{ comment.createdDate | timeAgo }}</span>
+      </div>
+
+      <div class="text">
+        {{ comment.content }}
+      </div>
+
+      <div class="actions">
+        
+        <app-reaction-button 
+            [targetId]="comment.id"
+            [targetType]="targetTypeComment"
+            [likeCount]="comment.likeCount || 0" 
+            [dislikeCount]="comment.dislikeCount || 0"
+            [currentUserReaction]="getCurrentUserReaction()">
+            </app-reaction-button>
+
+        <button class="btn-action reply" 
+                (click)="toggleReplyForm()" 
+                *ngIf="(authService.isAuthenticated$ | async)">
+          <i class="fa-regular fa-comment-dots"></i> Yanıtla
+        </button>
+
+        <button class="btn-action update" 
+                (click)="updateClicked.emit(comment)"
+                *ngIf="comment.userId === authService.currentUserId"
+                title="Güncelle">
+          <i class="fa-solid fa-pen-to-square"></i>
+        </button>
+
+        <button class="btn-action delete" 
+                (click)="deleteClicked.emit(comment.id)"
+                *ngIf="comment.userId === authService.currentUserId"
+                title="Sil">
+          <i class="fa-regular fa-trash-can"></i>
+        </button>
+
+      </div>
+
+      <div class="reply-input-box" *ngIf="isReplying">
+        <textarea 
+            [(ngModel)]="replyText" 
+            placeholder="Yanıtınızı yazın..." 
+            rows="2"
+            autoFocus></textarea>
+        <div class="form-footer">
+          <button class="btn-cancel" (click)="toggleReplyForm()">İptal</button>
+          <button class="btn-send" [disabled]="!replyText.trim()" (click)="submitReply()">Gönder</button>
+        </div>
+      </div>
+
+      <!-- Alt yorumları yükle butonu -->
+      <div class="load-replies-wrapper" *ngIf="comment.replyCount > 0 && (!comment.replies || comment.replies.length === 0)">
+        <button class="btn-load-replies" (click)="loadRepliesClicked.emit(comment.id)">
+          <i class="fa-solid fa-chevron-down"></i>
+          {{ comment.replyCount }} yanıtı görüntüle
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+      <div class="children-container" *ngIf="comment.replies && comment.replies.length > 0">
+    <app-comment-item 
+        *ngFor="let reply of comment.replies" 
+        [comment]="reply"
+        [depth]="depth + 1"
+        (replySubmitted)="onNestedReplySubmitted($event)"
+        (deleteClicked)="onNestedDeleteClicked($event)"
+        (updateClicked)="onNestedUpdateClicked($event)"
+        (loadRepliesClicked)="loadRepliesClicked.emit($event)">
+    </app-comment-item>
+  </div>
+
+</div>

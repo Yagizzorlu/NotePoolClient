@@ -3,6 +3,7 @@
   display: grid;
   place-items: center;
   padding: 40px 16px;
+  // Senin Gradient'in
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   position: relative;
   overflow: hidden;
@@ -32,7 +33,7 @@
 
 .auth-card {
   width: 100%;
-  max-width: 480px;
+  max-width: 480px; // Biraz daralttım ki daha şık dursun (istersen 720 yap)
   border-radius: 24px;
   background: rgba(255, 255, 255, 0.98);
   backdrop-filter: blur(20px);

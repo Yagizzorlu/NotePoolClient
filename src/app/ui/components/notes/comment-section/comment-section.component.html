@@ -1,0 +1,58 @@
+<div class="section-container">
+  
+  <div class="section-header">
+    <h3>Yorumlar <span class="badge">{{ totalComments }}</span></h3>
+  </div>
+
+  <div class="main-form" *ngIf="(authService.isAuthenticated$ | async); else authWarning">
+    <div class="avatar-box">
+        <i class="fa-solid fa-user-circle placeholder-avatar"></i>
+    </div>
+    <div class="input-box">
+      <textarea 
+        [(ngModel)]="newCommentText" 
+        placeholder="Bu not hakkında ne düşünüyorsun?" 
+        rows="2"></textarea>
+      
+      <div class="form-footer">
+        <button 
+          class="btn-submit" 
+          [disabled]="!newCommentText.trim()"
+          (click)="submitComment(newCommentText)">
+          Yorum Yap
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #authWarning>
+    <div class="auth-banner">
+      <p>Yorum yapmak ve tartışmaya katılmak için <a routerLink="/login">giriş yapmalısın</a>.</p>
+    </div>
+  </ng-template>
+
+  <div *ngIf="isLoading" class="loading-wrapper">
+    <app-loading-spinner></app-loading-spinner>
+  </div>
+
+  <div class="comments-list" *ngIf="!isLoading">
+    
+    <app-empty-state 
+        *ngIf="comments.length === 0"
+        title="Henüz Yorum Yok"
+        message="Bu not hakkında ilk yorumu sen yaz!"
+        icon="fa-regular fa-comments">
+    </app-empty-state>
+
+    <app-comment-item 
+        *ngFor="let comment of comments" 
+        [comment]="comment"
+        (deleteClicked)="onDeleteClicked($event)"
+        (updateClicked)="onUpdateClicked($event)"
+        (replySubmitted)="onReplySubmitted($event)"
+        (loadRepliesClicked)="onLoadRepliesClicked($event)">
+    </app-comment-item>
+    
+  </div>
+
+</div>

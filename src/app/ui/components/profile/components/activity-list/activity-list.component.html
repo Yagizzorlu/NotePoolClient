@@ -1,0 +1,72 @@
+<div class="activity-container">
+
+  <div class="grid-layout" *ngIf="isLoading">
+    <ng-container *ngIf="type === 'notes' || type === 'downloads'">
+      <app-skeleton-loader [count]="6" appearance="note-card"></app-skeleton-loader>
+    </ng-container>
+    <ng-container *ngIf="type === 'comments'">
+      <div class="comment-skeleton-item" *ngFor="let i of [1,2,3,4]">
+        <app-skeleton-loader [count]="1" appearance="circle"></app-skeleton-loader>
+        <div style="flex:1"><app-skeleton-loader [count]="2" appearance="text"></app-skeleton-loader></div>
+      </div>
+    </ng-container>
+  </div>
+
+  <div class="content-wrapper" *ngIf="!isLoading">
+    
+    <div class="grid-layout" *ngIf="type === 'notes' && notes.length > 0">
+      <div class="grid-item" *ngFor="let note of notes; let i = index" [style.--i]="i">
+        <app-note-card [note]="note"></app-note-card>
+      </div>
+    </div>
+
+    <div class="grid-layout" *ngIf="type === 'downloads' && downloads.length > 0">
+      <div class="grid-item" *ngFor="let download of downloads; let i = index" [style.--i]="i">
+        <div class="download-card" [routerLink]="['/notes', download.noteId]">
+          <div class="icon-box">
+            <i class="fa-solid fa-file-pdf"></i>
+          </div>
+          <div class="meta">
+            <h4>{{ download.noteTitle }}</h4>
+            <span class="category">{{ download.noteCategory }}</span>
+            <span class="date">İndirildi: {{ download.downloadedDate | timeAgo }}</span>
+          </div>
+          <div class="action">
+             <i class="fa-solid fa-chevron-right"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="comments-layout" *ngIf="type === 'comments' && comments.length > 0">
+      <div class="comment-card" *ngFor="let comment of comments; let i = index" [style.--i]="i" [routerLink]="['/notes', comment.noteId]">
+        <div class="comment-header">
+          <span class="note-ref"><i class="fa-solid fa-reply"></i> {{ comment.noteTitle }}</span>
+          <span class="date">{{ comment.createdDate | timeAgo }}</span>
+        </div>
+        <p class="comment-text">"{{ comment.content }}"</p>
+      </div>
+    </div>
+
+    <div class="empty-wrapper" *ngIf="totalCount === 0">
+      <app-empty-state
+        [title]="type === 'notes' ? 'Henüz Not Yok' : (type === 'downloads' ? 'İndirme Geçmişi Boş' : 'Henüz Yorum Yok')"
+        [message]="isOwner ? 'Hadi, ilk etkileşimini başlat!' : 'Bu kullanıcının bu alanda bir faaliyeti yok.'"
+        [icon]="type === 'notes' ? 'fa-solid fa-copy' : (type === 'downloads' ? 'fa-solid fa-download' : 'fa-regular fa-comment-dots')">
+        
+        <a *ngIf="isOwner && type === 'notes'" routerLink="/note-upload" class="btn-action">Not Paylaş</a>
+        <a *ngIf="isOwner && type === 'downloads'" routerLink="/notes" class="btn-action">Notları Keşfet</a>
+      </app-empty-state>
+    </div>
+
+    <div class="pagination-wrapper" *ngIf="totalCount > pageSize">
+      <app-pagination 
+        [totalItems]="totalCount" 
+        [itemsPerPage]="pageSize" 
+        [currentPage]="page"
+        (pageChange)="onPageChange($event)">
+      </app-pagination>
+    </div>
+
+  </div>
+</div>

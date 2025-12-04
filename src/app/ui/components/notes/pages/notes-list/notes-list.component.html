@@ -1,0 +1,58 @@
+<div class="notes-container">
+  
+  <div class="notes-header">
+    <div class="header-content">
+      <h1 class="notes-title">Tüm Notlar</h1>
+      <p class="notes-subtitle">Binlerce kaliteli notu keşfedin ve paylaşın</p>
+    </div>
+    
+    <div class="header-actions">
+      <app-sort-bar 
+          [totalCount]="totalCount" 
+          [currentSort]="filter.sortBy!" 
+          (sortChange)="onSortChange($event)">
+      </app-sort-bar>
+    </div>
+  </div>
+
+  <div class="notes-layout">
+    
+    <aside class="notes-sidebar">
+      <app-filter-panel (filterChange)="onFilterChange($event)"></app-filter-panel>
+    </aside>
+
+    <main class="notes-content">
+      
+      <div class="notes-grid" *ngIf="isLoading">
+        <app-skeleton-loader [count]="6" appearance="note-card"></app-skeleton-loader>
+      </div>
+
+      <div class="notes-grid" *ngIf="!isLoading && notes.length > 0">
+        <div class="grid-item" *ngFor="let note of notes; let i = index" [style.--i]="i">
+          <app-note-card [note]="note"></app-note-card>
+        </div>
+      </div>
+
+      <div class="empty-wrapper" *ngIf="!isLoading && notes.length === 0">
+        <app-empty-state 
+          title="Not Bulunamadı" 
+          message="Seçtiğiniz kriterlere uygun not bulunamadı. Filtreleri temizleyerek tekrar deneyin."
+          icon="fa-regular fa-folder-open">
+          
+          <button class="btn-reset" (click)="onFilterChange({})">Filtreleri Temizle</button>
+        </app-empty-state>
+      </div>
+
+      <div class="pagination-wrapper" *ngIf="!isLoading && totalCount > filter.size">
+        <app-pagination 
+          [totalItems]="totalCount" 
+          [itemsPerPage]="filter.size" 
+          [currentPage]="filter.page" 
+          (pageChange)="onPageChange($event)">
+        </app-pagination>
+      </div>
+
+    </main>
+  </div>
+
+</div>

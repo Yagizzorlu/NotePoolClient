@@ -1,0 +1,57 @@
+<div class="meta-container">
+  
+  <div class="author-block">
+    <app-user-avatar 
+      [imageUrl]="note.author.profileImage" 
+      [altText]="note.author.username" 
+      size="lg"
+      class="author-avatar">
+    </app-user-avatar>
+    
+    <div class="author-info">
+      <span class="label">Paylaşan</span>
+      <h3 class="username" [routerLink]="['/profile', note.author.id]">
+        {{ note.author.username }}
+      </h3>
+      <span class="date">
+        <i class="fa-regular fa-clock"></i> 
+        {{ note.createdDate | date:'d MMMM y' }} 
+        <span class="ago">({{ note.createdDate | timeAgo }})</span>
+      </span>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="context-block">
+    <div class="context-item">
+      <span class="label">Üniversite</span>
+      <div class="value" [title]="note.institutionName">
+        <i class="fa-solid fa-building-columns icon"></i>
+        {{ note.institutionName }}
+      </div>
+    </div>
+    
+    <div class="context-item">
+      <span class="label">Bölüm & Ders</span>
+      <div class="value" [title]="note.departmentName + ' - ' + note.courseName">
+        <i class="fa-solid fa-book-open icon"></i>
+        {{ note.departmentName }} <span class="arrow">›</span> {{ note.courseName }}
+      </div>
+    </div>
+  </div>
+
+  <div class="divider mobile-hidden"></div>
+
+  <div class="stats-block mobile-hidden">
+    <div class="stat-item">
+      <span class="count">{{ note.viewCount }}</span>
+      <span class="label">Görüntülenme</span>
+    </div>
+    <div class="stat-item">
+      <span class="count">{{ note.downloadCount }}</span>
+      <span class="label">İndirme</span>
+    </div>
+  </div>
+
+</div>

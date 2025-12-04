@@ -1,0 +1,687 @@
+// --- Variables ---
+$primary-color: #667eea;
+$secondary-color: #764ba2;
+$accent-gold: #ffd700;
+$text-dark: #0f172a;
+$text-gray: #64748b;
+$text-light-gray: #94a3b8;
+$bg-page: #f8fafc;
+$bg-white: #ffffff;
+$border-color: #e2e8f0;
+$success-color: #10b981;
+$error-color: #ef4444;
+$shadow-card: 0 10px 26px rgba(0, 0, 0, 0.04);
+$shadow-hover: 0 20px 40px rgba(102, 126, 234, 0.15);
+$shadow-glow: 0 0 40px rgba(102, 126, 234, 0.2);
+$gradient-main: linear-gradient(135deg, $primary-color 0%, $secondary-color 100%);
+$gradient-soft: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+
+:host {
+  display: block;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+// --- PAGE CONTAINER ---
+.upload-page-container {
+  min-height: calc(100vh - 80px);
+  padding: 60px 24px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  position: relative;
+  background: $bg-page;
+
+  @media (max-width: 768px) {
+    padding: 40px 16px;
+  }
+}
+
+// Background Orbs
+.upload-background {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.bg-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.3;
+  animation: orbFloat 20s infinite ease-in-out;
+}
+
+.orb-1 {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(102, 126, 234, 0.4) 0%, transparent 70%);
+  top: -200px;
+  left: -200px;
+  animation-delay: 0s;
+}
+
+.orb-2 {
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(118, 75, 162, 0.4) 0%, transparent 70%);
+  bottom: -150px;
+  right: -150px;
+  animation-delay: -7s;
+}
+
+.orb-3 {
+  width: 350px;
+  height: 350px;
+  background: radial-gradient(circle, rgba(255, 215, 0, 0.2) 0%, transparent 70%);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation-delay: -14s;
+}
+
+@keyframes orbFloat {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(50px, -50px) scale(1.1);
+  }
+  66% {
+    transform: translate(-30px, 30px) scale(0.9);
+  }
+}
+
+// --- MAIN CARD ---
+.upload-card {
+  width: 100%;
+  max-width: 1000px;
+  background: $bg-white;
+  border-radius: 32px;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  padding: 48px;
+  box-shadow: 
+    0 20px 60px rgba(0, 0, 0, 0.08),
+    0 0 0 1px rgba(0, 0, 0, 0.02) inset;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  backdrop-filter: blur(20px);
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  @media (max-width: 768px) {
+    padding: 32px 24px;
+    border-radius: 24px;
+  }
+
+  .card-glow {
+    position: absolute;
+    inset: -2px;
+    background: $gradient-main;
+    border-radius: 32px;
+    opacity: 0;
+    filter: blur(30px);
+    transition: opacity 0.6s ease;
+    z-index: -1;
+  }
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: $shadow-hover;
+
+    .card-glow {
+      opacity: 0.3;
+    }
+  }
+}
+
+// --- HEADER ---
+.card-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+  margin-bottom: 48px;
+  padding-bottom: 32px;
+  border-bottom: 2px solid rgba($primary-color, 0.1);
+  position: relative;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 20px;
+    text-align: center;
+  }
+
+  .icon-box {
+    width: 80px;
+    height: 80px;
+    position: relative;
+    flex-shrink: 0;
+
+    @media (max-width: 768px) {
+      margin: 0 auto;
+    }
+
+    .icon-bg {
+      position: absolute;
+      inset: 0;
+      background: $gradient-main;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba($primary-color, 0.3);
+      animation: iconPulse 3s ease-in-out infinite;
+    }
+
+    i {
+      position: relative;
+      z-index: 2;
+      color: white;
+      font-size: 2.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      animation: iconFloat 4s ease-in-out infinite;
+    }
+
+    .icon-pulse {
+      position: absolute;
+      inset: -4px;
+      border: 2px solid $primary-color;
+      border-radius: 20px;
+      opacity: 0;
+      animation: pulseRing 2s ease-out infinite;
+    }
+  }
+
+  .title-box {
+    flex: 1;
+
+    .header-badge {
+      display: inline-block;
+      padding: 6px 16px;
+      background: $gradient-main;
+      color: white;
+      font-size: 0.75rem;
+      font-weight: 700;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+      box-shadow: 0 4px 12px rgba($primary-color, 0.3);
+      animation: badgeSlide 0.6s ease-out;
+    }
+
+    h1 {
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      font-weight: 900;
+      color: $text-dark;
+      margin: 0 0 8px;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, $text-dark 0%, $primary-color 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    p {
+      font-size: 1.05rem;
+      color: $text-gray;
+      margin: 0;
+      line-height: 1.6;
+    }
+  }
+}
+
+// --- FORM GRID ---
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+
+.form-column {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+// --- FORM GROUP ---
+.form-group {
+  position: relative;
+
+  .form-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+    color: $text-dark;
+    margin-bottom: 12px;
+    font-size: 0.95rem;
+    transition: color 0.3s ease;
+
+    .label-icon {
+      color: $primary-color;
+      font-size: 0.9rem;
+    }
+
+    .required {
+      color: $error-color;
+      margin-left: 2px;
+    }
+  }
+
+  .input-wrapper,
+  .textarea-wrapper {
+    position: relative;
+
+    .input-icon {
+      position: absolute;
+      left: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: $text-gray;
+      font-size: 1rem;
+      pointer-events: none;
+      transition: all 0.3s ease;
+      z-index: 2;
+    }
+
+    .form-control,
+    .form-select {
+      width: 100%;
+      padding: 16px 18px 16px 50px;
+      border-radius: 16px;
+      border: 2px solid $border-color;
+      font-size: 1rem;
+      color: $text-dark;
+      background: rgba(248, 250, 252, 0.8);
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      font-family: inherit;
+
+      &:focus {
+        outline: none;
+        background: $bg-white;
+        border-color: $primary-color;
+        box-shadow: 
+          0 0 0 4px rgba($primary-color, 0.1),
+          0 8px 24px rgba($primary-color, 0.15);
+        transform: translateY(-2px);
+
+        ~ .input-icon {
+          color: $primary-color;
+          transform: translateY(-50%) scale(1.1);
+        }
+
+        ~ .input-focus-line {
+          width: 100%;
+        }
+      }
+
+      &::placeholder {
+        color: $text-light-gray;
+      }
+    }
+
+    .textarea {
+      padding: 16px 18px;
+      min-height: 140px;
+      resize: vertical;
+      font-family: inherit;
+    }
+
+    .select-arrow {
+      position: absolute;
+      right: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: $text-gray;
+      font-size: 0.85rem;
+      pointer-events: none;
+      transition: transform 0.3s ease;
+    }
+
+    .form-select {
+      appearance: none;
+      cursor: pointer;
+
+      &:focus ~ .select-arrow {
+        transform: translateY(-50%) rotate(180deg);
+      }
+    }
+
+    .input-focus-line {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 3px;
+      background: $gradient-main;
+      border-radius: 2px;
+      transition: width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+  }
+
+  .hint {
+    display: block;
+    margin-top: 8px;
+    font-size: 0.85rem;
+    color: $text-light-gray;
+    line-height: 1.5;
+  }
+}
+
+// --- FILE UPLOAD AREA ---
+.upload-group {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+  border: 2px dashed rgba($primary-color, 0.3);
+  border-radius: 20px;
+  padding: 32px 24px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: visible;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: $gradient-soft;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  &:hover {
+    border-color: $primary-color;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba($primary-color, 0.1);
+
+    &::before {
+      opacity: 1;
+    }
+  }
+
+  .form-label {
+    margin-bottom: 16px;
+    position: relative;
+    z-index: 2;
+  }
+
+  // File upload component'i z-index ile üstte olmalı
+  ::ng-deep app-file-upload {
+    position: relative;
+    z-index: 2;
+  }
+
+  .error-container {
+    margin-top: 16px;
+    position: relative;
+    z-index: 2;
+
+    .error-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 16px;
+      background: rgba($error-color, 0.1);
+      border: 1px solid rgba($error-color, 0.2);
+      border-radius: 12px;
+      color: $error-color;
+      font-size: 0.9rem;
+      font-weight: 600;
+      animation: shake 0.5s ease;
+
+      i {
+        font-size: 1.1rem;
+      }
+    }
+  }
+}
+
+.info-box {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  border-radius: 16px;
+  padding: 20px;
+  margin-top: 8px;
+
+  .info-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    color: $text-dark;
+
+    i {
+      color: $primary-color;
+      font-size: 1.2rem;
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+
+    span {
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+  }
+}
+
+// --- FORM DIVIDER ---
+.form-divider {
+  height: 2px;
+  background: linear-gradient(90deg, transparent 0%, $border-color 50%, transparent 100%);
+  margin: 48px 0 32px;
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px;
+    height: 2px;
+    background: $gradient-main;
+    border-radius: 2px;
+  }
+}
+
+// --- FORM ACTIONS ---
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+
+  @media (max-width: 768px) {
+    flex-direction: column-reverse;
+  }
+
+  button {
+    padding: 16px 32px;
+    border-radius: 16px;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    border: none;
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(255, 255, 255, 0.2);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+
+    &:hover::before {
+      transform: scaleX(1);
+    }
+
+    i {
+      transition: transform 0.3s ease;
+    }
+  }
+
+  .btn-ghost {
+    background: rgba($text-dark, 0.05);
+    border: 2px solid $border-color;
+    color: $text-dark;
+
+    &:hover {
+      background: rgba($text-dark, 0.1);
+      border-color: $text-gray;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  .btn-primary {
+    background: $gradient-main;
+    color: white;
+    box-shadow: 0 8px 24px rgba($primary-color, 0.4);
+
+    &:hover:not(:disabled) {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 12px 32px rgba($primary-color, 0.5);
+
+      i {
+        transform: translateX(4px);
+      }
+    }
+
+    &:active:not(:disabled) {
+      transform: translateY(-2px) scale(0.98);
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .loading-state {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+  }
+}
+
+// --- ANIMATIONS ---
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes iconPulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 10px 30px rgba($primary-color, 0.3);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 15px 40px rgba($primary-color, 0.5);
+  }
+}
+
+@keyframes iconFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes pulseRing {
+  0% {
+    transform: scale(0.8);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+@keyframes badgeSlide {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-10px);
+  }
+  75% {
+    transform: translateX(10px);
+  }
+}
+
+// Page Load Animations
+[data-page-animation] {
+  animation: fadeIn 0.6s ease-out;
+}
+
+[data-card-animation] {
+  animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s backwards;
+}
+
+[data-header-animation] {
+  animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.4s backwards;
+}
+
+[data-form-animation] {
+  animation: fadeIn 0.8s ease-out 0.6s backwards;
+}
+
+[data-field-animation] {
+  animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+  
+  @for $i from 1 through 10 {
+    &:nth-child(#{$i}) {
+      animation-delay: #{0.7 + ($i * 0.1)}s;
+    }
+  }
+}

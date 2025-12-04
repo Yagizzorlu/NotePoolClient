@@ -1,0 +1,120 @@
+// --- Variables ---
+$primary-color: #667eea;
+$text-dark: #2d3748;
+$text-gray: #718096;
+$bg-chip: #f7fafc;
+$border-color: #edf2f7;
+
+:host {
+  display: block;
+  margin-bottom: 24px;
+}
+
+.sort-bar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 16px;
+  border-bottom: 1px solid $border-color;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+}
+
+// --- LEFT: RESULT INFO ---
+.result-info {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  
+  .count {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: $text-dark;
+    line-height: 1;
+  }
+  
+  .label {
+    font-size: 0.9rem;
+    color: $text-gray;
+    font-weight: 500;
+  }
+}
+
+// --- RIGHT: SORT ACTIONS ---
+.sort-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: 100%; // Taşmayı önle
+
+  .sort-label {
+    font-size: 0.85rem;
+    color: $text-gray;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .chips-wrapper {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto; // Mobilde yana kaydırma
+    padding-bottom: 4px; // Scrollbar payı
+    
+    // Scrollbar Gizleme (Modern Tarayıcılar)
+    scrollbar-width: none; // Firefox
+    &::-webkit-scrollbar { display: none; } // Chrome/Safari
+
+    .sort-chip {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border-radius: 20px;
+      background-color: $bg-chip;
+      border: 1px solid transparent;
+      color: $text-gray;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap; // Kırılmayı önle
+
+      i { font-size: 0.9rem; }
+
+      &:hover {
+        background-color: darken($bg-chip, 3%);
+        color: $text-dark;
+      }
+
+      &.active {
+        background-color: rgba($primary-color, 0.1);
+        color: $primary-color;
+        border-color: rgba($primary-color, 0.2);
+        box-shadow: 0 2px 8px rgba($primary-color, 0.15);
+
+        i { transform: scale(1.1); }
+      }
+    }
+  }
+}
+
+// --- RESPONSIVE ---
+@media (max-width: 768px) {
+  .sort-actions {
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    
+    .sort-label { display: none; } // Mobilde "Sırala:" yazısını gizle, yer kazanalım
+    
+    .chips-wrapper {
+      width: 100%;
+      padding-bottom: 0;
+    }
+  }
+}

@@ -1,0 +1,84 @@
+// --- Variables ---
+$base-color: #f0f2f5;
+$highlight-color: #ffffff;
+$border-radius: 12px;
+
+// --- Shimmer Animation (Sihirli Kısım) ---
+// Soldan sağa akan parıltı efekti
+@keyframes shimmer {
+  0% { background-position: -1000px 0; }
+  100% { background-position: 1000px 0; }
+}
+
+.shimmer {
+  animation: shimmer 2s infinite linear;
+  background: linear-gradient(to right, $base-color 4%, $highlight-color 25%, $base-color 36%);
+  background-size: 1000px 100%;
+}
+
+.skeleton-wrapper {
+  display: contents; // Wrapper'ın grid yapısını bozmaması için
+}
+
+// --- 1. NOTE CARD STYLE ---
+// Gerçek NoteCard ile aynı boyut ve paddinglere sahip olmalı
+.skeleton-card {
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: $border-radius;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  height: 100%; // Grid içinde uzaması için
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    .avatar { width: 40px; height: 40px; border-radius: 50%; }
+    .meta { display: flex; flex-direction: column; gap: 6px; }
+  }
+
+  .card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    .badge { width: 60px; height: 20px; border-radius: 6px; margin-top: 8px; }
+  }
+
+  .card-footer {
+    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid #f9f9f9;
+    padding-top: 12px;
+    
+    .reaction-placeholder { width: 80px; height: 24px; border-radius: 12px; }
+    .stats { width: 100px; height: 16px; border-radius: 4px; }
+  }
+}
+
+// Common Elements
+.line {
+  height: 12px;
+  border-radius: 4px;
+  
+  &.title-line { height: 14px; }
+  &.heading { height: 18px; margin-bottom: 4px; }
+}
+
+// --- 2. CIRCLE ---
+.skeleton-circle {
+  width: 48px; height: 48px; border-radius: 50%;
+}
+
+// --- 3. PROFILE HEADER ---
+.skeleton-profile {
+    .cover { width: 100%; height: 200px; border-radius: 0 0 20px 20px; }
+    .info-block {
+        display: flex; gap: 20px; padding: 0 24px; margin-top: -40px; align-items: flex-end;
+        .big-avatar { width: 120px; height: 120px; border-radius: 50%; border: 4px solid #fff; }
+        .lines { margin-bottom: 10px; width: 100%; }
+    }
+}

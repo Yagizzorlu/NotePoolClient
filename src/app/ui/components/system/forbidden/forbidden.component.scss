@@ -1,0 +1,153 @@
+// --- Variables ---
+$primary-color: #667eea;
+$text-dark: #1a202c;
+$text-gray: #718096;
+$danger-color: #e53e3e; // Yasak rengi
+$bg-page: #f8fafc;
+
+:host {
+  display: block;
+  min-height: 100vh; // Tam ekran (Navbar olsa bile ortalar)
+}
+
+.system-container {
+  min-height: calc(100vh - 160px); // Navbar/Footer payı
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background-color: $bg-page;
+}
+
+.error-card {
+  background: white;
+  max-width: 500px;
+  width: 100%;
+  padding: 48px 32px;
+  border-radius: 24px;
+  text-align: center;
+  box-shadow: 0 20px 40px -10px rgba(0,0,0,0.08);
+  border: 1px solid rgba(0,0,0,0.03);
+  animation: scaleIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+// --- ICON ---
+.icon-wrapper {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 32px;
+}
+
+.lock-circle {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, lighten($danger-color, 35%), lighten($danger-color, 45%));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $danger-color;
+  font-size: 3.5rem;
+  
+  i {
+    animation: shake 2s infinite; // Kilit sallanma efekti
+  }
+}
+
+.status-code {
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: $text-dark;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-weight: 800;
+  font-size: 1rem;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+// --- CONTENT ---
+.content {
+  margin-bottom: 32px;
+
+  .title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: $text-dark;
+    margin: 0 0 12px;
+    letter-spacing: -0.5px;
+  }
+
+  .description {
+    color: $text-gray;
+    line-height: 1.6;
+    font-size: 1rem;
+    margin: 0;
+  }
+}
+
+// --- ACTIONS ---
+.actions {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  margin-bottom: 24px;
+
+  button {
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s;
+    border: none;
+
+    &.btn-primary {
+      background: $primary-color;
+      color: white;
+      box-shadow: 0 4px 12px rgba($primary-color, 0.3);
+      &:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba($primary-color, 0.4); }
+    }
+
+    &.btn-secondary {
+      background: #edf2f7;
+      color: $text-dark;
+      &:hover { background: #e2e8f0; }
+    }
+  }
+}
+
+.footer-link {
+  a {
+    color: $primary-color;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    &:hover { text-decoration: underline; }
+  }
+}
+
+// --- ANIMATIONS ---
+@keyframes scaleIn {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes shake {
+  0%, 100% { transform: rotate(0deg); }
+  10%, 30%, 50%, 70%, 90% { transform: rotate(-5deg); }
+  20%, 40%, 60%, 80% { transform: rotate(5deg); }
+}
+
+// Responsive
+@media (max-width: 480px) {
+  .actions { flex-direction: column; }
+  .error-card { padding: 32px 20px; }
+}

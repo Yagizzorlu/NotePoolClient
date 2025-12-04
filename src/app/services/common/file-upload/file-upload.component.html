@@ -1,22 +1,47 @@
-<div class="center">
-    <ngx-file-drop dropZoneLabel="Drop files here" [accept]="options.accept" (onFileDrop)="selectedFiles($event)" >
-        <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
-          {{options.explanation}}
-          <button type="button" (click)="openFileSelector()">Seç</button>
-        </ng-template>
-    </ngx-file-drop>
-    <div class="upload-table" *ngIf = "files">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                </tr>
-            </thead>
-            <tbody class="upload-name-style">
-                <tr *ngFor="let item of files; let i=index">
-                    <td><strong>{{ item.relativePath }}</strong></td>
-                </tr>
-            </tbody>
-        </table>
+<div class="upload-container">
+  
+  <ngx-file-drop 
+      [dropZoneLabel]="explanation" 
+      [accept]="accept" 
+      (onFileDrop)="dropped($event)" 
+      (onFileOver)="fileOver($event)" 
+      (onFileLeave)="fileLeave($event)"
+      dropZoneClassName="drop-zone"
+      contentClassName="drop-content">
+      
+      <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
+        <div class="zone-inner">
+            <i class="fa-solid fa-cloud-arrow-up icon"></i>
+            <p>{{ explanation }}</p>
+            <button type="button" class="btn-select" (click)="openFileSelector()">Dosya Seç</button>
+            <small class="support-text">Desteklenen: {{ accept }}</small>
+        </div>
+      </ng-template>
+
+  </ngx-file-drop>
+
+  <div class="file-list" *ngIf="files.length > 0">
+    <div class="file-item" *ngFor="let file of files; let i = index">
+      
+      <div class="file-info">
+        <i class="fa-solid fa-file-pdf" *ngIf="isPdf(file.name)"></i>
+        
+        <i class="fa-solid fa-image" *ngIf="isImage(file.name)"></i>
+        
+        <i class="fa-solid fa-file" *ngIf="!isPdf(file.name) && !isImage(file.name)"></i>
+        
+        <div class="details">
+            <span class="name" [title]="file.name">{{ file.name }}</span>
+            <span class="size">{{ formatBytes(file.size) }}</span>
+        </div>
+      </div>
+
+      <button class="btn-remove" (click)="removeFile(i)">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
     </div>
+  </div>
+
 </div>
+

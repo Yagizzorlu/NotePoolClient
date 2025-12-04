@@ -1,65 +1,128 @@
-import { Component, Inject, OnInit, Output } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BaseDialog } from '../base/base-dialog';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { FileUploadOptions } from '../../services/common/file-upload/file-upload.component';
-import { NoteService } from '../../services/common/models/note.service';
-import { List_Note_File } from '../../contracts/list_note_file';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { SpinnerType } from '../../base/base.component';
-import { MatCard } from '@angular/material/card';
-import { DialogService } from '../../services/common/dialog.service';
 import { DeleteDialogComponent, DeleteState } from '../delete-dialog/delete-dialog.component';
+import { trigger, transition, style, animate } from '@angular/animations'; // Angular Animation
+import { NoteFileDto } from '../../contracts/note-file-dto';
+import { NoteService } from '../../services/common/models/note.service';
+import { FileUploadService } from '../../services/common/models/file-upload.service';
+import { CustomToastrService, ToastrMessageType, ToastrPosition } from '../../services/ui/custom-toastr.service';
+import { DialogService } from '../../services/common/dialog.service';
 
-declare var $: any
-
+// State Enum
+export enum SelectNotePdfState {
+  Close
+}
 
 @Component({
   selector: 'app-select-note-pdf-dialog',
   templateUrl: './select-note-pdf-dialog.component.html',
-  styleUrl: './select-note-pdf-dialog.component.scss'
+  styleUrls: ['./select-note-pdf-dialog.component.scss'],
+  // Liste elemanı silinirken yumuşak geçiş efekti
+  animations: [
+    trigger('fadeSlideInOut', [
+      transition(':leave', [
+        animate('300ms ease-in', style({ transform: 'translateX(20px)', opacity: 0 }))
+      ])
+    ])
+  ]
 })
-export class SelectNotePdfDialogComponent extends BaseDialog<SelectNotePdfDialogComponent> 
-implements OnInit{
+export class SelectNotePdfDialogComponent extends BaseDialog<SelectNotePdfDialogComponent> implements OnInit {
 
-  constructor(dialogRef : MatDialogRef<SelectNotePdfDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data : SelectNotePdfState 
-    | string, private noteService : NoteService, private spinner : NgxSpinnerService, private dialogService : DialogService) {
-    super(dialogRef)
+  files: NoteFileDto[] = [];
+  isLoading = true;
+
+  constructor(
+    dialogRef: MatDialogRef<SelectNotePdfDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: string, // NoteId string olarak geliyor
+    private noteService: NoteService,
+    private fileUploadService: FileUploadService,
+    private dialogService: DialogService,
+    private toastr: CustomToastrService
+  ) {
+    super(dialogRef);
   }
-
-  @Output() options : Partial<FileUploadOptions> = {
-    accept : ".pdf",
-    action : "upload",
-    controller : "notes",
-    explanation : "Ürün resmini seçin veya buraya sürükleyin.",
-    isAdminPage : false,
-    queryString : `id=${this.data}`
-  };
-
-  files : List_Note_File[];
 
   async ngOnInit() {
-    this.files = await this.noteService.readFiles(this.data as string,()=> this.spinner.hide(SpinnerType.BallAtom));
+    await this.loadFiles();
   }
 
-  async deleteFile(fileId: string, event: any) {
+  async loadFiles() {
+    this.isLoading = true;
+    try {
+      // NoteService içindeki readFiles metodu backend'deki 'GetNoteDetails' 
+      // veya 'GetAllNotePdfFiles' endpoint'ine gitmeli.
+      // Backend refactoring'de 'GetNoteDetails' içinde dosya listesi dönmüştük.
+      // Burada sadece dosyaları çeken bir metodun olduğunu varsayıyoruz.
+      this.files = await this.noteService.getNoteFiles(this.data); 
+    } catch (error) {
+      this.toastr.message("Dosyalar yüklenemedi", "Hata", { messageType: ToastrMessageType.Error, position: ToastrPosition.BottomRight });
+    } finally {
+      this.isLoading = false;
+    }
+  }
+
+  deleteFile(fileId: string) {
     this.dialogService.openDialog({
       componentType: DeleteDialogComponent,
-      data: DeleteState.Yes,
+      data: { 
+        title: "Dosyayı Sil", 
+        message: "Bu PDF dosyasını kalıcı olarak silmek istediğinize emin misiniz?" 
+      },
       afterClosed: async () => {
-        this.spinner.show(SpinnerType.BallAtom);
-        const card = $(event.target).closest('.note-pdf-card');
-        card.fadeOut(900, async () => {
-          await this.noteService.deleteFile(this.data as string, fileId, () => {
-            card.remove();
-          this.spinner.hide(SpinnerType.BallAtom);
+        // Dialog "Evet" dediğinde burası çalışır
+        this.isLoading = true;
+        try {
+          await this.noteService.deleteFile(this.data, fileId);
+          
+          // REACTIVE UPDATE: jQuery ile silmek yerine array'i filtreliyoruz.
+          // Angular değişikliği algılayıp animasyonla listeden çıkaracak.
+          this.files = this.files.filter(f => f.id !== fileId);
+          
+          this.toastr.message("Dosya silindi", "Başarılı", { messageType: ToastrMessageType.Success, position: ToastrPosition.BottomRight });
+        } catch (error) {
+          this.toastr.message("Silme işlemi başarısız", "Hata", { messageType: ToastrMessageType.Error, position: ToastrPosition.BottomRight });
+        } finally {
+          this.isLoading = false;
+        }
+      }
     });
-  })
-}
-})
   }
-}
+  
+  // Dosya seçildiğinde yükleme işlemini başlat
+  async onFilesSelected(files: File[]) {
+    if (!files || files.length === 0) return;
 
-export enum SelectNotePdfState {
-  Close
+    this.isLoading = true;
+    try {
+      const response = await this.fileUploadService.uploadNoteFiles(this.data, files);
+      
+      if (response.isSuccess) {
+        this.toastr.message("Dosyalar yüklendi", "Başarılı", {
+          messageType: ToastrMessageType.Success,
+          position: ToastrPosition.BottomRight
+        });
+        
+        // Yüklenen dosyaları listeye ekle
+        if (response.uploadedFiles && response.uploadedFiles.length > 0) {
+          this.files = [...this.files, ...response.uploadedFiles];
+        } else {
+          // Liste yenile
+          await this.loadFiles();
+        }
+      } else {
+        this.toastr.message(response.message || "Dosya yükleme başarısız", "Hata", {
+          messageType: ToastrMessageType.Error,
+          position: ToastrPosition.BottomRight
+        });
+      }
+    } catch (error) {
+      this.toastr.message("Dosya yükleme başarısız", "Hata", {
+        messageType: ToastrMessageType.Error,
+        position: ToastrPosition.BottomRight
+      });
+    } finally {
+      this.isLoading = false;
+    }
+  }
 }

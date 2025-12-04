@@ -1,99 +1,107 @@
-import { Component, Input } from '@angular/core';
-import { FileSystemFileEntry, NgxFileDropEntry } from 'ngx-file-drop';
-import { HttpClientService } from '../http-client.service';
-import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { AlertifyService, MessageType, Position } from '../../admin/alertify.service';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { NgxFileDropEntry, FileSystemFileEntry, FileSystemDirectoryEntry } from 'ngx-file-drop';
 import { CustomToastrService, ToastrMessageType, ToastrPosition } from '../../ui/custom-toastr.service';
-import { MatDialog } from '@angular/material/dialog';
-import { FileUploadDialogComponent, FileUploadDialogState } from '../../../dialogs/file-upload-dialog/file-upload-dialog.component';
-import { DialogService } from '../dialog.service';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { SpinnerType } from '../../../base/base.component';
 
 @Component({
   selector: 'app-file-upload',
   templateUrl: './file-upload.component.html',
-  styleUrl: './file-upload.component.scss'
+  styleUrls: ['./file-upload.component.scss']
 })
 export class FileUploadComponent {
 
-  constructor(private httpClientService : HttpClientService, private alertifyService : AlertifyService,
-    private customToastrService : CustomToastrService, private dialog : MatDialog,
-    private dialogService : DialogService, private spinner : NgxSpinnerService ) {
+  // --- INPUTS ---
+  @Input() accept: string = "*/*"; // Hangi dosyalar? (.pdf, .jpg)
+  @Input() multiple: boolean = true; // Çoklu seçim?
+  @Input() explanation: string = "Dosyaları buraya sürükleyin veya seçin."; 
 
+  // --- OUTPUTS ---
+  // Component dosyaları kendi yüklemez, seçilen dosyaları dışarı verir.
+  // Parent component (Örn: NoteUpload) bu dosyaları alıp servise gönderir.
+  @Output() filesSelected: EventEmitter<File[]> = new EventEmitter<File[]>();
+
+  public files: File[] = [];
+
+  constructor(private toastr: CustomToastrService) {}
+
+  isImage(fileName: string): boolean {
+    return !!fileName.match(/\.(jpg|jpeg|png|gif|webp)$/i); // 'i' flag: Case insensitive
   }
-  public files: NgxFileDropEntry[];
 
-  @Input() options : Partial<FileUploadOptions>;
+  isPdf(fileName: string): boolean {
+    return fileName.toLowerCase().endsWith('.pdf');
+  }
 
-  public selectedFiles(files: NgxFileDropEntry[]) {
-    this.files = files;
-    const fileData : FormData = new FormData();
-    for(const file of files) {
-      (file.fileEntry as FileSystemFileEntry).file((_file:File) => {
-        fileData.append(_file.name, _file, file.relativePath);
-      });
+  public dropped(files: NgxFileDropEntry[]) {
+    for (const droppedFile of files) {
+      // Klasör mü dosya mı kontrolü
+      if (droppedFile.fileEntry.isFile) {
+        const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
+        fileEntry.file((file: File) => {
+          this.addFile(file);
+        });
+      } else {
+        // Klasörleri kabul etmiyoruz
+        const fileEntry = droppedFile.fileEntry as FileSystemDirectoryEntry;
+        console.log(droppedFile.relativePath, fileEntry);
+      }
+    }
+  }
+
+  public fileOver(event: any){
+    // Hover efekti için (CSS ile halledilebilir ama event lazım olabilir)
+    // console.log(event);
+  }
+
+  public fileLeave(event: any){
+    // console.log(event);
+  }
+
+  // Dosya seçme butonundan gelenler
+  public onFileSelect(event: any) {
+    const selectedFiles = event.target.files;
+    if (selectedFiles) {
+      for (let i = 0; i < selectedFiles.length; i++) {
+        this.addFile(selectedFiles[i]);
+      }
+    }
+  }
+
+  private addFile(file: File) {
+    // 1. Duplicate Kontrolü
+    if (this.files.some(f => f.name === file.name && f.size === file.size)) {
+      return; 
     }
 
-    this.dialogService.openDialog({
-      componentType : FileUploadDialogComponent,
-      data : FileUploadDialogState.Yes,
-      afterClosed : ()=> {
-      this.spinner.show(SpinnerType.BallAtom)
-      this.httpClientService.post ({
-      controller : this.options.controller,
-      action : this.options.action,
-      queryString : this.options.queryString,
-      headers : new HttpHeaders({"responseType": "blob"})
-    }, fileData).subscribe(data => {
+    // 2. Uzantı Kontrolü (Basit regex)
+    // Accept "*.pdf" ise sadece pdf al
+    if (this.accept !== "*/*" && !this.accept.includes("." + file.name.split('.').pop()?.toLowerCase())) {
+       this.toastr.message("Geçersiz dosya formatı.", "Hata", { messageType: ToastrMessageType.Error, position: ToastrPosition.BottomRight });
+       return;
+    }
 
-      const message : string = "Dosyalar Yüklendi";
+    // 3. Tekli/Çoklu Kontrolü
+    if (!this.multiple) {
+      this.files = [file];
+    } else {
+      this.files.push(file);
+    }
 
-      this.spinner.hide(SpinnerType.BallAtom)
-      if(this.options.isAdminPage) {
-        this.alertifyService.message(message , {
-          dismissOthers : true,
-          messageType : MessageType.Success,
-          position : Position.TopRight
-        })
-      } else {
+    // Dışarıya haber ver
+    this.filesSelected.emit(this.files);
+  }
 
-        this.customToastrService.message(message, "Başarılı", {
-          messageType : ToastrMessageType.Success,
-          position : ToastrPosition.TopRight
-        })
+  public removeFile(index: number) {
+    this.files.splice(index, 1);
+    this.filesSelected.emit(this.files);
+  }
 
-      }
-    }, (errorResponse : HttpErrorResponse)=> {
-
-      const message : string = "Dosyalar Yüklenirken Sorun Çıktı";
-
-      this.spinner.hide(SpinnerType.BallAtom)
-      if(this.options.isAdminPage) {
-        this.alertifyService.message(message , {
-          dismissOthers : true,
-          messageType : MessageType.Error,
-          position : Position.TopRight
-        })
-      } else {
-
-        this.customToastrService.message(message, "Başarısız", {
-          messageType : ToastrMessageType.Error,
-          position : ToastrPosition.TopRight
-        })
-       }
-
-      });
-     }
-    });
-   }
- }
-
-export class FileUploadOptions {
-  controller? : string;
-  action?: string;
-  queryString?: string;
-  explanation?: string;
-  accept?: string;
-  isAdminPage? : boolean = false;
+  // Helper: Boyut formatlama
+  formatBytes(bytes: number, decimals = 2) {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const dm = decimals < 0 ? 0 : decimals;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+  }
 }

@@ -1,0 +1,22 @@
+<div class="empty-state-wrapper">
+  
+  <div class="visual-box">
+    <img *ngIf="imageSrc" [src]="imageSrc" alt="Empty" class="custom-img floating">
+    
+    <div *ngIf="!imageSrc" class="icon-circle floating">
+      <i [class]="icon"></i>
+      <div class="ring ring-1"></div>
+      <div class="ring ring-2"></div>
+    </div>
+  </div>
+
+  <div class="content-box">
+    <h3 class="title">{{ title }}</h3>
+    <p class="message">{{ message }}</p>
+  </div>
+
+  <div class="actions">
+    <ng-content></ng-content>
+  </div>
+
+</div>

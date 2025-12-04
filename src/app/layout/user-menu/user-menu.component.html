@@ -1,0 +1,68 @@
+<div class="user-menu-container" [class.open]="isOpen">
+  
+  <!-- Tetikleyici (Avatar Alanı) -->
+  <div class="avatar-trigger" (click)="toggleMenu($event)">
+    <app-user-avatar 
+      [imageUrl]="user?.profileImage" 
+      [altText]="user?.userName || 'User'" 
+      size="md">
+    </app-user-avatar>
+    
+    <div class="trigger-info">
+      <span class="trigger-name">{{ user?.firstName }}</span>
+      <i class="fa-solid fa-chevron-down arrow-icon"></i>
+    </div>
+  </div>
+
+  <!-- Dropdown Menü -->
+  <div class="dropdown-menu">
+    
+    <!-- Başlık / Profil Özeti -->
+    <div class="menu-header">
+      <div class="user-details">
+        <span class="fullname">{{ user?.firstName }} {{ user?.lastName }}</span>
+        <!-- DÜZELTME: @ yerine &#64; kullanıldı -->
+        <span class="username">&#64;{{ user?.userName }}</span>
+      </div>
+      <span class="role-badge">Student</span>
+    </div>
+
+    <div class="menu-content">
+      <!-- Linkler -->
+      <nav class="nav-section">
+        <a routerLink="/profile" (click)="closeMenu()" class="menu-item">
+          <div class="icon-box primary"><i class="fa-regular fa-user"></i></div>
+          <div class="item-text">
+            <span class="label">Profilim</span>
+            <span class="sub-label">Hesap detaylarını görüntüle</span>
+          </div>
+        </a>
+        
+        <a routerLink="/bookmarks" (click)="closeMenu()" class="menu-item">
+          <div class="icon-box accent"><i class="fa-regular fa-bookmark"></i></div>
+          <div class="item-text">
+            <span class="label">Kaydettiklerim</span>
+            <span class="sub-label">Ders notları arşivi</span>
+          </div>
+          <span class="badge" *ngIf="user?.bookmarksCount">{{ user?.bookmarksCount }}</span>
+        </a>
+
+        <a routerLink="/profile/edit" (click)="closeMenu()" class="menu-item">
+          <div class="icon-box gray"><i class="fa-solid fa-gear"></i></div>
+          <div class="item-text">
+            <span class="label">Ayarlar</span>
+          </div>
+        </a>
+      </nav>
+
+      <!-- Alt Kısım / Çıkış -->
+      <div class="menu-footer">
+        <button (click)="signOut()" class="menu-item danger">
+          <div class="icon-box danger"><i class="fa-solid fa-arrow-right-from-bracket"></i></div>
+          <span>Oturumu Kapat</span>
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>

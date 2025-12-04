@@ -1,0 +1,21 @@
+<div class="avatar-wrapper">
+  <div class="avatar-container" [ngClass]="size">
+    
+    <img 
+      *ngIf="finalUrl && !hasError; else placeholder"
+      [src]="finalUrl" 
+      [alt]="altText" 
+      (error)="onImageError($event)"
+      class="avatar-img"
+      loading="lazy"
+    >
+    
+    <ng-template #placeholder>
+      <div class="avatar-placeholder">
+        {{ altText ? altText.charAt(0).toUpperCase() : '👤' }}
+      </div>
+    </ng-template>
+  </div>
+
+  <div *ngIf="showStatus" class="status-indicator"></div>
+</div>

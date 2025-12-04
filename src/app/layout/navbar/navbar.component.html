@@ -1,0 +1,69 @@
+<nav class="modern-navbar" [class.scrolled]="isScrolled">
+  <div class="nav-container">
+    
+    <a class="nav-logo" routerLink="/">
+      <span class="logo-icon">📚</span>
+      <span class="logo-text">NOTEPOOL</span>
+    </a>
+
+    <button class="nav-toggle" type="button" (click)="toggleNav()" [attr.aria-expanded]="navOpen" aria-label="Menüyü Aç">
+      <span class="toggle-line"></span>
+      <span class="toggle-line"></span>
+      <span class="toggle-line"></span>
+    </button>
+
+    <div class="nav-menu" [class.active]="navOpen">
+      <ul class="nav-list">
+        
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" (click)="closeNav()">
+            <span class="nav-icon">🏠</span>
+            <span>Home</span>
+          </a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/notes" routerLinkActive="active" (click)="closeNav()">
+            <span class="nav-icon">📝</span>
+            <span>Notes</span>
+          </a>
+        </li>
+        
+        <ng-container *ngIf="(authService.isAuthenticated$ | async)">
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/bookmarks" routerLinkActive="active" (click)="closeNav()">
+                <span class="nav-icon">⭐</span>
+                <span>Bookmarks</span>
+              </a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/note-upload" routerLinkActive="active" (click)="closeNav()">
+                <span class="nav-icon">📤</span>
+                <span>Upload</span>
+              </a>
+            </li>
+        </ng-container>
+
+      </ul>
+    </div>
+
+    <div class="nav-actions">
+      
+      <div class="search-wrapper">
+        <app-search-bar></app-search-bar>
+      </div>
+
+      <div class="auth-buttons" *ngIf="!(authService.isAuthenticated$ | async)">
+        <a routerLink="/login" class="btn-login">Giriş Yap</a>
+        <a routerLink="/register" class="btn-register">Kayıt Ol</a>
+      </div>
+
+      <app-user-menu 
+          *ngIf="(authService.isAuthenticated$ | async)"
+          [user]="userProfile">
+      </app-user-menu>
+
+    </div>
+  </div>
+</nav>

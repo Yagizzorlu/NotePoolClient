@@ -1,0 +1,107 @@
+// --- Variables ---
+$primary-color: #667eea;
+$text-dark: #2d3748;
+$text-gray: #718096;
+$border-color: #e2e8f0;
+
+.dialog-container {
+  padding: 24px;
+  text-align: center;
+  max-width: 500px;
+  min-width: 400px;
+}
+
+.icon-wrapper {
+  width: 60px;
+  height: 60px;
+  background-color: rgba($primary-color, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px auto;
+
+  i {
+    font-size: 28px;
+    color: $primary-color;
+  }
+}
+
+.dialog-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: $text-dark;
+  margin: 0 0 16px 0;
+}
+
+.dialog-content {
+  text-align: left;
+  margin-bottom: 8px;
+
+  .form-group {
+    margin-bottom: 0;
+  }
+
+  .comment-textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid $border-color;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    resize: vertical;
+    min-height: 100px;
+    transition: border-color 0.2s;
+
+    &:focus {
+      outline: none;
+      border-color: $primary-color;
+    }
+
+    &::placeholder {
+      color: $text-gray;
+    }
+  }
+
+  .error-message {
+    margin-top: 8px;
+    color: #e53e3e;
+    font-size: 0.85rem;
+  }
+}
+
+.dialog-actions {
+  margin-top: 24px;
+  gap: 12px;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+
+  button {
+    min-width: 100px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: 600;
+  }
+
+  .btn-cancel {
+    color: $text-gray;
+    border: 1px solid $border-color;
+    &:hover { 
+      background-color: #f7fafc; 
+    }
+  }
+
+  .btn-update {
+    background-color: $primary-color;
+    color: white;
+    &:hover { 
+      background-color: darken($primary-color, 10%); 
+    }
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+}
+

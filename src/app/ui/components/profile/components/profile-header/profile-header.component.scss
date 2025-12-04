@@ -1,0 +1,127 @@
+// --- Variables ---
+$primary-color: #667eea;
+$secondary-color: #764ba2;
+$text-dark: #1a202c;
+$text-gray: #64748b;
+$border-color: #edf2f7;
+$white: #ffffff;
+
+:host {
+  display: block;
+  margin-bottom: 24px;
+}
+
+.header-card {
+  background: $white;
+  border-radius: 20px;
+  overflow: hidden; // Köşeleri yuvarla
+  border: 1px solid $border-color;
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);
+}
+
+// --- COVER ---
+.profile-cover {
+  height: 200px;
+  background: linear-gradient(135deg, $primary-color 0%, $secondary-color 100%);
+  position: relative;
+  
+  .cover-gradient {
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at top right, rgba(255,255,255,0.15), transparent 60%);
+  }
+}
+
+// --- CONTENT WRAPPER ---
+.header-content {
+  position: relative;
+  padding: 0 32px 32px;
+  display: flex;
+  align-items: flex-end; // Alt hizala
+  gap: 32px;
+  margin-top: -60px; // Avatarı cover'ın üstüne bindir
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-top: -75px;
+    gap: 16px;
+  }
+}
+
+// --- AVATAR ---
+.avatar-wrapper {
+  position: relative;
+  flex-shrink: 0;
+
+  .avatar-box {
+    position: relative;
+    padding: 4px;
+    background: $white;
+    border-radius: 50%;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+
+  .edit-avatar-btn {
+    position: absolute; bottom: 5px; right: 5px;
+    width: 36px; height: 36px;
+    background: $text-dark; color: white;
+    border: 3px solid $white; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; font-size: 0.9rem;
+    transition: transform 0.2s;
+    
+    &:hover { transform: scale(1.1); background: $primary-color; }
+  }
+}
+
+// --- INFO ---
+.user-info {
+  flex: 1; // Aradaki boşluğu doldur
+  padding-bottom: 8px; // Butonlarla hizalamak için
+
+  .names {
+    margin-bottom: 12px;
+    .fullname {
+      font-size: 2rem; font-weight: 800; color: $text-dark; margin: 0; line-height: 1.1;
+      letter-spacing: -0.5px;
+    }
+    .username {
+      font-size: 1.1rem; color: $text-gray; font-weight: 500;
+    }
+  }
+
+  .badges {
+    display: flex; gap: 10px; flex-wrap: wrap;
+    
+    @media (max-width: 768px) { justify-content: center; }
+
+    .badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 12px; border-radius: 8px;
+      font-size: 0.85rem; font-weight: 600;
+
+      &.inst { background: #ebf8ff; color: #2b6cb0; i { opacity: 0.7; } }
+      &.dept { background: #fdf2f8; color: #be185d; i { opacity: 0.7; } }
+    }
+  }
+}
+
+// --- ACTIONS ---
+.actions {
+  padding-bottom: 12px;
+
+  .btn-edit {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 10px 20px;
+    background: white; border: 1px solid $border-color;
+    border-radius: 10px;
+    color: $text-dark; text-decoration: none; font-weight: 600;
+    transition: all 0.2s;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+
+    &:hover {
+      background: #f8fafc; border-color: #cbd5e0; transform: translateY(-2px);
+    }
+  }
+}

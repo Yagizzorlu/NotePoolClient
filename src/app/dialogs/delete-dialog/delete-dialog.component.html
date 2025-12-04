@@ -1,9 +1,25 @@
-<h2 mat-dialog-title>DİKKAT!!</h2>
-<mat-dialog-content>
-  <p>Silmek İstediğinize Emin misiniz?</p>
-</mat-dialog-content>
-<mat-dialog-actions>
-  <button matButton (click)="close()">İptal</button>
-  <button matButton [mat-dialog-close]="data" cdkFocusInitial>Evet</button>
-</mat-dialog-actions>
+<div class="dialog-container">
+  <div class="icon-wrapper">
+    <i class="fa-solid fa-triangle-exclamation"></i>
+  </div>
+
+  <h2 mat-dialog-title class="dialog-title">
+    {{ data?.title || 'Silme İşlemi' }}
+  </h2>
+
+  <mat-dialog-content class="dialog-content">
+    <p>{{ data?.message || 'Bu kaydı kalıcı olarak silmek istediğinize emin misiniz?' }}</p>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="center" class="dialog-actions">
+    <button mat-button class="btn-cancel" [mat-dialog-close]="State.No">
+      Vazgeç
+    </button>
+
+    <button mat-flat-button color="warn" class="btn-confirm" [mat-dialog-close]="State.Yes" cdkFocusInitial>
+      Evet, Sil
+    </button>
+  </mat-dialog-actions>
+</div>
+
 

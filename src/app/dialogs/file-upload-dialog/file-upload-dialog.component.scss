@@ -1,0 +1,99 @@
+// --- Variables ---
+$primary-color: #667eea;
+$bg-hover: #f7fafc;
+$border-color: #e2e8f0;
+$text-dark: #2d3748;
+$text-light: #a0aec0;
+
+.dialog-container {
+  min-width: 400px;
+}
+
+h2 {
+  color: $text-dark;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+// --- UPLOAD AREA ---
+.upload-area {
+  border: 2px dashed $border-color;
+  border-radius: 12px;
+  padding: 32px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background-color: #fff;
+
+  &:hover, &.dragging {
+    border-color: $primary-color;
+    background-color: rgba($primary-color, 0.05);
+    
+    .icon i { color: $primary-color; transform: scale(1.1); }
+  }
+
+  .icon i {
+    font-size: 48px;
+    color: $text-light;
+    margin-bottom: 12px;
+    transition: all 0.2s ease;
+  }
+
+  p {
+    margin: 0;
+    color: $text-dark;
+    font-size: 1rem;
+    strong { color: $primary-color; }
+  }
+
+  .support-text {
+    display: block;
+    margin-top: 8px;
+    font-size: 0.8rem;
+    color: $text-light;
+  }
+}
+
+// --- FILE LIST ---
+.file-list {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.file-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  background-color: $bg-hover;
+  border-radius: 8px;
+  border: 1px solid $border-color;
+
+  .file-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    
+    i { color: $primary-color; font-size: 1.2rem; }
+    
+    .details {
+      display: flex;
+      flex-direction: column;
+      
+      .name { font-weight: 600; font-size: 0.9rem; color: $text-dark; }
+      .size { font-size: 0.75rem; color: $text-light; }
+    }
+  }
+
+  .btn-remove {
+    background: none; border: none; cursor: pointer;
+    color: $text-light; padding: 4px;
+    transition: color 0.2s;
+    
+    &:hover { color: #e53e3e; }
+  }
+}

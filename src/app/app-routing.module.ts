@@ -24,18 +24,18 @@ const routes: Routes = [
 {path:"",component:HomeComponent},
 {path:"bookmarks",loadChildren: () => import("./ui/components/bookmarks/bookmarks.module")
     .then(module=>module.BookmarksModule ) },
+{path:"note-upload",loadChildren: () => import("./ui/components/note-upload/note-upload.module")
+    .then(module=>module.NoteUploadModule ) },
 {path:"notes",loadChildren: () => import("./ui/components/notes/notes.module")
-    .then(module=>module.NotesModule ) },    
-{path:"notes-detail",loadChildren: () => import("./ui/components/notes-detail/notes-detail.module")
-    .then(module=>module.NotesDetailModule ) },
-{path:"notes-upload",loadChildren: () => import("./ui/components/notes-upload/notes-upload.module")
-    .then(module=>module.NotesUploadModule ) },
-{path:"profiles",loadChildren: () => import("./ui/components/profiles/profiles.module")
-    .then(module=>module.ProfilesModule ) },
+    .then(module=>module.NotesModule ) },
+{path:"profile",loadChildren: () => import("./ui/components/profile/profile.module")
+    .then(module=>module.ProfileModule ) },
 {path:"register",loadChildren: () => import("./ui/components/register/register.module")
     .then(module=>module.RegisterModule ) },
 {path:"login",loadChildren: () => import("./ui/components/login/login.module")
-    .then(module=>module.LoginModule ) }
+    .then(module=>module.LoginModule ) },
+{path:"info",loadChildren: () => import("./ui/components/info/info.module")
+    .then(module=>module.InfoModule ) }
 ];
 
 @NgModule({
